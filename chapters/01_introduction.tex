@@ -1,3 +1,29 @@
 % !TeX root = ../main.tex
 % Add the above to each chapter to make compiling the PDF easier in some editors.
 \chapter{Introduction}\label{chapter:introduction}
+
+% Introduction: 
+% - Describes the problem statement
+% - illustrates why this is a problem and describes the contribution the thesis makes in solving this problem. 
+% - Good introductions are concise, typically no longer than 4 pages.
+
+% goal: about 2.5 pages
+
+
+% hook
+Applying Neural Architecture Search (NAS) methods to Federated Learning (FL) is an emerging field of study under active investigation. 
+% NAS definition
+NAS aims to automate the laborious architecture engineering responsible for so many of the advances made in Deep Learning in recent years. NAS methods have discovered unknown architectures that perform better than handcrafted ones — in several fields of research NAS has produced architectures that improved upon the performance of the state-of-the-art.
+% FL definition
+Federated Learning (FL) is a machine learning method whereby clients collaboratively train a model without sharing their data. This approach aims to enhance the privacy of client data and make training possible where it would otherwise not be due to large data transfer costs.
+% Applying NAS to FL
+Practicioners expect to make use of NAS methods in the FL setting to achieve state-of-the-art performance. Additionally, NAS methods may be particularily well-suited in finding lightweight architectures by optimizing for both performance and latency — i.e. architectures ideal for deployment in a resource-constrained FL environment.
+% NAS applied to FL challenges
+Unfortunately, many NAS methods make assumptions that do not hold in the FL setting. Therefore applying NAS methods in the FL setting requires modification. It is a matter of ongoing research how NAS methods are to be adopted to the FL setting and many different approaches have been suggested. 
+
+% TODO: motivate why component analysis better
+
+In fact, over the last 5 years more than 50 papers on the topic have appeared. In most cases, making use of NAS for FL requires designing a framework or system with many components suited to the given use case. The variation between different frameworks and approaches is large, but they tend to be compose of a differing combination of universal components. Most of the approaches in the papers have some degree of overlap in the components they use to apply NAS to the FL setting, with components depending on the challenges of the targeted use case. 
+It is unclear what the most widely used components are, how different components are beneficial towards certain goals and how exactly these components should be defined. Identifying these components along with the direction in which they push a system could allow future research to more easily compose existing components into systems for specific use cases. Furthermore, clarity on the segmentation of a system into components could allow reasoning about the comparison of two systems more effectively.
+
+We therefore propose a detailed analysis of the 50 research papes in order to find these components.
