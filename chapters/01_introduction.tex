@@ -2,6 +2,11 @@
 % Add the above to each chapter to make compiling the PDF easier in some editors.
 \chapter{Introduction}\label{chapter:introduction}
 
+% What is the problem?
+% What is the solution?
+% Why is it relevant?
+
+
 % Introduction: 
 % - Describes the problem statement
 % - illustrates why this is a problem and describes the contribution the thesis makes in solving this problem. 
@@ -9,21 +14,73 @@
 
 % goal: about 2.5 pages
 
+% Hook (1-2 sentences)
+% Problem Statement: What's the problem? (3/4 page)
+% Motivation: Why is it important to solve this problem? (3/4 page)
+% Solution: How will this problem be solved? (3/4 page)
 
 % hook
-Applying Neural Architecture Search (NAS) methods to Federated Learning (FL) is an emerging field of study under active investigation. 
-% NAS definition
-NAS aims to automate the laborious architecture engineering responsible for so many of the advances made in Deep Learning in recent years. NAS methods have discovered unknown architectures that perform better than handcrafted ones — in several fields of research NAS has produced architectures that improved upon the performance of the state-of-the-art.
+Applying Neural Architecture Search (NAS) methods to Federated Learning (FL) is an emerging field of study (FedNAS). Proposed FedNAS methods differ in their search spaces, targeted clients and optimize for different trade-offs in the FL setting. It is unclear which FedNAS methods are to be used under which circumstances. This Bachelor thesis aims to bring clarity to the field of FedNAS and offers a comprehensive survey and framework analysis of FedNAS methods that aids in selecting FedNAS methods tailored towards a targeted setting. 
+
 % FL definition
-Federated Learning (FL) is a machine learning method whereby clients collaboratively train a model without sharing their data. This approach aims to enhance the privacy of client data and make training possible where it would otherwise not be due to large data transfer costs.
+Federated Learning (FL) is a machine learning method whereby clients collaboratively train a model without sharing their data. This approach enhances the privacy of client data, increases the amount of data available to trainers that would otherwise be locked behind privacy barriers and makes it possible to use massive fleets of devices to train a model [cite Gboard].
+
+% NAS definition
+NAS aims to automate the laborious architecture engineering process responsible for so many of the advances made in Deep Learning in recent years. In the last ten years, architectures found via NAS occupied the top spot of several benchmarks for 90\% of the time [TODO: cite].
+
 % Applying NAS to FL
-Practicioners expect to make use of NAS methods in the FL setting to achieve state-of-the-art performance. Additionally, NAS methods may be particularily well-suited in finding lightweight architectures by optimizing for both performance and latency — i.e. architectures ideal for deployment in a resource-constrained FL environment.
-% NAS applied to FL challenges
-Unfortunately, many NAS methods make assumptions that do not hold in the FL setting. Therefore applying NAS methods in the FL setting requires modification. It is a matter of ongoing research how NAS methods are to be adopted to the FL setting and many different approaches have been suggested. 
+Practicioners expect to make use of existing NAS methods in the FL setting to produce architectures that achieve state-of-the-art accuracy. Additionally, a large body of work in NAS has focused on finding smaller, more efficient architectures that still have reasonable accuracy — i.e. architectures ideal for deployment on resource-constrained clients in the FL setting.
 
-% TODO: motivate why component analysis better
+% NAS applied to FL: challenges
+However, research in NAS methods has focused on a central NAS setting that relies on assumptions that don't hold for FedNAS [TODO: cite several prominent papers]. \cite{fl_advances_and_open_problems_2021} describe the assumptions that need be rethought in the FL setting in detail [TODO: verify] — they include abundance of compute, low latency, relatively consistent latency, high availability of worker nodes and access to the entire dataset and its distribution [TODO: reduce to three most important ones]. This makes most centralized NAS methods unfeasable for direct application as FedNAS. Adopting NAS methods in the FL setting requires adapting them to the FL setting. 
+For example, training a one-shot supernet with a large search space on a set of mobile phones would take weeks or months to complete. Instead, in one appraoch \cite{fedoras_2022}, researchers have opted to reduce the compute burden on clients by sending randomly sampled subspaces to clients for training and applied novel architecture search aggregation techniques. In another [TODO: cite FINCH].
+Example: NAS method adapted to deal with non-i.i.d.
+Example: NAS method made "online" to deal with addition/removal of data
 
-In fact, over the last 5 years more than 50 papers on the topic have appeared. In most cases, making use of NAS for FL requires designing a framework or system with many components suited to the given use case. The variation between different frameworks and approaches is large, but they tend to be compose of a differing combination of universal components. Most of the approaches in the papers have some degree of overlap in the components they use to apply NAS to the FL setting, with components depending on the challenges of the targeted use case. 
+% The problem:
+A naive approach to creating a taxonomy for FedNAS might consider a cartesian product of the possible FL settings with NAS methods, but this yields a space relatively sparse of practically relevant combinations.
+
+The increasing amount of papers on this topic leads us to our first research question: 
+
+(RQ1) Which FedNAS methods exist? 
+
+% FL poses challenges. Overcoming challenges means optimizing towards conflicting objectives. => multi-objective methods 
+Reducing training time of a model stands in conflict with  
+Additionally many FedNAS methods are similar and share 
+
+Some kind of scoring system for how well FedNAS method for which setting => benchmark?
+
+(RQ2) How can existing FedNAS methods be compared?
+
+To solve RQ2 create a FedNAS taxonmy that uses FL taxonomy + create NAS taxonmy from 1000 papers survey.
+
+(RQ3) Which FedNAS method is suited for which FL setting, what categories of trade-offs become apparent?
+
+on its own:(RQ4) Which trade-off pairings have become apparent?
+
+In most cases, making use of NAS for FL requires designing a framework or system with many components suited to the given use case. The variation between different frameworks and approaches is large, but they tend to be composed of a differing combination of universal components. Most of the approaches have some degree of overlap in the components they use to apply NAS to the FL setting, with components depending on the challenges of the targeted use case. 
+
+% include the fact that comparing NAS FL systems is hard
 It is unclear what the most widely used components are, how different components are beneficial towards certain goals and how exactly these components should be defined. Identifying these components along with the direction in which they push a system could allow future research to more easily compose existing components into systems for specific use cases. Furthermore, clarity on the segmentation of a system into components could allow reasoning about the comparison of two systems more effectively.
 
-We therefore propose a detailed analysis of the 50 research papes in order to find these components.
+% Research Questions
+% - oversight
+% - comparison
+% - how to construct your own method? Is this really interesting?
+
+% stronger research questions:
+% - what even exists?
+% - how can they be compared?
+% - how are they typically constructed? Tutorial on applying NAS to FL. Cartesian product of NAS methods and valid FL settings?
+% - what potential directions exist? 
+
+% maybe better:
+% - There's a new NAS method and I want to apply it to FL, how can I go about it?
+
+% TODO: motivate why component analysis
+% The solution
+We therefore propose a detailed analysis of the existing approaches to applying NAS to FL in this Bachelor's thesis.
+
+% What makes my research interesting? I can deliver them a step by step guide on how to design a NAS method for FL based on the papers that were analyzed. The guide goes through the important questions, looks at how others have solved it and condenses the choices to be made.
+
+% Where should NAS take place: server or clients or both?
