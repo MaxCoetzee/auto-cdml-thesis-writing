@@ -20,29 +20,62 @@
 % Solution: How will this problem be solved? (3/4 page)
 
 % hook
-Applying Neural Architecture Search (NAS) methods to Federated Learning (FL) is an emerging field of study (FedNAS). Proposed FedNAS methods differ in their search spaces, targeted clients and optimize for different trade-offs in the FL setting. It is unclear which FedNAS methods are to be used under which circumstances. This Bachelor thesis aims to bring clarity to the field of FedNAS and offers a comprehensive survey and framework analysis of FedNAS methods that aids in selecting FedNAS methods tailored towards a targeted setting. 
+Applying Neural Architecture Search (NAS) methods in a Federated Learning (FL) setting is an emerging field of study.
+
+Proposed FedNAS methods differ in their search spaces, targeted clients and optimize for different trade-offs in the FL setting. This Bachelor thesis offers a comprehensive survey and framework analysis of FedNAS methods. 
+
+% Most NAS methods can't be directly applied in the FL setting. Consequentially, researchers have come up with a wide  is an emerging field of study (FedNAS). 
+
+% definitions don't go in the motivation
 
 % FL definition
-Federated Learning (FL) is a machine learning method whereby clients collaboratively train a model without sharing their data. This approach enhances the privacy of client data, increases the amount of data available to trainers that would otherwise be locked behind privacy barriers and makes it possible to use massive fleets of devices to train a model [cite Gboard].
+%Federated Learning (FL) is a machine learning method whereby clients collaboratively train a model without sharing their data. This approach enhances the privacy of client data, increases the amount of data available to trainers that would otherwise be locked behind privacy barriers and makes it possible to use massive fleets of devices to train a model [cite Gboard].
 
 % NAS definition
-NAS aims to automate the laborious architecture engineering process responsible for so many of the advances made in Deep Learning in recent years. In the last ten years, architectures found via NAS occupied the top spot of several benchmarks for 90\% of the time [TODO: cite].
+%NAS aims to automate the laborious architecture engineering process responsible for so many of the advances made in Deep Learning in recent years. In the last ten years, architectures found via NAS occupied the top spot of several benchmarks for 90\% of the time [TODO: cite].
 
-% Applying NAS to FL
-Practicioners expect to make use of existing NAS methods in the FL setting to produce architectures that achieve state-of-the-art accuracy. Additionally, a large body of work in NAS has focused on finding smaller, more efficient architectures that still have reasonable accuracy — i.e. architectures ideal for deployment on resource-constrained clients in the FL setting.
+\section{Motivation}
+
+% importance of FL and NAS
+NAS and FL have become significant fields of research in their own right and both are increasingly adopted in practice [TODO: backup claim]. During the early stages of the most recent wave of NAS research since 2017 [cite: RL NAS Zoph et. al], NAS was mostly done with black-box optimization techniques and was computationally very expensive. In the following years, significant effort was directed towards reducing the computational burden with great success. NAS was no longer a technique only affordable to those with access to vast swathes of GPUs, but could now be done feasibly on a single GPU. Accessibility to NAS helped powered a wide range of experimentation and ultimately resulted in techniques for finding architectures with better accuracy, smaller size and faster training convergence. Architectures found via NAS occupied the top spot of several benchmarks for 90\% of the time [TODO: cite].
+
+FL on the other hand has become a viable privacy-enhancing choice for Collaborative Distributed Machine Learning [cite]. It "\textit{embodies the principles of focused collection and data minimization, and can mitigate many of the systemic privacy risks and costs resulting from traditional, centralized machine learning}" \cite{fl_advances_and_open_problems_2021}. FL enables practicioners to train models on data that would otherwise be considered inacessible due to privacy concerns.  
+
+% importance and usefulness of applying NAS to FL
+Inevitably, users of FL expect to make use of existing NAS methods in the FL setting to produce architectures that achieve state-of-the-art accuracy. Apart from accuracy, a large body of work in NAS has focused on finding smaller architectures with reduced inference latency that still have reasonable accuracy [TODO: cite]. Such architectures are ideal for deployment on the often resource-constrained clients in the FL setting. Additionally, \cite{fl_advances_and_open_problems_2021} identified that aspects of NAS make it a particularily good fit for the FL setting. Predefined architectures may not be the optimal choice when user-generated data is not visible to model developers. They note that predefined architectures may contain redundant components for specific data sets or perform poorly on non-i.i.d. data. Letting the architecture be searched on the clients where it can be adjusted according to the data and distribution present may yield architectures better-suited for the task at hand. Architectures could even be personalized to each client in a second stage. 
+% should I already mention what research has been done in this paragraph?
 
 % NAS applied to FL: challenges
-However, research in NAS methods has focused on a central NAS setting that relies on assumptions that don't hold for FedNAS [TODO: cite several prominent papers]. \cite{fl_advances_and_open_problems_2021} describe the assumptions that need be rethought in the FL setting in detail [TODO: verify] — they include abundance of compute, low latency, relatively consistent latency, high availability of worker nodes and access to the entire dataset and its distribution [TODO: reduce to three most important ones]. This makes most centralized NAS methods unfeasable for direct application as FedNAS. Adopting NAS methods in the FL setting requires adapting them to the FL setting. 
-For example, training a one-shot supernet with a large search space on a set of mobile phones would take weeks or months to complete. Instead, in one appraoch \cite{fedoras_2022}, researchers have opted to reduce the compute burden on clients by sending randomly sampled subspaces to clients for training and applied novel architecture search aggregation techniques. In another [TODO: cite FINCH].
+However, research in NAS methods has focused on a central NAS setting that relies on assumptions that don't hold for the federated setting [TODO: cite several prominent papers]. \cite{fl_advances_and_open_problems_2021} describe the assumptions that need be rethought in the FL setting in detail [TODO: verify] — they include abundance of compute, low latency, relatively consistent latency, high availability of worker nodes and access to the entire dataset and its distribution [TODO: reduce to three most important ones]. This makes most centralized NAS methods unfeasable for direct application in the FL setting. Adopting NAS methods in the FL setting requires adapting them to the FL setting. Consequentially, adapting NAS methods to the FL setting has spawned an emerging field of study which we shall call \textit{FedNAS}.
+
+% show that there is a wide variety of approaches
+% supernet approaches
+For example, training a one-shot supernet with a large search space on a set of mobile phones would take weeks or months to complete [TODO: make realistic]. Instead, in one appraoch \cite{fedoras_2022}, researchers have opted to reduce the compute burden on clients by sending randomly sampled subspaces to clients for training and applied novel architecture search aggregation techniques. In another [TODO: cite FINCH].
 Example: NAS method adapted to deal with non-i.i.d.
-Example: NAS method made "online" to deal with addition/removal of data
+
+% evolutionary algorithms
+[TODO: Example 2]
+
+% hypernetworks?
+[TODO: Example 3]
+
+\section{Research Questions}
+
+The variety of FedNAS methods created in the last couple of years poses several problems to the study and use of FedNAS methods which leads us to our research questions.
+
+(RQ1) Which FedNAS methods exist? 
+
+% todo: phrase to exclude 
+(RQ2) How can existing FedNAS methods be compared on a conceptual level?
+
+(RQ3)
+
 
 % The problem:
 A naive approach to creating a taxonomy for FedNAS might consider a cartesian product of the possible FL settings with NAS methods, but this yields a space relatively sparse of practically relevant combinations.
 
 The increasing amount of papers on this topic leads us to our first research question: 
 
-(RQ1) Which FedNAS methods exist? 
 
 % FL poses challenges. Overcoming challenges means optimizing towards conflicting objectives. => multi-objective methods 
 Reducing training time of a model stands in conflict with  
@@ -50,9 +83,10 @@ Additionally many FedNAS methods are similar and share
 
 Some kind of scoring system for how well FedNAS method for which setting => benchmark?
 
-(RQ2) How can existing FedNAS methods be compared?
 
 To solve RQ2 create a FedNAS taxonmy that uses FL taxonomy + create NAS taxonmy from 1000 papers survey.
+
+(RQ5) For each of the categores of NAS methods, what problems arise when adopting them in the FL setting?
 
 (RQ3) Which FedNAS method is suited for which FL setting, what categories of trade-offs become apparent?
 
@@ -79,6 +113,9 @@ It is unclear what the most widely used components are, how different components
 
 % TODO: motivate why component analysis
 % The solution
+
+\section{Methodology}
+
 We therefore propose a detailed analysis of the existing approaches to applying NAS to FL in this Bachelor's thesis.
 
 % What makes my research interesting? I can deliver them a step by step guide on how to design a NAS method for FL based on the papers that were analyzed. The guide goes through the important questions, looks at how others have solved it and condenses the choices to be made.
