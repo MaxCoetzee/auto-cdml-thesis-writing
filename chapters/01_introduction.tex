@@ -23,8 +23,7 @@ Inevitably, users of FL expect to make use of existing NAS methods in the FL set
 % NAS applied to FL: challenges
 However, research in NAS methods has focused on a central NAS setting and the methods rely on assumptions that do not hold for the FL setting. These assumptions include an abundance of computational resources, homogeneinity of hardware for training and deployment, high availability of worker nodes, access to the entire dataset, access to the data distribution, etc. \cite{fl_advances_and_open_problems_2021}. This makes most centralized NAS methods unfeasable for direct application in the FL setting. Adopting NAS methods in the FL setting requires adapting them to the FL setting, giving rise to what we will call \textit{adaptation techniques}. In the following we briefly illustrate three adaptation techniques. 
 
-% show that there is a wide variety of adaptation techniques in the following section
-
+% show that there is a wide variety of adaptation techniques
 \begin{enumerate}
     % adapting supernets to FL 
     \item For example, naively training a one-shot supernet with a large search space by having each client train the entire supernet and aggregate weights of the entire supernet works for the cross-silo FL setting \cite{fednas_2021}, but doesn't translate to the cross-device setting. Clients in the cross-device setting generally have less compute resources and such a training scheme would result in detrimental completion times. Instead, in one FedNAS method \cite{fedoras_2022}, researchers have opted to reduce the compute burden on clients by only sampling and training subnets within the training budget of the client.
@@ -84,7 +83,7 @@ Once we have made it easy to mix and match adaptation techniques and understand 
 
 To tackle RQ1 we propose a systematic literature review with a PRISMA-style table for literature inclusion and exclusion. Once the set of literature to include is fixed, we address RQ2 by performing systematic coding of adaptation techniques according to ... [TODO: cite] and provide a concept definition together with discriminant rules that clearly separate one adaptation technique from others. 
 
-For RQ3 we make use of prior work on a taxonomy of FL challenges [TODO: cite]. We will go over all adaptation techniques and discuss how the technique works towards, against or has no effect towards overcoming each of the FL challenges. The end result will be a table with the techniques on the y-axis and the FL challenges on the x-axis.
+For RQ3 we make use of prior work on a taxonomy of FL challenges \cite{fl_taxonomy_2024}. We will go over all adaptation techniques and discuss how the technique works towards, against or has no effect towards overcoming each of the FL challenges. The end result will be a table with the techniques on the y-axis and the FL challenges on the x-axis.
 
 % compatability study? idea: mathematical "is-compatible-with" formulation
 For RQ4 we propose building an is-compatible-with relation on the set of adaptation techniques. We achieve this by cross-examing each adaptation technique with every other one. To reduce the number of comparisons we make use of the taxonomy of NAS methods provided in \cite{nas_1000_papers_2023} and place each adaptation tecnique in one or multiple of the NAS method bins. Only adaptation techniques within the same bin need to be compared.
