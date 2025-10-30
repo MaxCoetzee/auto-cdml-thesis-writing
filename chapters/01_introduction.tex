@@ -69,13 +69,21 @@ Optional (RQ3) How can adaptation techniques described in the literature be comp
 
 \section{Methodology}
 
+
 To address our research questions, we divide our approach into six steps:
 
 \begin{enumerate}
     \item \textbf{Literature Selection:} To tackle the first part of RQ1, we follow the guidelines and flow diagrams provided by PRISMA 2020 \cite{prisma_2020} for inclusion and exclusion of papers and perform forward and backwards citation searching. Each paper presents one or more FedNAS methods. 
     \item \textbf{Adaptation Technique Extraction:} Once the set of included papers is fixed, we tackle the second part of RQ1 by analysing each paper individually, extracting the adaptation techniques it uses and summarising them.
     \item \textbf{Categorise Adaptation Techniques:} For the first part of RQ2, we cluster adaptation techniques based on conceptual similarities and deliver a taxonomy of adaptation techniques.
-    \item \textbf{Define FL Challenge Types:} For the second part of RQ2, we must first define a classification of FL challenges. To this end, we repurpose a prior classification \cite{fl_taxonomy_2024} of recent research advances in FL. \cite{fl_taxonomy_2024} suggests that newly proposed FL methods in FL research enhance one or more \textit{evaluation metrics}. We argue that their aforementioned evaluation metrics are the result of finding a measure for how effectively an FL challenge has been addressed. Therefore, the clustering of evaluation metrics into research directions is akin to clustering FL challenges into types of FL challenges.
+    \item \textbf{Define FL Challenge Types:} For the second part of RQ2, we must first define a classification of FL challenges. To this end, we repurpose a prior classification \cite{fl_taxonomy_2024} of recent research advances in FL (as shown in \ref{fig:fl_challenge_types_taxonomy}). \cite{fl_taxonomy_2024} suggests that newly proposed FL methods in FL research enhance one or more \textit{evaluation metrics}. We argue that their aforementioned evaluation metrics are the result of finding a measure for how effectively an FL challenge has been addressed. Therefore, the clustering of evaluation metrics into research directions is akin to clustering FL challenges into types of FL challenges.
     \item \textbf{Map addressed FL Challenge Types onto Adaptation Technique Clusters:} Next, we review all clusters of adaptation techniques from step 3, and discuss how each adaptation technique cluster works towards, against, or does not affect overcoming each of the FL challenge types defined in step 4.
     \item \textbf{Compose promising FedNAS methods:} For RQ3, we propose building an "is-compatible-with" relation on the set of adaptation technique clusters. We achieve this by cross-examining each adaptation technique cluster with every other one. We then utilise the "is-compatible-with" relation, together with our discussion from step 5, to identify groups of adaptation technique clusters that can be composed into FedNAS methods, which could potentially shift the Pareto frontier with respect to the optimality of addressing FL Challenge types.
 \end{enumerate}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{figures/fl_challenge_types_taxonomy.pdf}
+  \caption{A taxonomy of FL challenge types repurposed from \cite{fl_taxonomy_2024}.}
+  \label{fig:fl_challenge_types_taxonomy}
+\end{figure}
