@@ -3,7 +3,7 @@
 \chapter{Introduction}\label{chapter:introduction}
 
 % overview 
-Applying Neural Architecture Search (NAS) methods in a Federated Learning (FL) setting is an emerging field of study, which we shall abbreviate to \textit{FedNAS}. In this chapter, we contextualise and motivate a systematic literature review of \textit{adaptation techniques} used by FedNAS methods to adapt NAS to the FL setting. Our motivation leads us to our research questions and ultimately, our proposed methodology for addressing them.
+Applying Neural Architecture Search (NAS) methods in a Federated Learning (FL) setting is an emerging field of study, which we shall abbreviate to \textit{FedNAS}. In this chapter, we motivate a systematic literature review of \textit{adaptation techniques} used by FedNAS methods to adapt NAS to the FL setting. Our motivation leads us to our research questions and ultimately, our proposed methodology for addressing them.
 
 \section{Context}
 
@@ -13,6 +13,8 @@ Relevant to this thesis, the last decade witnessed two major developments in par
     \item \textbf{Origin of Neural Architecture Search:} Deep learning (DL), a subfield of machine learning (ML) that makes use of deep neural networks, made key advances in various machine learning tasks such as computer vision, natural language processing (NLP), speech recognition, etc. These advances led to the widespread adoption of DL, with some referring to it as a deep learning revolution. However, the advances were built upon neural network architectures that were manually designed by researchers through extensive trial and error — for example, convolutional neural networks for computer vision tasks and the transformer for NLP tasks. It did not take long for researchers to wonder whether automating the search for novel architectures could produce architectures that improved upon the best manually designed ones. In 2017, \cite{nas_with_rl_2017} demonstrated that this was indeed possible, coining the term \textit{Neural Architecture Search} (NAS) for the automated search of neural network architectures for a given task.\footnote{NAS was investigated in the 1980s, but under different names and not nearly as intensively. See \cite{self_organizing_nn_1988}, \cite{genetic_algo_nas_1989}, \cite{desgning_nn_with_genetic_algo_1990} and \cite{evo_rnn_nas_1994}.}
     \item \textbf{Origin of Federated Learning:} Edge devices, such as mobile phones or Internet-of-Things devices, have become ubiquitous and increasingly store privacy-sensitive data. Traditionally, this privacy-sensitive data was either not utilised at all for machine learning or it was collected in a central location for training — creating the risk of a major breach by malicious actors. Google invented \textit{Federated Learning} in 2016 to address this issue and allow the use of decentralised training data without the data leaving the device on which it was generated. Instead of performing training at a central location with a cluster of high-end machines, training happens on the edge devices in FL (typically referred to as \textit{clients} in FL). The clients train a shared model on their local data and coordinate weight updates to the shared model via a central server. FL "\textit{embodies the principles of focused collection and data minimisation, and can mitigate many of the systemic privacy risks and costs resulting from traditional, centralised machine learning}" \cite{fl_advances_and_open_problems_2021}.
 \end{enumerate}
+
+
 
 % importance of FL and NAS
 Both NAS and FL have made significant progress independently in recent years, and both are increasingly adopted in practice.
@@ -24,6 +26,45 @@ More than 1000 papers have been published about NAS since 2017. The seminal pape
 FL has also received significant research attention. The seminal paper on FL \cite{fl_seminal_2017} was only concerned with edge devices as clients; however, since then, FL has also been used for training shared models between organisations \cite{fl_multi-institutional_2020} \cite{fl_covid-19_2021} \cite{cross-silo_vertical_horizontal_fl_2022}. The former is referred to as the \textit{cross-device} setting and the latter as the \textit{cross-silo} setting. In fact, FL has been identified as a good fit for collaborative distributed machine learning \cite{cdml_2024} in general. Since its inception in 2016, FL has been adopted for various ML tasks in production systems by organisations like Google~\cite{gboard_fl_2018}, Apple~\cite{apple_fl_case_study_2025} and Owkin~\cite{owkin_fl_drug_discovery_in_prod_2022}.
 
 \section{Motivation}
+
+% hook: Motivation, need, ‘hook’
+Both Neural Architecture Search (NAS) and Federated Learning (FL) have made progress independently in the past decade, and both are increasingly adopted in practice. Recently, researchers have started combining the two by using NAS in the FL setting. 
+
+%% NAS explanation
+The goal of NAS is the automation of the laborious architecture engineering process responsible for so many of the advances made in Deep Learning in recent years \cite{nas_survey_2019}. 
+
+%% FL explanation
+Federated Learning (FL) is a machine learning method whereby clients collaboratively train a model without sharing their data, enhancing the privacy of client's data.
+
+% Gap: Situate in research – identify opportunity
+%% Situation in research
+However, using NAS in the FL setting is not straightforward. NAS methods described in the literature focus on a centralized setting in contrast to the distributed FL setting. When used in a centralized setting, NAS methods can assume i) that worker nodes will have high availability, ii) that the entire training dataset can be accessed, iii) that the distribution of the training data can be inferred, etc. These assumptions do not hold for the FL setting, making most NAS methods unfeasable for direct application in the FL setting. In fact, the FL setting imposes a unique set of \textit{challenges} on NAS methods. 
+
+% A previous work has hown that similar challenges of the FL setting can be grouped into challenge types
+
+% Clearly define challenges and give example of how a FedNAS methods overcomes one
+
+% challenges can be seen as conflicting optimization objectives?
+
+Making use of NAS in the FL setting, requires adapting NAS methods to the FL setting, giving rise to what we shall call \textit{FedNAS} methods. Each FedNAS method uses several \textit{adaptation techniques}, heavily dependant on i) the type of NAS method and ii) the challenges the FedNAS method aims to overcome.
+
+%% identify opportunity
+
+%% 
+
+
+
+
+
+% Study: How investigate? Process, context & why?
+
+% Conclusion
+
+% Outline
+
+
+
+
 
 % why NAS for FL is a good fit
 Users of FL naturally expect to leverage existing NAS methods in the FL setting to produce architectures that achieve state-of-the-art accuracy. Apart from the generic benefits, NAS has been identified as a good fit for the FL setting. A large body of work in NAS has focused on finding smaller architectures with reduced inference latency that still have reasonable accuracy \cite{nas_1000_papers_2023}. Such lightweight architectures are ideal for deployment on the often resource-constrained clients in the FL setting. \cite{fl_advances_and_open_problems_2021} also note that predefined architectures may not be an optimal choice for FL, where user-generated data is not visible to model developers. Further, they note that predefined architectures may contain components redundant for specific data sets. Finally, predefined architectures may perform poorly on another prevalent characteristic of the FL setting: data that is not independently and identically distributed (non-i.i.d). 
