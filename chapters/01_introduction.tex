@@ -27,28 +27,48 @@ FL has also received significant research attention. The seminal paper on FL \ci
 
 \section{Motivation}
 
-% hook: Motivation, need, ‘hook’
+% hook
 %% what is the domain and why is it important?
 Both Neural Architecture Search (NAS) and Federated Learning (FL) have made significant progress independently in the past decade, and both are increasingly adopted in practice. To benefit from the advantages of NAS methods in FL, researchers have started combining them by using NAS in the FL setting. 
+%% => opening paragraph begs for
+%%%      1. explanations of NAS and FL
+%%%      2. why they are important in turn
+%%%      3. why applying NAS in FL is important 
 
-%% NAS explanation and why is it important
-Typically, applying Deep Learning to a specific domain involves a process of engineering the architecture of a neural network such that it is well-suited to the application domain. This is done by a team of domain experts and Deep Learning experts. In contrast, Neural Architecture Search (NAS) aims to automate the architecture engineering process \cite{nas_survey_2019}, greatly reducing the manual effort involved. Additionally, NAS can be used to find architectures that perform better than architectures humans have designed for specific application domains~\cite{nasnet_2018}~\cite{amoebanet_2019}~\cite{mobilenetv3_2019}~\cite{efficientnetv2_2021}.
+%%% NAS explanation and why is it important
+Neural Architecture Search (NAS) automates the process of engineeering neural network architectures for specific Deep Learning application domains~\cite{nas_survey_2019}. This stands in contrast to the traditional, labourious approach to applying Deep Learning, whereby a team of domain experts and Deep Learning experts engineer a well-suited architecutre based on expert knowledge and trial-and-error. NAS does not only reduce manual effort, but can also be used to find architectures that perform better than architectures humans have designed for specific application domains~\cite{nasnet_2018}~\cite{amoebanet_2019}~\cite{mobilenetv3_2019}~\cite{efficientnetv2_2021}.
 
-%% FL explanation and why it is important
-Federated Learning (FL) is a machine learning method whereby clients collaboratively train a model without sharing their data. enhancing the privacy of client's data.
+%%% FL explanation and why it is important
+Federated Learning (FL) is a machine learning method whereby clients collaboratively train a model without sharing their data. This is achieved by clients training a shared model on their local data and coordinating weight updates to the shared model via a central server. FL was originally invented by Google to enable the usage of the increasing volume of privacy-sensitive data stored on only edge devices, but distributed data silos containing privacy-sensitive data have become another major use case. The former is referred to as the \textit{cross-device} FL setting and the latter as the \textit{cross-silo} FL setting. Traditionally, distributed privacy-sensitive data was either not used at all for machine learning or it was collected in a central location for training — creating the risk of a major breach by malicious actors.
 
-%% why NAS for FL is a good fit 
+%%% why NAS for FL is important: generic benefits and it is a good fit 
+By using NAS in the FL setting, researchers not only benefit from the generic benefits of NAS mentioned above, but from several advantages automatically searching for an architecture has over using a predefined, manually engineered architecture in FL:
+\begin{itemize}
+    \item A large body of work in NAS has focused on finding smaller architectures with reduced inference latency that still have reasonable accuracy \cite{nas_1000_papers_2023}. Such lightweight architectures are ideal for deployment on the resource-constrained clients in the cross-device FL setting.
+    \item \cite{fl_advances_and_open_problems_2021} note that predefined architectures may not be an optimal choice for FL, where user-generated data is not visible to model developers. 
+    \item Further, they note that predefined architectures may contain components redundant for specific data sets.
+    \item Finally, predefined architectures may perform poorly on another prevalent characteristic of the FL setting: data that is not independently and identically distributed (non-i.i.d).
+\end{itemize}
+
+   
+
+
+large body of work in NAS that has focused on finding smaller architectures with reduced inference latency that still have reasonable accuracy.  
+
 Users of FL naturally expect to leverage existing NAS methods in the FL setting to produce architectures that achieve state-of-the-art accuracy. 
 
-Apart from the generic benefits, NAS has been identified as a good fit for the FL setting. A large body of work in NAS has focused on finding smaller architectures with reduced inference latency that still have reasonable accuracy \cite{nas_1000_papers_2023}. Such lightweight architectures are ideal for deployment on the often resource-constrained clients in the FL setting. \cite{fl_advances_and_open_problems_2021} also note that predefined architectures may not be an optimal choice for FL, where user-generated data is not visible to model developers. Further, they note that predefined architectures may contain components redundant for specific data sets. Finally, predefined architectures may perform poorly on another prevalent characteristic of the FL setting: data that is not independently and identically distributed (non-i.i.d). 
+Apart from the generic benefits, NAS has been identified as a good fit for the FL setting. 
 
+%% What is the overall problem or situation in that domain?
+
+%%% overall probelm in domain: NAS for FL breaks
+However, using NAS in the FL setting is not straightforward. NAS methods described in the literature focus on a centralized setting in contrast to the distributed FL setting. When used in a centralized setting, NAS methods can assume i) that worker nodes will have high availability, ii) that the entire training dataset can be accessed, iii) that the distribution of the training data can be inferred, etc. These assumptions do not hold for the FL setting, making most NAS methods unfeasable for direct application in the FL setting. In fact, the FL setting imposes a unique set of \textit{challenges} on NAS methods. 
+%%% Meta-Comment: I make use of numbering i-iii, because the descriptions of the assumptions are longer phrases and I feel this helps the reader navigate them. If the stated assumptions were only separated by commas, the reader might get lost in the length of the sentence.
 
 % Why can we use the challenges for ML for FL in general specifically for NAS for FL? Why are the challenges the same?
 
 % Gap: Situate in research – identify opportunity
 %% Situation in research
-However, using NAS in the FL setting is not straightforward. NAS methods described in the literature focus on a centralized setting in contrast to the distributed FL setting. When used in a centralized setting, NAS methods can assume i) that worker nodes will have high availability, ii) that the entire training dataset can be accessed, iii) that the distribution of the training data can be inferred, etc. These assumptions do not hold for the FL setting, making most NAS methods unfeasable for direct application in the FL setting. In fact, the FL setting imposes a unique set of \textit{challenges} on NAS methods. 
-% Meta: I make use of numbering i-iii, because the descriptions of the assumptions are longer phrases and I feel this helps the reader navigate them. If the stated assumptions were only separated by commas, the reader might get lost in the length of the sentence.
 
 - researcher has problem
 - problem is a good fit for using FL
@@ -76,7 +96,7 @@ Making use of NAS in the FL setting, requires adapting NAS methods to the FL set
 
 
 % Study: How investigate? Process, context & why?
-
+ 
 % Conclusion
 
 % Outline
