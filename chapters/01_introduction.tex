@@ -36,10 +36,10 @@ However, using NAS in the FL setting is not straightforward. NAS methods describ
 % TODO: better challenge descriptions
 Adapting NAS methods to the FL setting poses a set of challenges similar to the challenges faced by researchers making use of FL in general. We shall make use of a prior work~\cite{fl_taxonomy_2024} that organizes these challenges into seven classes of challenges: % TODO: Should I inlclude why we can use the  taxonomy for our challenges  eventhough it's original purpose is different?
 \begin{itemize}
-    \item \textbf{Heterogeneity}: dealing with hardware and data heterogeneity
-    \item \textbf{Fairnes}: mitigating bias caused by more performant devices contributing more to the trained gradients
-    \item \textbf{Communication Efficiency}: dealing with the high network latency and low bandwith of edge devices
-    \item \textbf{Computation Efficiency}: hard to train ML models on low end edge devices
+    \item \textbf{Heterogeneity}: For many use cases in the cross-device setting, a large variance in the amount of computational resources available to clients and variance in the amount and distribution of data on clients can be expected. This makes it challenging to use conventional NAS methods that would expect each client to be able to run the same amount of the architecture search. Some clients may not be able to contribute to searching architectures that are computationally demanding, while others may sit idle waiting for slower devices to finish a communication round. may not be able to contribute, because they have too little data. 
+    \item \textbf{Fairnes}: As the aforementioned challenge notes, clients in the cross-device setting are data and resource heterogenous. Clients with more compute resources may participate in communication rounds more often, biasing the shared models towards their data.
+    \item \textbf{Communication Efficiency}: Some NAS methods train large supernetworks. To train a supernetwork in FL, weight updates for the supernetwork need to be sent from each client. This poses a challenge for the cross-device setting, clients have high network latency and low bandwith.
+    \item \textbf{Computation Efficiency}: Clients in the cross-device FL setting typically do not have enough computation resources to train large neural networks.
     \item \textbf{Client selection}: clients contribute different amounts of information towards training the shared model, it's hard to select the right clients for a communication round and select clients that will be available for the next communication round
     \item \textbf{Security}:
     \item \textbf{Privacy}:
@@ -57,17 +57,26 @@ would result in detrimental completion times. This embodies the computational ef
 %%% TODO: maybe add reason why a regular FedNAS user might create their own FedNAS method? Not only reasearcher do this
 %%% - every problem is different => off-the-shelf solutions don't work
 %%% - need composable adaptation techniques to create fednas methods 
-Researchers constantly create new FedNAS methods, either to adapt new NAS methods to the FL setting or to adapt NAS methods in new ways to overcome different sets of challenge classes. To this end, it is useful to use existing literature on FedNAS methods and avoid re-inventing adaptation techniques for overcoming each of the challenge classes. A considerable amount of literature on FedNAS methods has appeared in recent years, resulting in a large number of novel adaptation techniques.
+Researchers create new FedNAS methods, either to adapt new NAS methods to the FL setting or to adapt NAS methods in new ways to overcome different sets of challenge classes. To this end, it is useful to use existing literature on FedNAS methods and avoid re-inventing adaptation techniques for overcoming each of the challenge classes. A considerable amount of literature on FedNAS methods has appeared in recent years, resulting in a large number of novel adaptation techniques.
+
+% practical problem: researchers want to easily build new FedNAS methods based on their needs
 
 % Gap
 %% Situate in research: What are the conclusions of existing literature for that problem / situation in this domain? 
 %% TODO: flesh out
-There have been prior surveys on FedNAS methods~\cite{fl_to_nas_survey_2021}~\cite{nas_hpo_fl_survey_2023}~\cite{multi-objective_methods_in_fl_2025}. \cite{fl_to_nas_survey_2021} is an early work that characterises FedNAS methods on the whole into offline vs. online search and single- vs. multi-objective variants. \cite{nas_hpo_fl_survey_2023} ... . \cite{multi-objective_methods_in_fl_2025} ... . 
+There have been prior literature surveys on FedNAS methods~\cite{fl_to_nas_survey_2021}~\cite{nas_hpo_fl_survey_2023}~\cite{multi-objective_methods_in_fl_2025}. \cite{fl_to_nas_survey_2021} is an early work that characterises FedNAS methods on the whole. \cite{fl_to_nas_survey_2021} differentiates FedNAS methods into offline vs. online architecture search and single- vs. multi-objective methods. \cite{nas_hpo_fl_survey_2023} gives a brief overview of the FedNAS landscape at the time, highlighting the major contributions each FedNAs method has made. \cite{multi-objective_methods_in_fl_2025} provides an overview of how multi-objective optimizaiton can be integrated into FL in general and includes sections that discuss how this is done specifically for FedNAS methods. 
 
 %% identify opportunity, explain relevance: What is the problem or issue with that existing literature?
-None of the prior literature surveys provide a consolidated body of knowledge that can inform researchers on existing adaptation techniques and the challenge classes they overcome. \cite{fl_to_nas_survey_2021} was limited by the small amount of literature available at the time. \cite{nas_hpo_fl_survey_2023} only surveys methods that use NAS and Hyperparameter Optimization together, leaving out a large part of the FedNAS literature. They also only analyze FedNAS methods on the whole. \cite{multi-objective_methods_in_fl_2025} looks at the application of multi-objective optimization methods in Federated Learning in general, and views FedNAS as a specific case for which a multi-objective optimization perspective can be useful. Since only multi-objective optimization methods are considered, a large part of the FedNAS literature is left out as well. 
+%%% prior surveys are not exhaustive
+Prior literature surveys only analyze a fraction of the FedNAS literature. \cite{fl_to_nas_survey_2021} and \cite{nas_hpo_fl_survey_2023} are limited by the small amount of FedNAS literature available at the time. The volume of proposed FedNAS methods has grown substantially since. \cite{multi-objective_methods_in_fl_2025} only analyzes FedNAS methods that make use of multi-objective optimization (MOO), thereby excluding a large share of the literature.
 
-Extracting the adaptation techniques used by FedNAS methods, would allow researchers to easily make use of this knowledge to compose new FedNAS methods tailored to overcoming a specific set of challenge classes relevant to them. However, prior surveys focus on FedNAS methods on the whole instead of individual adaptation techniques used by FedNAS methods. Each of the surveys also only analyses a fraction of the literature. This means that adaptation techniques are scattered throughout the increasingly large volume of FedNAS literature, leading us to our research question:
+% we are interested in a survey that will allow users to easily create FedNAS methods as they need, not only summarize the field so far: usually the goal of the survey is to simply give an overview of the landscape, our survey does that as well as provide an overview of the techniques available for practicioners to create their own FedNAS methods
+
+%%% prior surveys don't focus on adaptation techniques and challenge classes
+None of the prior literature surveys provide a consolidated body of knowledge that can inform researchers on adaptation techniques and the challenge classes they overcome. \cite{fl_to_nas_survey_2021} and \cite{nas_hpo_fl_survey_2023} only analyse and summarise FedNAS methods on the whole. \cite{multi-objective_methods_in_fl_2025} analyses how MOO is used to within FedNAS methods. The prior surveys do not identify individual adaptation techniques responsible for overcoming sets of challenge classes. Adaptation techniques are scattered throughout the increasingly large volume of FedNAS literature, and puts a burden on researchers intersted in using them for new FedNAS methods. 
+
+%%% why the focus on adaptation techniques and the challenge classes they overcome is useful
+Extracting the adaptation techniques used by FedNAS methods and organising them in a single place, would allow researchers to easily make use of this knowledge to compose new FedNAS methods tailored to overcoming a specific set of challenge classes relevant to them. This leads us to our research question:
 
 % TODO: reformulate better
 \vspace{1em}
@@ -77,11 +86,12 @@ Extracting the adaptation techniques used by FedNAS methods, would allow researc
 % Study: How investigate? Process, context & why?
 %% Indicate that this study addresses that problem or issue and state how.
 %% Describe the study, sample, and method for addressing that problem or issue.
-To mend this, we perform a systematic literature review of adaptation techniques in this thesis. We divide our approach into 5 steps:
+To mend this, we perform a systematic literature review of adaptation techniques. We divide our review into 5 steps:
 
 \begin{enumerate}
     \item \textbf{Literature Selection:} We follow the guidelines and flow diagrams provided by PRISMA 2020 \cite{prisma_2020} for inclusion and exclusion of papers and perform forward and backwards citation searching. Each paper contains one or more FedNAS methods. 
     \item \textbf{Adaptation Technique Extraction:} Once the set of included papers is fixed, we analyse each paper individually, extracting the adaptation techniques it uses and summarising them.
+    % how to measure conceptual similarity?
     \item \textbf{Simplify Adaptation Technique Extraction:} We then merge conceptually highly-similar adaptation techniques into a single representative adaptation technique.
     \item \textbf{Categorise Adaptation Techniques:} After merging, we categorise the adaptation techniques based on conceptual similarity and deliver a taxonomy of adaptation techniques.
     \item \textbf{Map FL Challenge Types onto Adaptation Techniques:} Next, we discuss how each adaptation technique works towards, against, or does not affect overcoming each of the FL challenge classes and provide a table with an overview as an end result. 
@@ -90,6 +100,7 @@ To mend this, we perform a systematic literature review of adaptation techniques
 % Conclusion
 % Describe what you found.
 % State explicitly how these findings extend and contribute to existing knowledge.
+We provide a survey of the FedNAS landscape through the lens of adaptation techniques. We organize the n extracted adaptation techniques into a single taxonomy that helps researchers and practicioners interested in creating novel FedNAS methods for new tasks. Our discussions on each adaptation technique helps researchers find and choose adaptation techniques relevant to their problem. Adaptation techniques are in essence composable design patterns extracted from the FedNAS literature that make it easy to compose new FedNAS methods suited towards new tasks.
 
 % Outline
-
+In chapter 2 we cover the background required for this thesis and related work. In chapter 3 we describe the method with which we conduct our literature review in detail. In chapter 4 we explain our process of including FedNAS literature and give an overview of the included FedNAS literature. In chapter 5 we present our taxonomy of adaptation techniques and explain the effect of adaptation techniques on challenge classes. In Chapter 6 we conduct a discussion about our work. Chapter 7 contains our conclusion.
