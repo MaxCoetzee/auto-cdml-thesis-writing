@@ -23,39 +23,64 @@ Federated Learning (FL) is a machine learning method whereby clients collaborati
 FL was originally invented by Google to enable the usage of the increasing volume of privacy-sensitive data stored on edge devices, but distributed data silos (at the organisational level) containing privacy-sensitive data have become another use case. The former is referred to as the \textit{cross-device} FL setting and the latter as the \textit{cross-silo} FL setting. Before FL, it was typical for both kinds of distributed privacy-sensitive data to either not be used at all for machine learning or it was collected in a central location for training — creating the risk of a major breach by malicious actors. FL has been adopted for various ML tasks in production systems by organisations like Google~\cite{gboard_fl_2018}, Apple~\cite{apple_fl_case_study_2025} and Owkin~\cite{owkin_fl_drug_discovery_in_prod_2022}.
 
 %%% why NAS for FL is important: generic benefits and it is a good fit 
-By using NAS in the FL setting, researchers not only benefit from the generic benefits of NAS mentioned above, but from several advantages specific to the FL setting:
+By using NAS in the FL setting, practicioners not only benefit from the generic benefits of NAS mentioned above, but from several advantages specific to the FL setting:
 \begin{itemize}
     \item A large body of work in NAS focuses on finding smaller architectures with reduced inference latency that still have reasonable accuracy \cite{nas_1000_papers_2023}. Such lightweight architectures are ideal for deployment on the resource-constrained clients in the cross-device FL setting.
     \item \cite{fl_advances_and_open_problems_2021} note that predefined architectures may not be an optimal choice for FL. Since client data is not visible to model developers, a predefined architecture selected by model developers may contain components redundant for generalizing well from certain client data sets.
-	\item Predefined architectures may perform poorly on another prevalent characteristic of the FL setting: data that is not independently and identically distributed (non-i.i.d.). % [TODO: why?]
+	\item Predefined architectures may perform poorly on another prevalent characteristic of the FL setting: data that is not independently and identically distributed (non-i.i.d.). % [TODO: why? and why is NAS better?]
 \end{itemize}
 
-% difference in assumptions creates challenges
+% difference in assumptions creates challenges for adopting NAS in FL
 
 %% hook b) "What is the overall problem or situation in that domain?"
-%%% overall problem in FedNAS domain: NAS for FL breaks
-Using NAS in the FL setting is not straightforward. NAS methods described in the literature typically assume a centralized setting as opposed to the distributed FL setting. When used in a centralized setting, NAS methods can assume i) that worker nodes have high availability, ii) that worker nodes have access to the same amount of computational resources iii) that worker nodes have similar low  ii) that the entire training dataset can be accessed, iii) that the distribution of the training data can be inferred, etc. These assumptions do not hold for the FL setting, making most NAS methods unfeasable for direct application in the FL setting. Instead, researchers need to adapt NAS methods to the FL setting, giving rise to what we shall call \textit{FedNAS} methods.
-%%% Meta-Comment: I make use of numbering i-iii, because the descriptions of the assumptions are longer phrases and I feel this helps the reader navigate them. If the stated assumptions were only separated by commas, the reader might get lost in the length of the sentence.
+%%% overall problem in FedNAS domain: traditional NAS doesn't work for FL
+Using NAS in the FL setting is not straightforward. Research on NAS methods focuses on a centralized setting as opposed to the distributed FL setting. This makes most NAS methods unfeasable for direct application in the FL setting, because NAS methods designed for the centralized setting can make several assumptions about the architecture search process that do not hold in the FL setting. 
 
-% TODO: is the following relevant: Why do the challenges for FL in general apply specifically for NAS for FL s well asWhy are the challenges the same?
+%%% assumption discreptancies create challenges
+Each assumption that does not hold for architecture search process in the FL setting, but holds for the centralized training process, results in a class of challenges related to the discreptancy. Table 1 shows the discreptencies in assumptions about the training environment between the centralized and FL setting.
+
+
+
+In the FL setting, several assumptions made in the centralized do not hold NAS methods can make assumptions about the training process that simplifies
+
+When used in a centralized setting, NAS methods can assume i) that worker nodes have high availability, ii) that worker nodes have access to the same amount of computational resources iii) that worker nodes have similar low ii) that the entire training dataset can be accessed, iii) that the distribution of the training data can be inferred, etc. These assumptions do not hold for the FL setting, making most NAS methods unfeasable for direct application in the FL setting. Instead, practicioners need to adapt NAS methods to the FL setting, giving rise to what we shall call \textit{FedNAS} methods.
+%%% Meta-Comment: I make use of numbering i-iii, because the descriptions of the assumptions are longer phrases and I feel this helps the reader navigate them. If the stated assumptions were only separated by commas, the reader might get lost in the length of the sentence.
 
 % the relevant challenges are the ones that researchers are interested in overcoming when creating FedNAS methods: what are the roadblocks on the way there?
 
 %%% get more specific about how NAS breaks => challenges
 % TODO: better challenge descriptions
-Adapting NAS methods to the FL setting poses a set of challenges similar to the challenges faced by researchers making use of FL in general. Following is a list of previously identified challenges~\cite{fl_seminal_2017}~\cite{fl_advances_and_open_problems_2021}~\cite{fl_in_practice_reflections_2024}~\cite{fl_taxonomy_2024} relevant to researchers creating FedNAS methods: % TODO: Should I inlclude why we can use the  taxonomy for our challenges  eventhough it's original purpose is different?
+FedNAS methods face a set of challenges similar to the challenges faced by performing FL in general. Following is a list of previously identified challenges~\cite{fl_seminal_2017}~\cite{fl_advances_and_open_problems_2021}~\cite{fl_in_practice_reflections_2024}~\cite{fl_taxonomy_2024}: % TODO: Should I inlclude why we can use the  taxonomy for our challenges  eventhough it's original purpose is different?
 \begin{enumerate}
-    \item \textbf{Heterogeneity}: For many use cases in the cross-device setting, a large variance in the amount of computational resources available to clients and variance in the amount and distribution of data on clients can be expected. This makes it challenging to use conventional NAS methods that would expect each client to be able to run the same amount of the architecture search. Some clients may not be able to contribute to searching architectures that are computationally demanding, while others may sit idle waiting for slower devices to finish a communication round. may not be able to contribute, because they have too little data. 
-    \item \textbf{Fairnes}: As the aforementioned challenge notes, clients in the cross-device setting are data and resource heterogenous. Clients with more compute resources may participate in communication rounds more often, biasing the shared models towards their data.
-    \item \textbf{Communication Efficiency}: Some NAS methods train large supernetworks. To train a supernetwork in FL, weight updates for the supernetwork need to be sent from each client. This poses a challenge for the cross-device setting, clients have high network latency and low bandwith.
-    \item \textbf{Computation Efficiency}: Clients in the cross-device FL setting typically do not have enough computation resources to train large neural networks.
-    \item \textbf{Client selection}: clients contribute different amounts of information towards training the shared model, it's hard to select the right clients for a communication round and select clients that will be available for the next communication round
-    \item \textbf{Security}:
-    \item \textbf{Privacy}:
-    \item \textbf{Fault-Tolerance}: clients are not always available and stragglers need to be dealt with
+    \item \textbf{Client Hardware Heterogeneity}: The variance in computational resources available to clients is large. The variance tends to be particularily pronounced in the cross-device setting. 
+    
+    For many use cases in the cross-device setting, a large variance in the amount of computational resources available to clients and variance in the amount and distribution of data on clients can be expected. This makes it challenging to use conventional NAS methods that would expect each client to be able to run the same amount of the architecture search. Some clients may not be able to contribute to searching architectures that are computationally demanding, while others may sit idle waiting for slower devices to finish a communication round. may not be able to contribute, because they have too little data. 
+    \item \textbf{Client Data Heterogeneity}: 
+    - Unbalanced Data
+    - Non-I.I.D. Data
+    \item \textbf{Model Fairness}: 
+    - bias
+    As the aforementioned challenge notes, clients in the cross-device setting are data and resource heterogenous. Clients with more compute resources may participate in communication rounds more often, biasing the shared models towards their data.
+    \item \textbf{Client's Limited Networking Capabilities}: Some NAS methods train large supernetworks. To train a supernetwork in FL, weight updates for the supernetwork need to be sent from each client. This poses a challenge for the cross-device setting, clients have high network latency and low bandwith.
+    \item \textbf{Client's Limited Hardware}: Clients in the cross-device FL setting typically do not have enough computation resources to train large neural networks.
+    \item \textbf{Client Selection}: 
+    - some clients contribute more than others, but only using them leads to bias -> how to trade off which client to select during communication round
+    
+    clients contribute different amounts of information towards training the shared model, it's hard to select the right clients for a communication round and select clients that will be available for the next communication round
+    \item \textbf{Privacy of Client Data}:
+    - Architecture parameters can leak things about the data, how to mitigate attack?
+    \item \textbf{Fault-Tolerance}: - invidual client failures, network failures clients are not always available and stragglers need to be dealt with
+    \item \textbf{Selecting The Location where the Search Happens}:
 \end{enumerate}
-% reforemulate research directions as challenges instead? => not sure
 
+% reforemulate research directions as challenges instead? => not sure => yes, i think so. The headings I have so far are more descriptive of the FL setting.
+
+% Why challenge instead optimization objective?
+
+As \cite{fl_to_nas_survey_2021} and \cite{multi-objective_methods_in_fl_2025} note, FedNAS is an inherently multi-objective optimization problem.
+% TODO: challenges trade-off, finding pareto optimum not easy, reference multi-objective paper
+
+%%% adaptation techniques explanations
 Each FedNAS method employs several \textit{adaptation techniques} dependant on a) the type of NAS method it adapts and b) the class of challenges the FedNAS method aims to overcome. For example, naively using a supernet-based NAS method in the cross-device FL setting by having each client train the entire supernet, % "training the entire supernet" is ambiguous, need to reformulate
 would result in detrimental completion times. This embodies the computational efficiency challenge class, and one FedNAS method~\cite{fedoras_2022} overcomes it by \textit{adapting} the subnet sampling process of X NAS method, such that only subnets within the client's training budget get selected for training.
 
@@ -64,9 +89,12 @@ would result in detrimental completion times. This embodies the computational ef
 
 %%% why is literature review on adaptation techniques relevant?
 %%% TODO: maybe add reason why a regular FedNAS user might create their own FedNAS method? Not only reasearcher do this
-%%% - every problem is different => off-the-shelf solutions don't work
+%%%  another problem in FedNAS domain:- every problem is different => off-the-shelf solutions don't work => why?
 %%% - need composable adaptation techniques to create fednas methods 
-Researchers create new FedNAS methods, either to adapt new NAS methods to the FL setting or to adapt NAS methods in new ways to overcome different sets of challenge classes. To this end, it is useful to use existing literature on FedNAS methods and avoid re-inventing adaptation techniques for overcoming each of the challenge classes. A considerable amount of literature on FedNAS methods has appeared in recent years, resulting in a large number of novel adaptation techniques. Unfortunately, adaptation techniques are scattered throughout the increasingly large volume of FedNAS literature, putting a burden on researchers intersted in re-using them for new FedNAS methods. 
+- scenarios for which a FedNAS method exists that suits a problem
+Practicioners use existing FedNAS methods to solve a problem.
+
+create new FedNAS methods, either to adapt new NAS methods to the FL setting or to adapt NAS methods in new ways to overcome different sets of challenge classes. To this end, it is useful to use existing literature on FedNAS methods and avoid re-inventing adaptation techniques for overcoming each of the challenge classes. A considerable amount of literature on FedNAS methods has appeared in recent years, resulting in a large number of novel adaptation techniques. Unfortunately, adaptation techniques are scattered throughout the increasingly large volume of FedNAS literature, putting a burden on researchers intersted in re-using them for new FedNAS methods. 
 
 % practical problem: researchers want to easily build new FedNAS methods based on their needs
 
@@ -84,7 +112,11 @@ Prior literature surveys only analyze a fraction of the FedNAS literature. \cite
 None of the prior literature surveys provide a consolidated body of knowledge that can inform researchers on adaptation techniques used by FedNAS methods. \cite{fl_to_nas_survey_2021} and \cite{nas_hpo_fl_survey_2023} only analyse and summarise FedNAS methods on the whole. \cite{multi-objective_methods_in_fl_2025} analyses how MOO is used within FedNAS methods. The prior surveys do not identify individual adaptation techniques responsible for overcoming sets of challenge classes.
 
 %%% why the focus on adaptation techniques and the challenge classes they overcome is useful
-Extracting the adaptation techniques used by FedNAS methods and organising them in a single place, would allow researchers to easily make use of this knowledge to compose new FedNAS methods tailored to overcoming a specific set of challenge classes relevant to them. This leads us to our research question:
+- users can pick FedNAS method for their use case
+- researcher can create new, better FedNAS methods
+Adaptation techniques are composable design patterns extracted from the FedNAS literature that make it easy to compose new FedNAS methods suited towards new tasks.
+
+Extracting the adaptation techniques used by FedNAS methods and organising them into a single consolidated body of knowledge, would allow researchers to easily make use of this knowledge to compose new FedNAS methods tailored to overcoming a specific set of challenge classes relevant to them. This leads us to our research question:
 
 % TODO: reformulate better
 \vspace{1em}
@@ -94,7 +126,7 @@ Extracting the adaptation techniques used by FedNAS methods and organising them 
 % Study: How investigate? Process, context & why?
 %% Indicate that this study addresses that problem or issue and state how.
 %% Describe the study, sample, and method for addressing that problem or issue.
-We perform a systematic literature review of adaptation techniques used by FedNAS methods and their effects on overcoming challenge classes. We divide our approach into 5 steps:
+To answer our research question, we perform a systematic literature review of adaptation techniques used by FedNAS methods and their effects on overcoming challenge classes. We divide our approach into 5 steps:
 
 \begin{enumerate}
     \item \textbf{Literature Selection:} We follow the guidelines and flow diagrams provided by PRISMA 2020 \cite{prisma_2020} for inclusion and exclusion of papers and perform forward and backwards citation searching. Each paper contains one or more FedNAS methods. 
@@ -108,7 +140,7 @@ We perform a systematic literature review of adaptation techniques used by FedNA
 % Conclusion
 % Describe what you found.
 % State explicitly how these findings extend and contribute to existing knowledge.
-Our review provides an overview of the FedNAS landscape through the lens of adaptation techniques. We organize the n extracted adaptation techniques into a single taxonomy that helps researchers and practicioners interested in creating FedNAS methods for new tasks. Our discussions on each adaptation technique helps researchers find and choose adaptation techniques relevant to their problem. Adaptation techniques are in essence composable design patterns extracted from the FedNAS literature that make it easy to compose new FedNAS methods suited towards new tasks.
+Our review organizes the n extracted adaptation techniques into a single taxonomy that gives researchers an overview of the FedNAS landscape through the lens of adaptation techniques. Our discussions on each adaptation technique helps researchers find and choose adaptation techniques relevant to their problem. 
 
 % Outline
 In chapter 2 we cover the background required for this thesis and related work. In chapter 3 we describe the method with which we conduct our literature review in detail. In chapter 4 we explain our process of including FedNAS literature and give an overview of the included FedNAS literature. In chapter 5 we present our taxonomy of adaptation techniques and explain the effect of adaptation techniques on challenge classes. In Chapter 6 we conduct a discussion about our work. Chapter 7 contains our conclusion.
