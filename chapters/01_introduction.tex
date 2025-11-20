@@ -34,12 +34,23 @@ By using NAS in the FL setting, practicioners not only benefit from the generic 
 
 %% hook b) "What is the overall problem or situation in that domain?"
 %%% overall problem in FedNAS domain: traditional NAS doesn't work for FL
-Using NAS in the FL setting is not straightforward. Research on NAS methods focuses on a centralized setting as opposed to the distributed FL setting. This makes most NAS methods unfeasable for direct application in the FL setting, because NAS methods designed for the centralized setting can make several assumptions about the architecture search process that do not hold in the FL setting. 
+Using NAS in the FL setting is not straightforward. Research on NAS methods focuses on a centralized setting as opposed to the distributed FL setting. This makes many NAS methods unfeasable for direct application in the FL setting, because NAS methods designed for the centralized setting can make several assumptions about the search process that do not hold in the FL setting (see Table 1). Instead, practicioners need to adapt NAS methods to the FL setting, giving rise to \textit{Federated Neural Architecture Search}~\cite{fednas_2021} (FedNAS) methods.
 
 %%% assumption discreptancies create challenges
-Each assumption that does not hold for architecture search process in the FL setting, but holds for the centralized training process, results in a class of challenges related to the discreptancy. Table 1 shows the discreptencies in assumptions about the training environment between the centralized and FL setting.
+Each assumption that holds for NAS in the centralized setting, but does not hold for the FL setting, results in a class of challenges related to that discreptancy. Table 1 illustrates these discreptencies as well as the resulting class of challenges faced by FedNAS methods.
 
+% TODO: mark assumptions that also hold in cross-silo setting
 
+\begin{table}[htbp]
+    \begin{tabular}{|c|c|c|}
+        Assumption in Centralized Setting & Reality in FL Setting & Resulting Class of Challenges \\
+        \csvreader[head to column names]{data/challenges.csv}{}%
+            {\centralizedassumptions & \flreality & \challenges}
+    \end{tabular}
+    \centering
+    \caption{Discreptencies between NAS in the centralised setting and the FL setting and the resulting challenges. \textit{Worker nodes} perform the search in the centralized setting. A \textit{server} and \textit{clients} perform the search in the FL setting.}
+    \label{table:assumptions}
+\end{table}
 
 In the FL setting, several assumptions made in the centralized do not hold NAS methods can make assumptions about the training process that simplifies
 

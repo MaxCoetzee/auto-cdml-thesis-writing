@@ -1,0 +1,19 @@
+Assumption in Centralized Setting,Reality in FL Setting,Resulting Class of Challenges
+Worker nodes' hardware is homogeneous., Clients' hardware varies significantly. More pronounced in the cross-device setting than the cross-silo setting.," FedNAS methods need to ..., otherwise the search will be delayed by low end devices or leave high end devices waiting in idle most of the time."
+Every worker node can access all training data., Clients can only access their local data., FedNAS methods need to balance searching for a global architecture suited to most clients’ data or search for architectures personalized to each client’s data. 
+Training data is gathered at a central location.,Training data is distributed unevenly across clients,"Since some clients generate more data than others, FedNAS methods need to ensure they are not overrepresented in the searched architecture."
+The training data is drawn from the same distribution., Each client draws training data from their own distribution.," FedNAS need to be robust w.r.t. to non-i.i.d. data, which makes evaluating and ranking candidate architectures noisier than in the centralized setting."
+Worker nodes are equally and highly available., Clients may only be available during certain times of day and some clients may be available a lot more than others.," FedNAS methods must prevent the search from being dominated by a the most active clients, otherwise the resulting architecture will be biased toward the data and capabilities of the most frequently available clients"
+"Worker nodes communicate over high-bandwidth, low-latency links.", Clients typically communicate with the central server with high latency and low bandwidth.,"FedNAS must be communication-efficient, otherwise exchanging model weights and architecture parameters becomes a bottleneck during search."
+"Worker nodes are high-end machines with powerful CPUs, GPUs and large RAM.", Clients are edge devices with few computational resources.,"The computational power required by some NAS methods makes them unfeasable for FedNAS. Additionally, units of computational work typically done on a single worker node, need to be split up across clients, making the FedNAS method implementation complex."
+All worker nodes participate in each iteration., Only a subset of clients participate in each search iteration., FedNAS methods must ensure that a realistic sample of the client population is represented in the architecture search.
+Worker nodes are inside the same trust domain., All participating parties (i.e. the central server and clients) can consider another potentially malicious.," FedNAS methods need to deal with attacks from participating parties, such as poisoning of architecture parameter updates during search or inference of client data from architecture parameters [TODO: verify that’s possible]."
+Worker nodes reliably take part in the search process., Clients can drop out of a communication round at any time and take long to complete their part of the search.,"FedNAS methods need to handle client dropouts and stragglers, since interrupted or delayed evaluations of candidate architectures can slow down or destabilize the search process."
+The location of the search procedure is irrelevant because all computation happens at a central location.,"For some NAS methods, the server can take part in the architecture search.","If applicable, FedNAS methods can integrate the server into the search process to speed up the search, but … why is this challenging?"
+,,
+,,
+,,
+,,
+,,
+,,
+,,"FedNAS methods must balance global optimality with personalization, deciding whether to search for a single shared architecture, a family of architectures, or client-specific variants under federated constraints."
