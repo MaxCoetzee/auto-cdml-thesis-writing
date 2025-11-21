@@ -7,6 +7,7 @@ Applying Neural Architecture Search (NAS) methods in a Federated Learning (FL) s
 
 \section{Context}
 
+
 Relevant to this thesis, the last decade witnessed two major developments in parallel: 1. the establishment of neural architecture search (NAS) and 2. the invention of Federated Learning (FL). Together, they form the cornerstone of this thesis, and their origins can be explained as follows:
 
 \begin{enumerate}
@@ -32,7 +33,7 @@ Users of FL naturally expect to leverage existing NAS methods in the FL setting 
 With NAS, the architecture search can take place directly on the clients, and architectures can be adjusted according to the data and distribution present on them, yielding architectures that are better suited to the data than those a model developer would manually select. Dealing with the distributed, non-i.i.d. data of the FL setting has been a key challenge for adopting NAS in the FL setting, and research into the matter has shown promise \cite{fednas_2021} \cite{rl_fednas_2021} \cite{fedoras_2022} \cite{finch_2024} \cite{peaches_2024}. Beyond being tailored to the data and distribution of each client, architectures can also be personalised to clients' heterogeneous computation and bandwidth budgets, as shown by \cite{superfednas_2024}, \cite{fedoras_2022}, \cite{perfedrlnas_2024}, and \cite{decnas_2022}.
 
 % NAS applied to FL: challenges
-However, research in NAS methods has focused on a central NAS setting, and the methods rely on assumptions that do not hold for the FL setting. These assumptions include an abundance of computational resources, homogeneity of hardware for training and deployment, high availability of worker nodes, access to the entire dataset, access to the data distribution, etc. \cite{fl_advances_and_open_problems_2021}. The misaligned assumptions lead to \textit{challenges} in adopting NAS in an FL setting. Consequently, most centralised NAS methods are unfeasible for direct application in the FL setting. Adopting NAS methods in the FL setting requires adapting them to the FL setting, giving rise to what we shall call \textit{FedNAS} methods. We have identified 58 papers that propose FedNAS methods. Each FedNAS method employs various techniques to adapt a NAS method to the FL setting. We shall refer to these techniques as \textit{adaptation techniques} for short. In the following, we briefly illustrate three adaptation techniques. 
+However, research on NAS methods has focused on a central NAS setting, and the methods rely on assumptions that do not hold for the FL setting. These assumptions include an abundance of computational resources, homogeneity of hardware for training and deployment, high availability of worker nodes, access to the entire dataset, access to the data distribution, etc. \cite{fl_advances_and_open_problems_2021}. The misaligned assumptions lead to \textit{challenges} in adopting NAS in an FL setting. Consequently, most centralized NAS methods are unfeasible for direct application in the FL setting. Adopting NAS methods in the FL setting requires adapting them to the FL setting, giving rise to what we shall call \textit{FedNAS} methods. We have identified 58 papers that propose FedNAS methods. Each FedNAS method employs various techniques to adapt a NAS method to the FL setting. We shall refer to these techniques as \textit{adaptation techniques} for short. In the following, we briefly illustrate three adaptation techniques. 
 
 % show that there is a wide variety of adaptation techniques
 \begin{enumerate}
@@ -77,7 +78,6 @@ Optional (RQ3) How can adaptation techniques described in the literature be comp
 \vspace{1em}
 
 \section{Methodology}
-
 
 To address our research questions, we divide our approach into six steps:
 
