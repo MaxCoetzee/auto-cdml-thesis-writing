@@ -28,7 +28,12 @@
 \usepackage[printonlyused]{acronym}
 \usepackage{ifthen}
 \usepackage{pdflscape}
-\usepackage{csvsimple}
+\usepackage{changepage}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{array} % for m{...} vertical centering
+\newcolumntype{C}[1]{>{\centering\arraybackslash}m{#1}} % centered h+v
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}m{#1}} % left h, middle v (optional)
 
 \hypersetup{hidelinks} % removes colored boxes around references and links
 
