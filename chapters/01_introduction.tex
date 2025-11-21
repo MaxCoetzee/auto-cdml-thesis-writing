@@ -10,20 +10,17 @@ Both Neural Architecture Search (NAS) and Federated Learning (FL) have made sign
 %      2. why each is important
 %      3. why applying NAS in FL is important 
 
-% ### NAS explanation and why it is important
-\textit{Neural Architecture Search} (NAS) automates the process of engineering neural network architectures for Deep Learning application domains~\cite{nas_survey_2019}. This stands in contrast to the traditional, labourious approach to applying Deep Learning. Traditionally, a team of domain experts and Deep Learning experts engineer a well-suited architecture based on expert knowledge and trial and error. 
+% ### NAS explanation
+\textit{Neural Architecture Search} (NAS) automates the process of engineering neural network architectures for Deep Learning application domains~\cite{nas_survey_2019}. 
 
-% #### second reason for why NAS is important
-NAS does not only reduce manual effort, but can potentially find architectures that perform better than architectures humans have designed for specific application domains~\cite{nasnet_2018}~\cite{amoebanet_2019}~\cite{mobilenetv3_2019}~\cite{efficientnetv2_2021}. This is because NAS explores a larger and more fine-grained architecture search space than a team of researchers doing manual architecture design could. 
+% ### why NAS is important
+NAS saves manual effort compared to the traditional, labourious approach to applying Deep Learning, wherein a team of domain experts engineer an architecture based on expert knowledge and trial and error. Additionally, NAS can find architectures that perform better than architectures humans have designed for specific application domains~\cite{nasnet_2018}~\cite{amoebanet_2019}~\cite{mobilenetv3_2019}~\cite{efficientnetv2_2021}.
 
-% ### FL explanation
-\textit{Federated Learning} (FL) is a machine learning method whereby \textit{clients} collaboratively train a model without sharing their data. Weight updates to the shared model are coordinated by a central \textit{server}.
+% ### FL explanation and 
+\textit{Federated Learning} (FL) is a machine learning method whereby \textit{clients} collaboratively train a model without sharing their data. Weight updates to the shared model are coordinated by a central \textit{server}. 
 
-% #### why FL is important 
-Google introduced FL to enable privacy-preserving machine learning on the increasing volume of privacy-sensitive data stored on edge devices. Before FL was introduced, machine learning practitioners typically did not use distributed privacy-sensitive data at all for machine learning, or they collected it in a central location for training — creating the risk of a major breach by malicious actors. When practitioners train models directly on the devices that generate the data, this mitigates the risk of a single large breach.
-
-% #### increasing relevance of FL 
-Although Google originally targeted FL towards machine learning on data distributed across edge devices, FL practitioners discovered that FL is also useful for training on distributed data silos (at the organisational level). The former is referred to as \textit{cross-device} FL and the latter as \textit{cross-silo} FL. Both kinds of FL have been adopted for various ML tasks in production systems by organisations such as Google~\cite{gboard_fl_2018}, Apple~\cite{apple_fl_case_study_2025}, and Owkin~\cite{owkin_fl_drug_discovery_in_prod_2022}.
+% ### why FL is important
+FL enables privacy-preserving machine learning on the increasing volume of privacy-sensitive distributed data and avoids centrally collecting client data. Two major strains of FL exist: the \textit{cross-device} setting, wherein clients are edge devices, and the \textit{cross-silo} setting wherein clients are entire organisations. Both kinds of FL have been adopted for various ML tasks in production systems by organisations such as Google~\cite{gboard_fl_2018}, Apple~\cite{apple_fl_case_study_2025}, and Owkin~\cite{owkin_fl_drug_discovery_in_prod_2022}.
 
 % ## why NAS for FL is important: generic benefits and it is a good fit 
 By using NAS in the FL setting, practitioners gain the generic benefits of NAS mentioned above as well as several benefits specific to the FL setting:
@@ -35,17 +32,17 @@ By using NAS in the FL setting, practitioners gain the generic benefits of NAS m
 
 % # hook b) "What is the overall problem or situation in that domain?"
 % ## overall problem in FedNAS domain: traditional NAS is hard to use for FL
-However, using NAS in the FL setting is non-trivial. Research on NAS methods has traditionally focused on a centralised setting as opposed to the distributed FL setting. This makes many NAS methods infeasible for direct application in the FL setting, because NAS methods designed for the centralised setting can make several assumptions about the search process that do not hold in the FL setting (see \autoref{table:fednas_challenges}). Instead, practitioners need to adapt NAS methods to their FL setting, giving rise to \textit{Federated Neural Architecture Search}~\cite{fednas_2021} (FedNAS) methods.
+However, using NAS in the FL setting is non-trivial. Research on NAS methods has traditionally focused on a centralised setting as opposed to the distributed FL setting. This makes many NAS methods infeasible for direct application in the FL setting, because NAS methods designed for the centralised setting make several assumptions about the search process that do not hold in the FL setting (see \autoref{table:fednas_challenges}). Instead, practitioners need to adapt NAS methods to their FL setting, giving rise to \textit{Federated Neural Architecture Search}~\cite{fednas_2021} (FedNAS) methods.
 % ## I am aware that starting paragraphs with "However," is generally bad style, but I think in this case it nicely hooks up with the previous paragraph.
 
 % ### get more specific about how NAS in FL is hard: assumption discreptancies create challenges
-As a result of the difference in assumptions, FedNAS methods face several challenges when adapting NAS methods. \autoref{table:fednas_challenges} illustrates these discrepancies as well as the resulting challenges faced by FedNAS methods. The table is based to some extent on previously identified challenges in the FL setting in general~\cite{fl_seminal_2017}~\cite{fl_advances_and_open_problems_2021}~\cite{fl_in_practice_reflections_2024}~\cite{fl_taxonomy_2024}.
+As a result of the difference in assumptions, FedNAS methods face several challenges when adapting NAS methods. \autoref{table:fednas_challenges} illustrates these discrepancies as well as the resulting challenges faced by FedNAS methods. 
 
 % #### use cases, FL settings are diverse
 Depending on the FedNAS use case, some centralised NAS assumptions are violated to a larger extent than others. For example, FedNAS methods for use cases in the cross-silo FL setting can assume that clients are equipped with GPUs, making the \textit{Limited Computational Resources} challenge less relevant. 
 
 % #### why overcoming some challenges can be mutually exclusive
-FedNAS practitioners need to prioritise which challenges to address for their particular use case: the relevance of a challenge depends on how strongly the corresponding centralised NAS assumption is violated, and overcoming one challenge typically comes at the expense of neglecting others. For example, in a use case where some clients hold more informative data but frequently drop out, ignoring stragglers addresses the \textit{Client Reliability} and lowers search completion time but risks biasing the search towards always-available clients, whereas waiting for stragglers addresses the \textit{Variable Client Availability} challenge and improves fairness at the cost of slower and potentially less stable search.
+FedNAS practitioners need to prioritise which challenges to address for their particular use case: the relevance of a challenge depends on how strongly the corresponding centralised NAS assumption is violated, and overcoming one challenge typically comes at the expense of neglecting others. For example, in a use case where some clients hold more informative data but frequently drop out, ignoring stragglers addresses the \textit{Client Reliability} challenge and lowers search completion time but risks biasing the search towards always-available clients, whereas waiting for stragglers addresses the \textit{Variable Client Availability} challenge and improves fairness at the cost of slower and potentially less stable search.
 
 % ## practical problem: practitioners want to easily use FedNAS methods or build new FedNAS methods based on their needs
 FedNAS practitioners have diverse use cases for FedNAS methods and can choose from a wide variety of subsets of challenges to overcome. Consequently, practitioners started creating a growing body of FedNAS methods. An overview of FedNAS methods would be helpful to practitioners, as it would enable them to find suitable FedNAS methods for their use case or aid in re-using knowledge for creating new FedNAS methods. However, no such overview exists.
@@ -145,7 +142,7 @@ In Chapter 2, we cover the background required for this thesis and related work.
         Client Reliability \\
     \end{tabular}
     \centering
-    \caption{Discrepancies between NAS in the centralised setting and the FL setting and the resulting FedNAS challenges. \textit{Worker nodes} perform the architecture search in the centralised setting, whereas a \textit{server} and \textit{clients} perform the search in the FL setting.}
+    \caption{Discrepancies between NAS in the centralised setting and the FL setting and the resulting FedNAS challenges. \textit{Worker nodes} perform the architecture search in the centralised setting, whereas a \textit{server} and \textit{clients} perform the search in the FL setting. The challenges are based to some extent on previously identified challenges in the FL setting in general~\cite{fl_seminal_2017}~\cite{fl_advances_and_open_problems_2021}~\cite{fl_in_practice_reflections_2024}~\cite{fl_taxonomy_2024}.}
 \end{table}
 \end{landscape}
 \clearpage
