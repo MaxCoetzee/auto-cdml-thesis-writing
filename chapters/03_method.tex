@@ -1,11 +1,17 @@
 % !TeX root = ../main.tex
 \chapter{Method}\label{chapter:method}
 
+We use various techniques from \cite{grounded_theory_2015} and lean on parts of the methodology of \cite{cdml_2024} to perform a systematic literature review.
+
 \begin{enumerate}
-    \item \textbf{Literature Selection:} We follow the guidelines and flow diagrams provided by PRISMA 2020 \cite{prisma_2020} for inclusion and exclusion of papers and perform forward and backwards citation searching. Each paper contains one or more FedNAS methods. 
-    \item \textbf{Adaptation Technique Extraction:} Once the set of included papers is fixed, we analyse each paper individually, extracting the adaptation techniques it uses and summarising them.
-    % how to measure conceptual similarity?
-    \item \textbf{Merge Highly-Similar Adaptation Techniques:} We then merge conceptually highly-similar adaptation techniques into a single representative adaptation technique.
-    \item \textbf{Categorise Adaptation Techniques:} After merging, we categorise the adaptation techniques based on conceptual similarity and deliver a taxonomy of adaptation techniques.
-    \item \textbf{Map FL Challenge Types onto Adaptation Techniques:} Next, we discuss how each adaptation technique works towards, against, or does not affect overcoming each of the FL challenge classes and provide a table with an overview as an end result. 
+    \item \textbf{Literature Selection:} We follow the guidelines and flow diagrams provided by PRISMA 2020 \cite{prisma_2020} for inclusion and exclusion of papers and perform forward and backwards citation searching. We identify 58 papers that present FedNAS methods. Each paper contains one or more FedNAS methods. 
+    \item \textbf{Unrefined Adaptation Technique Extraction:} Once the set of included papers is fixed, we perform open coding on each FedNAS method to extract unrefined adaptation techniques. Any modification to a NAS method that is explicitly motivated by the federated setting is treated coded as one unrefined adaptation technique.
+    \item \textbf{Adaptation Techniques Coneceptualization:} We iteratively refine and merge unrefined adapatation techniques in an axial coding step to obtain a coherent set of adaptation techniques that are mutually exclusive and collectively exhaustive. Unrefined adaptation techniques with conceptually highly-similar mechanisms are merged into a single representative adaptation technique.
+    \item \textbf{Categorise Adaptation Techniques:} After merging, in a second axial coding step, we cluster adaptation techniques based on a) the FedNAS challenges they address and b) the conceptual similarity of their mechanisms. As a result, we obtain a taxonomy of adaptation techniques.
+    \item \textbf{Discuss FedNAS Challenges for Adaptation Techniques:} We discuss how each adaptation technique works towards, against, or does not affect overcoming each of FedNAS challenges.
+    \item \textbf{Produce Table Overviews:} Finally, we create two tables that practicioners can use to make decisions about FedNAS methods for their use case. 
+
+    The first table contains a coded vector of effects over the FedNAS challenges for each \textit{FedNAS method}. The effects per FedNAS method are the result of the effects of its adaptation techniques in aggregate. Practicioners can use this table to decide which FedNAS method suits their use case or if their use case would benefit from a new FedNAS method.
+    
+    The second table table contains a coded vector of effects over the FedNAS challenges for each \textit{adaptation technique} based on the prior discussion. If practicioners need to create new FedNAS methods, they can use this table to choose existing adaptation techniques relevant to the set of FedNAS challenges they need to address for their use case.
 \end{enumerate}
