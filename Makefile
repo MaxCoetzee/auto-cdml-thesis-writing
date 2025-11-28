@@ -9,6 +9,10 @@ pdf:
 watch:
 	+latexmk -interaction=nonstopmode -outdir="$(OUT)" -pdf -pvc -halt-on-error -jobname="$(jobname)" $(FILE)
 
+.PHONY: expose
+expose:
+	cd expose && latexmk -interaction=nonstopmode -outdir="build" -pdf -halt-on-error expose
+
 .PHONY: _fachschaft-print
 _fachschaft-print:
 	@if grep -sq '^TUM-Dev LaTeX-Thesis-Template: twoside$$' $(OUT)/$(FILE).log; then \

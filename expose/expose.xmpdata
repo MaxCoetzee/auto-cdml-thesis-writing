@@ -1,0 +1,5 @@
+% Metadata for Exposé PDF
+\Author{\getAuthor}
+\Title{\getTitle{} -- Exposé}
+\Keywords{\getKeywords}
+\Subject{\getDoctype}

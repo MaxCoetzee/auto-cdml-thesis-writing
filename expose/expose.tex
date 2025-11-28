@@ -1,0 +1,101 @@
+% !BIB TS-program = biber
+
+\RequirePackage[l2tabu,orthodox]{nag}
+
+\documentclass[headsepline,footsepline,footinclude=false,oneside,fontsize=11pt,paper=a4,bibliography=totoc]{scrartcl}
+
+% Thesis/Exposé information (shared with main thesis where applicable)
+\newcommand*{\getUniversity}{Technische Universität München}
+\newcommand*{\getFaculty}{Informatics}
+\newcommand*{\getDegree}{Informatics}
+\newcommand*{\getSchool}{Computation, Information and Technology}
+\newcommand*{\getTitle}{Adaptation Techniques for using NAS Methods in the FL Setting}
+\newcommand*{\getTitleGer}{Titel}
+\newcommand*{\getAuthor}{Max Coetzee}
+\newcommand*{\getDoctype}{Exposé — Bachelor's Thesis}
+\newcommand*{\getSupervisor}{Supervisor}
+\newcommand*{\getAdvisor}{Advisor}
+\newcommand*{\getKeywords}{keyword;another keyword;one more}
+\newcommand*{\getSubmissionDate}{Submission date}
+\newcommand*{\getSubmissionLocation}{Munich}
+
+% Load shared settings
+\input{settings-expose}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    
+    \vspace*{1cm}
+    
+    {\Large\textbf{\getUniversity}\\[0.5em]}
+    {\large School of \getSchool\\[0.3em]}
+    {\large Department of \getFaculty\\[2cm]}
+    
+    {\LARGE\textbf{Exposé}\\[1cm]}
+    
+    {\Large\textbf{\getTitle}\\[2cm]}
+    
+    {\large \getDoctype\\[3cm]}
+    
+    \begin{tabular}{ll}
+        \textbf{Author:} & \getAuthor \\[0.5em]
+        \textbf{Supervisor:} & \getSupervisor \\[0.5em]
+        \textbf{Advisor:} & \getAdvisor \\[0.5em]
+        \textbf{Date:} & \getSubmissionDate \\
+    \end{tabular}
+    
+    \vfill
+    
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\section{Problem Statement}
+
+\section{Objectives}
+
+\section{Explanation of Terms}
+
+\section{Research Approach}
+
+\section{Structure}
+
+\begin{enumerate}
+    \item \textbf{Introduction} (4 pages)
+    
+    \item \textbf{Background} (6 pages)
+    \begin{enumerate}
+        \item Neural Architecture Search
+        \item Federated Learning
+        \item Federated Neural Architecture Search 
+    \end{enumerate}
+    
+    \item \textbf{Method} (2 pages)
+    
+    \item \textbf{Reviewed Literature} (3 pages)
+
+    \item \textbf{Results} (5 pages): \textit{contains the two tables for challenges per 1. FedNAS method 2. adaptation technique}
+    
+    \item \textbf{Adaptation Techniques} (30 pages)
+    \begin{enumerate}
+        \item AT 1 (2 pages)
+        \item AT 2 (2 pages)
+        \item ...
+        \item AT 15 (2 pages)
+    \end{enumerate}
+
+    \item{Discussion}
+
+    \item{Conclusion}
+\end{enumerate}
+
+\section{Expected Results}
+
+\section{Open Issues and Problems (Optional)}
+
+\printbibliography{}
+
+\end{document}

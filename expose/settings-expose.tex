@@ -1,0 +1,89 @@
+% Settings for Exposé - adapted from thesis settings.tex
+% This file contains the same styling as the main thesis but adapted for scrartcl
+
+\PassOptionsToPackage{table,svgnames,dvipsnames}{xcolor}
+
+\usepackage[a-2u]{pdfx} % generate PDF/A: archival compliant, self-contained pdf
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[sc]{mathpazo}
+\usepackage[ngerman,american]{babel}
+\usepackage[autostyle]{csquotes}
+\usepackage[%
+  backend=biber,
+  url=false,
+  style=numeric,
+  maxnames=4,
+  minnames=3,
+  maxbibnames=99,
+  giveninits,
+  uniquename=init]{biblatex}
+\usepackage{graphicx}
+\usepackage{scrhack}
+\usepackage{listings}
+\usepackage{lstautogobble}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage{booktabs}
+\usepackage[final]{microtype}
+\usepackage{caption}
+\usepackage{ifthen}
+\usepackage{tabularx}
+\usepackage{array}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}m{#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}m{#1}}
+
+\hypersetup{hidelinks}
+
+\addto\extrasamerican{
+	\def\lstnumberautorefname{Line}
+	\def\sectionautorefname{Section}
+	\def\subsectionautorefname{Subsection}
+	\def\subsubsectionautorefname{Subsubsection}
+}
+
+\addto\extrasngerman{
+	\def\lstnumberautorefname{Zeile}
+}
+
+% Light theme
+\newcommand{\bg}{white}
+\newcommand{\fg}{black}
+
+\bibliography{../bibliography}
+
+\setkomafont{disposition}{\normalfont\bfseries} 
+\linespread{1.05} 
+
+% Define TUM corporate design colors
+% Taken from http://portal.mytum.de/corporatedesign/index_print/vorlagen/index_farben
+\definecolor{TUMBlue}{HTML}{0065BD}
+\definecolor{TUMSecondaryBlue}{HTML}{005293}
+\definecolor{TUMSecondaryBlue2}{HTML}{003359}
+\definecolor{TUMBlack}{HTML}{000000}
+\definecolor{TUMWhite}{HTML}{FFFFFF}
+\definecolor{TUMDarkGray}{HTML}{333333}
+\definecolor{TUMGray}{HTML}{808080}
+\definecolor{TUMLightGray}{HTML}{CCCCC6}
+\definecolor{TUMAccentGray}{HTML}{DAD7CB}
+\definecolor{TUMAccentOrange}{HTML}{E37222}
+\definecolor{TUMAccentGreen}{HTML}{A2AD00}
+\definecolor{TUMAccentLightBlue}{HTML}{98C6EA}
+\definecolor{TUMAccentBlue}{HTML}{64A0C8}
+
+% Settings for pgfplots
+\pgfplotsset{compat=newest}
+\pgfplotsset{
+  cycle list={TUMBlue\\TUMAccentOrange\\TUMAccentGreen\\TUMSecondaryBlue2\\TUMDarkGray\\},
+}
+
+% Settings for lstlistings
+\lstset{%
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  autogobble,
+  keywordstyle=\bfseries\color{TUMBlue},
+  stringstyle=\color{TUMAccentGreen},
+  captionpos=b
+}
