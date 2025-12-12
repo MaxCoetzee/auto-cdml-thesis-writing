@@ -4,14 +4,14 @@
 
 % # "hook"
 % ## hook a) "what is the domain and why is it important?"
-Both Neural Architecture Search (NAS) and Federated Learning (FL) have made significant progress independently in the past decade, and both are widely used in practice. To benefit from the advantages of NAS methods in FL, researchers have started combining them by using NAS in the FL setting. 
+Both \textit{Neural Architecture Search} (NAS) and \textit{Federated Learning} (FL) have made significant progress independently in the past decade, and both are widely used in practice. To benefit from the advantages of NAS methods in FL, researchers have started combining them by using NAS in the FL setting~\cite{fednas_2021}~\cite{rt_fed_evo_nas_2020}~\cite{spider_2021}~\cite{fedoras_2022}~\cite{finch_2024}~\cite{efnas_2024}. 
 % => opening paragraph begs for
 %      1. explanations of NAS and FL
 %      2. why each is important
 %      3. why applying NAS in FL is important 
 
 % ### NAS explanation
-\textit{Neural Architecture Search} (NAS) automates the process of engineering neural network architectures for Deep Learning application domains~\cite{nas_survey_2019}. 
+NAS automates the process of engineering neural network architectures for Deep Learning application domains~\cite{nas_survey_2019}. 
 
 % ### why NAS is important
 NAS saves manual effort compared to the traditional, labourious approach to applying Deep Learning, wherein a team of domain experts engineer an architecture based on expert knowledge and trial and error. Additionally, NAS can find architectures that perform better than architectures humans have designed for specific application domains~\cite{nasnet_2018}~\cite{amoebanet_2019}~\cite{mobilenetv3_2019}~\cite{efficientnetv2_2021}.
@@ -20,7 +20,7 @@ NAS saves manual effort compared to the traditional, labourious approach to appl
 \textit{Federated Learning} (FL) is a machine learning method whereby \textit{clients} collaboratively train a model without sharing their data. Weight updates to the shared model are coordinated by a central \textit{server}. 
 
 % ### why FL is important
-FL enables privacy-preserving machine learning on the increasing volume of privacy-sensitive distributed data and avoids centrally collecting client data. Two major strains of FL exist: the \textit{cross-device} setting, wherein clients are edge devices, and the \textit{cross-silo} setting wherein clients are entire organisations. Both kinds of FL have been adopted for various ML tasks in production systems by organisations such as Google~\cite{gboard_fl_2018}, Apple~\cite{apple_fl_case_study_2025}, and Owkin~\cite{owkin_fl_drug_discovery_in_prod_2022}.
+FL enables privacy-preserving machine learning on the increasing volume of privacy-sensitive distributed data and avoids centrally collecting client data. Two major types of FL settings are presented in the literature: the \textit{cross-device} setting, wherein clients are edge devices, and the \textit{cross-silo} setting wherein clients are entire organisations. FL has been adopted in both types of settings for various ML tasks in production systems by organisations such as Google~\cite{gboard_fl_2018}, Apple~\cite{apple_fl_case_study_2025}, and Owkin~\cite{owkin_fl_drug_discovery_in_prod_2022}.
 
 % ## why NAS for FL is important: generic benefits and it is a good fit 
 By using NAS in the FL setting, practitioners gain the generic benefits of NAS mentioned above as well as several benefits specific to the FL setting:
