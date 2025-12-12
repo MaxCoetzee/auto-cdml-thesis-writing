@@ -10,25 +10,29 @@ Both \textit{Neural Architecture Search} (NAS) and \textit{Federated Learning} (
 %      2. why each is important
 %      3. why applying NAS in FL is important 
 
-% ### NAS explanation
-NAS automates the process of engineering neural network architectures for Deep Learning application domains~\cite{nas_survey_2019}. 
+% ### NAS explanation and why it is important
+NAS automates the process of engineering neural network architectures for Deep Learning application domains~\cite{nas_survey_2019}. This saves manual labour compared to the traditional approach driven by a team of experts. Additionally, NAS can find architectures that perform better than architectures humans have designed for specific application domains~\cite{nasnet_2018}~\cite{amoebanet_2019}~\cite{mobilenetv3_2019}~\cite{efficientnetv2_2021}.
 
-% ### why NAS is important
-NAS saves manual effort compared to the traditional, labourious approach to applying Deep Learning, wherein a team of domain experts engineer an architecture based on expert knowledge and trial and error. Additionally, NAS can find architectures that perform better than architectures humans have designed for specific application domains~\cite{nasnet_2018}~\cite{amoebanet_2019}~\cite{mobilenetv3_2019}~\cite{efficientnetv2_2021}.
+% ### FL explanation and why it is important
+\textit{Federated Learning} (FL) is a machine learning method whereby \textit{clients} collaboratively train a model without sharing their local data. FL enables privacy-preserving machine learning on the increasing volume of privacy-sensitive distributed data and avoids centrally collecting client data. FL has been adopted for various ML tasks in production systems by organisations such as Google~\cite{gboard_fl_2018}, Apple~\cite{apple_fl_case_study_2025}, and Owkin~\cite{owkin_fl_drug_discovery_in_prod_2022}.
 
-% ### FL explanation and 
-\textit{Federated Learning} (FL) is a machine learning method whereby \textit{clients} collaboratively train a model without sharing their data. Weight updates to the shared model are coordinated by a central \textit{server}. 
+% TODO: Move this sentence somewhere and reduce its length: 
+% Two major types of FL settings are presented in the literature: the \textit{cross-device} setting, wherein clients are edge devices, and the \textit{cross-silo} setting wherein clients are entire organisations.
 
-% ### why FL is important
-FL enables privacy-preserving machine learning on the increasing volume of privacy-sensitive distributed data and avoids centrally collecting client data. Two major types of FL settings are presented in the literature: the \textit{cross-device} setting, wherein clients are edge devices, and the \textit{cross-silo} setting wherein clients are entire organisations. FL has been adopted in both types of settings for various ML tasks in production systems by organisations such as Google~\cite{gboard_fl_2018}, Apple~\cite{apple_fl_case_study_2025}, and Owkin~\cite{owkin_fl_drug_discovery_in_prod_2022}.
+% ## why NAS for FL is important: generic benefits and predefined architectures are bad for FL in particular
+By using NAS in the FL setting, practitioners gain the generic benefits of NAS mentioned above and potentially avoid the problems faced by pre-defined architectures in the FL setting. 
 
-% ## why NAS for FL is important: generic benefits and it is a good fit 
-By using NAS in the FL setting, practitioners gain the generic benefits of NAS mentioned above as well as several benefits specific to the FL setting:
-\begin{itemize}
-    \item A large body of work in NAS focuses on finding architectures within computational resource constraints that still have reasonable accuracy \cite{nas_1000_papers_2023}. The deployment target in FL is often the resource-constrained clients themselves. This means practitioners can use NAS to find architectures that meet client constraints.
-    \item \cite{fl_advances_and_open_problems_2021} note that predefined architectures may not be an optimal choice for FL. Since client data is not visible to model developers, a predefined architecture selected by model developers may contain components redundant for generalising well from client data sets. For example, a language model trained on a central text corpus may devote substantial model capacity to words that are rare on individual clients. This results in large parts of the neural network contributing little to accuracy on those clients. NAS can personalize the architecture to dedicate more capcity towards words representive of each clients' local text data.
-	\item Predefined architectures may perform poorly on another prevalent characteristic of the FL setting: data that is not independently and identically distributed (non-i.i.d.). A predefined architecture tuned on i.i.d. benchmarks can underfit some clients and overfit others, whereas NAS can adjust an architecture's capacity to better accommodate variation across clients.
-\end{itemize}
+% ### why pre-defined architectures are a bad fit reason 1 
+In the FL setting, client data is not visible to model developers. Therefore a predefined architecture selected by model developers may contain components redundant for generalising well from client data sets. For example, a language model trained on a central text corpus may devote substantial model capacity to words that are rare on individual clients. This results in large parts of the neural network contributing little to accuracy on those clients. NAS can personalize the architecture to dedicate more capcity towards words representive of each clients' local text data.
+
+% ### why pre-defined architectures are a bad fit reason 2 
+Predefined architectures may perform poorly on another prevalent characteristic of the FL setting: data that is not independently and identically distributed (non-i.i.d.). A predefined architecture tuned on i.i.d. benchmarks can underfit some clients and overfit others, whereas NAS can adjust an architecture's capacity to better accommodate variation across clients.
+
+%\begin{itemize}
+%    \item A large body of work in NAS focuses on finding architectures within computational resource constraints that still have reasonable accuracy \cite{nas_1000_papers_2023}. The deployment target in FL is often the resource-constrained clients themselves. This means practitioners can use NAS to find architectures that meet client constraints.
+%    \item \cite{fl_advances_and_open_problems_2021} note that predefined architectures may not be an optimal choice for FL. Since client data is not visible to model developers, a predefined architecture selected by model developers may contain components redundant for generalising well from client data sets. For example, a language model trained on a central text corpus may devote substantial model capacity to words that are rare on individual clients. This results in large parts of the neural network contributing little to accuracy on those clients. NAS can personalize the architecture to dedicate more capcity towards words representive of each clients' local text data.
+%	\item Predefined architectures may perform poorly on another prevalent characteristic of the FL setting: data that is not independently and identically distributed (non-i.i.d.). A predefined architecture tuned on i.i.d. benchmarks can underfit some clients and overfit others, whereas NAS can adjust an architecture's capacity to better accommodate variation across clients.
+%\end{itemize}
 
 % # hook b) "What is the overall problem or situation in that domain?"
 % ## overall problem in FedNAS domain: traditional NAS is hard to use for FL
