@@ -19,33 +19,21 @@ NAS automates the process of engineering neural network architectures for Deep L
 % TODO: Move this sentence somewhere and reduce its length: 
 % Two major types of FL settings are presented in the literature: the \textit{cross-device} setting, wherein clients are edge devices, and the \textit{cross-silo} setting wherein clients are entire organisations.
 
-% ## why NAS for FL is important: generic benefits and predefined architectures are bad for FL in particular
-By using NAS in the FL setting, practitioners gain the generic benefits of NAS mentioned above and potentially avoid the problems faced by pre-defined architectures in the FL setting. 
+% ## why NAS for FL is important: predefined architectures don't work well in FL 
+By using NAS in the FL setting, practitioners can potentially avoid the problems faced by pre-defined architectures in the FL setting. In FL, client data is not visible to model developers. This may cause developers to select predefined architectures which contain components redundant for generalising well from some of the client data sets. Additionally, client data tends to be non-i.i.d. Predefined architectures tuned on i.i.d. data potentially underfit on some clients while overfitting on others. Some NAS methods can be used to mitigate these problems by tailoring architectures' capacity to clients' data [TODO: cite].
 
-% ### why pre-defined architectures are a bad fit reason 1 
-In the FL setting, client data is not visible to model developers. Therefore a predefined architecture selected by model developers may contain components redundant for generalising well from client data sets. For example, a language model trained on a central text corpus may devote substantial model capacity to words that are rare on individual clients. This results in large parts of the neural network contributing little to accuracy on those clients. NAS can personalize the architecture to dedicate more capcity towards words representive of each clients' local text data.
-
-% ### why pre-defined architectures are a bad fit reason 2 
-Predefined architectures may perform poorly on another prevalent characteristic of the FL setting: data that is not independently and identically distributed (non-i.i.d.). A predefined architecture tuned on i.i.d. benchmarks can underfit some clients and overfit others, whereas NAS can adjust an architecture's capacity to better accommodate variation across clients.
-
-%\begin{itemize}
-%    \item A large body of work in NAS focuses on finding architectures within computational resource constraints that still have reasonable accuracy \cite{nas_1000_papers_2023}. The deployment target in FL is often the resource-constrained clients themselves. This means practitioners can use NAS to find architectures that meet client constraints.
-%    \item \cite{fl_advances_and_open_problems_2021} note that predefined architectures may not be an optimal choice for FL. Since client data is not visible to model developers, a predefined architecture selected by model developers may contain components redundant for generalising well from client data sets. For example, a language model trained on a central text corpus may devote substantial model capacity to words that are rare on individual clients. This results in large parts of the neural network contributing little to accuracy on those clients. NAS can personalize the architecture to dedicate more capcity towards words representive of each clients' local text data.
-%	\item Predefined architectures may perform poorly on another prevalent characteristic of the FL setting: data that is not independently and identically distributed (non-i.i.d.). A predefined architecture tuned on i.i.d. benchmarks can underfit some clients and overfit others, whereas NAS can adjust an architecture's capacity to better accommodate variation across clients.
-%\end{itemize}
-
-% # hook b) "What is the overall problem or situation in that domain?"
-% ## overall problem in FedNAS domain: traditional NAS is hard to use for FL
+% ## hook b) "What is the overall problem or situation in that domain?"
+% ### overall problem in FedNAS domain: traditional NAS is hard to use for FL
 However, using NAS in the FL setting is non-trivial. Research on NAS methods has traditionally focused on a centralised setting as opposed to the distributed FL setting. This makes many NAS methods infeasible for direct application in the FL setting, because NAS methods designed for the centralised setting make several assumptions about the search process that do not hold in the FL setting (see \autoref{table:fednas_challenges}). Instead, practitioners need to adapt NAS methods to their FL setting, giving rise to \textit{Federated Neural Architecture Search}~\cite{fednas_2021} (FedNAS) methods.
-% ## I am aware that starting paragraphs with "However," is generally bad style, but I think in this case it nicely hooks up with the previous paragraph.
+% ### I am aware that starting paragraphs with "However," is generally bad style, but I think in this case it nicely hooks up with the previous paragraph.
 
-% ### get more specific about how NAS in FL is hard: assumption discreptancies create challenges
+% #### get more specific about how NAS in FL is hard: assumption discreptancies create challenges
 As a result of the difference in assumptions, FedNAS methods face several challenges when adapting NAS methods. \autoref{table:fednas_challenges} illustrates these discrepancies as well as the resulting challenges faced by FedNAS methods. 
 
-% #### use cases, FL settings are diverse
+% ##### use cases, FL settings are diverse
 Depending on the FedNAS use case, some centralised NAS assumptions are violated to a larger extent than others. For example, FedNAS methods for use cases in the cross-silo FL setting can assume that clients are equipped with GPUs, making the \textit{Limited Computational Resources} challenge less relevant. 
 
-% #### why overcoming some challenges can be mutually exclusive
+% ##### why overcoming some challenges can be mutually exclusive
 FedNAS practitioners need to prioritise which challenges to address for their particular use case: the relevance of a challenge depends on how strongly the corresponding centralised NAS assumption is violated, and overcoming one challenge typically comes at the expense of neglecting others. For example, in a use case where some clients hold more informative data but frequently drop out, ignoring stragglers addresses the \textit{Client Reliability} challenge and lowers search completion time but risks biasing the search towards always-available clients, whereas waiting for stragglers addresses the \textit{Variable Client Availability} challenge and improves fairness at the cost of slower and potentially less stable search.
 
 % ## practical problem: practitioners want to easily use FedNAS methods or build new FedNAS methods based on their needs
@@ -69,13 +57,13 @@ None of the existing literature surveys identify adaptation techniques used by F
 As mentioned above, the lack of an exhaustive overview of FedNAS methods, the adaptation techniques they use and how these adaptation techniques overcome FedNAS challenges, leads us to our research question:
 
 \vspace{1em}
-(RQ) \textbf{Which adaptation techniques are described in the literature, and how do they address FedNAS challenges?}
+\textbf{Which adaptation techniques are described in the literature, and how do they address FedNAS challenges?}
 \vspace{1em}
 
 % # "Study: How investigate? Process, context & why?"
 % ##"Indicate that this study addresses that problem or issue and state how."
 % ## "Describe the study, sample, and method for addressing that problem or issue."
-To answer our research question, we conduct a systematic literature review using grounded theory and the methodology employed by \cite{cdml_2024}.  
+To answer our research question, we conduct a systematic literature review using grounded theory and lean on the methodology employed by \cite{cdml_2024}.  
 
 We first identify papers that present FedNAS methods. Then, we perform open coding on each FedNAS method to extract unrefined adaptation techniques. Next, we perform axial coding by iteratively refining and merging unrefined adaptation techniques to obtain a coherent set of mutually exclusive and collectively exhaustive adaptation techniques. 
 % ## I left out how the literature is selected, since it is not relevant to the intro, but will be described in detail in the method section. 
@@ -88,61 +76,3 @@ Our review organises the n extracted adaptation techniques into a consolidated b
 
 % # Outline
 In Chapter \ref{chapter:background}, we cover the background required for this thesis and related work. In Chapter \ref{chapter:method}, we describe the method with which we conduct our literature review in detail. In Chapter \ref{chapter:reviewed_literature}, we describe our process for including FedNAS literature and provide an overview of the reviewed FedNAS literature. In Chapter \ref{chapter:adaptation_techniques}, we present our taxonomy of adaptation techniques and our review of how adaption techniques overcome FedNAS challenges. In Chapter \ref{chapter:discussion}, we conduct a discussion about our work. Chapter \ref{chapter:conclusion} contains our conclusion.
-
-% This table seems a bit large for an introduction.
-\clearpage
-\begin{longtable}{C{.20\textwidth} C{.20\textwidth} C{.40\textwidth} C{.20\textwidth}} 
-    \toprule
-    \textbf{Assumption in Centralised Setting} & \textbf{Reality in FL Setting} & \textbf{Resulting FedNAS Challenge Description} & \textbf{FedNAS Challenge Name} \\
-    \midrule
-    \endfirsthead
-    %
-    Worker nodes' hardware is homogeneous. & 
-    Clients' hardware varies significantly. More pronounced in the cross-device setting than the cross-silo setting. &
-    FedNAS methods need to be heterogeneity-aware; otherwise, the search will be delayed by low-end devices or leave high-end devices waiting in idle most of the time. &
-    Hardware Heterogeneity \\ \hline
-    %
-    Worker nodes communicate over high-bandwidth, low-latency links. &
-    Clients typically communicate with the central server over high-latency and low-bandwidth connections. &
-    FedNAS must be communication-efficient; otherwise, exchanging model weights and architecture parameters becomes a bottleneck during the search process. & 
-    Limited Networking Capabilities \\ \hline
-    %
-    Worker nodes are high-end machines with powerful CPUs, GPUs, and large amounts of RAM. &
-    Clients are edge devices with few computational resources. &
-    The computational burden placed on clients by a NAS method needs to be adjusted such that the architecture search takes place within an acceptable time frame. This can involve splitting up computational work, usually done on single worker nodes, amongst multiple clients, making the implementation complex. &
-    Limited Computational Resources \\ \hline
-    %
-    Training data is gathered at a central location. &
-    Training data is distributed unevenly across clients &
-    Since some clients have more data than others, FedNAS methods must ensure that these clients are not overrepresented in the searched architecture. &
-    Unbalanced Client Data \\ \hline
-    %
-    The training data is drawn from the same distribution. &
-    Each client draws training data from their own distribution. &
-    FedNAS methods need to be robust with respect to non-i.i.d. data, which makes evaluating and ranking candidate architectures noisier than in the centralised setting. &
-    Non-I.I.D. Training Data \\ \hline
-    %
-    Worker nodes are equally available. &
-    Some clients are more frequently available than others. &
-    FedNAS methods must prevent the search from being dominated by the most frequently available clients; otherwise, the resulting architecture will be biased towards them. &
-    Variable Client Availability \\ \hline
-    %
-    All worker nodes participate in each iteration. &
-    Only a subset of clients participates in each iteration of the search. &
-    FedNAS methods must ensure that a realistic sample of the client population is represented in the architecture search and address high-variance performance estimates, as candidate architectures are evaluated on changing subsets of clients. & 
-    Client Participation \\ \hline
-    %
-    Worker nodes are inside the same trust domain. &
-    All participating parties (i.e. the central server and clients) can consider another potentially malicious. &
-    FedNAS methods must address attacks from participating parties, such as architecture parameter poisoning during the search process. & 
-    Security \\ \hline
-    %
-    Worker nodes consistently participate in the search process. &
-    Clients can drop out of a communication round at any time, and completion times of epochs vary. &
-    FedNAS methods need to handle client dropouts and stragglers, since interrupted or delayed evaluations of candidate architectures can slow down or destabilise the search process. &
-    Client Reliability \\ 
-    \bottomrule
-    \caption{Discrepancies between NAS in the centralised setting and the FL setting and the resulting FedNAS challenges. \textit{Worker nodes} perform the architecture search in the centralised setting, whereas a \textit{server} and \textit{clients} perform the search in the FL setting. The challenges are based to some extent on previously identified challenges in the FL setting in general~\cite{fl_seminal_2017}~\cite{fl_advances_and_open_problems_2021}~\cite{fl_in_practice_reflections_2024}~\cite{fl_taxonomy_2024}.}\label{table:fednas_challenges}
-\end{longtable}
-
-%\restoregeometry  

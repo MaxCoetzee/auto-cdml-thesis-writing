@@ -3,3 +3,65 @@
 
 \section{}
 
+% This table seems a bit large for an introduction.
+\clearpage
+\begin{longtable}{C{.20\textwidth} C{.20\textwidth} C{.40\textwidth} C{.20\textwidth}} 
+    \toprule
+    \textbf{Assumption in Centralised Setting} & \textbf{Reality in FL Setting} & \textbf{Resulting FedNAS Challenge Description} & \textbf{FedNAS Challenge Name} \\
+    \midrule
+    \endfirsthead
+    %
+    Worker nodes' hardware is homogeneous. & 
+    Clients' hardware varies significantly. More pronounced in the cross-device setting than the cross-silo setting. &
+    FedNAS methods need to be heterogeneity-aware; otherwise, the search will be delayed by low-end devices or leave high-end devices waiting in idle most of the time. &
+    Hardware Heterogeneity \\ \hline
+    %
+    Worker nodes communicate over high-bandwidth, low-latency links. &
+    Clients typically communicate with the central server over high-latency and low-bandwidth connections. &
+    FedNAS must be communication-efficient; otherwise, exchanging model weights and architecture parameters becomes a bottleneck during the search process. & 
+    Limited Networking Capabilities \\ \hline
+    %
+    Worker nodes are high-end machines with powerful CPUs, GPUs, and large amounts of RAM. &
+    Clients are edge devices with few computational resources. &
+    The computational burden placed on clients by a NAS method needs to be adjusted such that the architecture search takes place within an acceptable time frame. This can involve splitting up computational work, usually done on single worker nodes, amongst multiple clients, making the implementation complex. &
+    Limited Computational Resources \\ \hline
+    %
+    Training data is gathered at a central location. &
+    Training data is distributed unevenly across clients &
+    Since some clients have more data than others, FedNAS methods must ensure that these clients are not overrepresented in the searched architecture. &
+    Unbalanced Client Data \\ \hline
+    %
+    The training data is drawn from the same distribution. &
+    Each client draws training data from their own distribution. &
+    FedNAS methods need to be robust with respect to non-i.i.d. data, which makes evaluating and ranking candidate architectures noisier than in the centralised setting. &
+    Non-I.I.D. Training Data \\ \hline
+    %
+    Worker nodes are equally available. &
+    Some clients are more frequently available than others. &
+    FedNAS methods must prevent the search from being dominated by the most frequently available clients; otherwise, the resulting architecture will be biased towards them. &
+    Variable Client Availability \\ \hline
+    %
+    All worker nodes participate in each iteration. &
+    Only a subset of clients participates in each iteration of the search. &
+    FedNAS methods must ensure that a realistic sample of the client population is represented in the architecture search and address high-variance performance estimates, as candidate architectures are evaluated on changing subsets of clients. & 
+    Client Participation \\ \hline
+    %
+    Worker nodes are inside the same trust domain. &
+    All participating parties (i.e. the central server and clients) can consider another potentially malicious. &
+    FedNAS methods must address attacks from participating parties, such as architecture parameter poisoning during the search process. & 
+    Security \\ \hline
+    %
+    Worker nodes consistently participate in the search process. &
+    Clients can drop out of a communication round at any time, and completion times of epochs vary. &
+    FedNAS methods need to handle client dropouts and stragglers, since interrupted or delayed evaluations of candidate architectures can slow down or destabilise the search process. &
+    Client Reliability \\ 
+    %
+    Model accuracy is more important than model resource consumption in selecting architectures. &
+    Model accuracy needs to be traded for model resource consumption in selecting architectures. &
+    Models trained in FL tend to be deployed on the same resource-constrained clients they are trained on. Therefore FedNAS methods need to optimise the architecture of the trained model w.r.t. resource constraints. &
+    Model Resource Constraints \\ 
+    \bottomrule
+    \caption{Discrepancies between NAS in the centralised setting and the FL setting and the resulting FedNAS challenges. \textit{Worker nodes} perform the architecture search in the centralised setting, whereas a \textit{server} and \textit{clients} perform the search in the FL setting. The challenges are based to some extent on previously identified challenges in the FL setting in general~\cite{fl_seminal_2017}~\cite{fl_advances_and_open_problems_2021}~\cite{fl_in_practice_reflections_2024}~\cite{fl_taxonomy_2024}.}\label{table:fednas_challenges}
+\end{longtable}
+
+%\restoregeometry  
