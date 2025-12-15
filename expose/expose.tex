@@ -10,13 +10,13 @@
 \newcommand*{\getDegree}{Informatics}
 \newcommand*{\getSchool}{Computation, Information and Technology}
 \newcommand*{\getTitle}{Adaptation Techniques for using NAS Methods in the FL Setting}
-\newcommand*{\getTitleGer}{Titel}
+\newcommand*{\getTitleGer}{Techniken zur Anpassung von NAS Methoden an Federated Learning}
 \newcommand*{\getAuthor}{Max Coetzee}
 \newcommand*{\getDoctype}{Exposé — Bachelor's Thesis}
-\newcommand*{\getSupervisor}{Supervisor}
-\newcommand*{\getAdvisor}{Advisor}
-\newcommand*{\getKeywords}{keyword;another keyword;one more}
-\newcommand*{\getSubmissionDate}{Submission date}
+\newcommand*{\getSupervisor}{M.Sc. Nick Henze}
+\newcommand*{\getAdvisor}{Dr.-Ing. Niclas Kannengießer}
+\newcommand*{\getKeywords}{Neural Architecture Search;Federated Learning;Federated Neural Architecture Search}
+\newcommand*{\getSubmissionDate}{tbd.}
 \newcommand*{\getSubmissionLocation}{Munich}
 
 % Load shared settings
@@ -28,16 +28,13 @@
     \centering
     
     \vspace*{1cm}
-    
     {\Large\textbf{\getUniversity}\\[0.5em]}
     {\large School of \getSchool\\[0.3em]}
     {\large Department of \getFaculty\\[2cm]}
     
-    {\LARGE\textbf{Exposé}\\[1cm]}
+    {\LARGE\textbf{\getDoctype}\\[1cm]}
     
     {\Large\textbf{\getTitle}\\[2cm]}
-    
-    {\large \getDoctype\\[3cm]}
     
     \begin{tabular}{ll}
         \textbf{Author:} & \getAuthor \\[0.5em]
@@ -54,48 +51,83 @@
 \newpage
 
 \section{Problem Statement}
-\input{../chapters/01_introduction}
+
+Both \textit{Neural Architecture Search} (NAS) and \textit{Federated Learning} (FL) have made significant progress independently in the past decade. To benefit from the advantages of NAS methods in FL, researchers have started combining them by using NAS in FL~\cite{fednas_2021}~\cite{fedoras_2022}~\cite{finch_2024}. 
+
+Using NAS in FL reduces manual effort for practitioners and can be used to mitigate the issues with predefined architectures in FL. Since client data is invisible to practitioners and client data distributions as well as client hardware vary in FL, predefined architectures are often suboptimal. Practitioners can use some NAS methods to tailor architectures to clients and enhance the effectiveness of FL training~\cite{fedpnas_2021}~\cite{spider_2021}~\cite{peaches_2024}.
+
+Despite the potential, NAS research has focused on the traditional centralised setting as opposed to the FL setting. This makes many NAS methods infeasible for direct application in FL, because centralised NAS can make several assumptions about the search process that do not hold in the FL setting. Each assumption discrepancy creates a \textit{challenge} for using NAS in FL, and developers have created \textit{adaptation techniques} for overcoming them. Applying adaptation techniques to NAS methods results in \textit{Federated Neural Architecture Search methods} (FedNAS methods)~\cite{fednas_2021}.
+
+For example, one challenge arises from the fact that centralised NAS can assume worker nodes are computationally powerful, whereas clients in most FL settings are not. Since most centralised NAS methods place large computational burdens on worker nodes, practitioners using these NAS methods in FL without modification would experience detrimental search completion times. To combat this, FedNAS developers have created adaptation techniques to reduce the computational burden on individual clients in FedNAS methods~\cite{fedoras_2022}~\cite{efnas_2024}~\cite{nasfly_2024}. This typically involves reducing the overall computational work and splitting it up into smaller units, which presents a challenge, as the implementation of the resulting FedNAS method tends to be complex.
+
+The subset of challenges faced by FedNAS methods depends on the specific FL setting, which can differ in many parameters~\cite{fl_advances_and_open_problems_2021}. The literature identifies two major classes of FL settings: the \textit{cross-device} class, wherein clients are edge devices, and the \textit{cross-silo} class, wherein clients are entire organisations, but even within these classes, there is significant variation in the setting parameters. Each FL setting violates centralised NAS assumptions to a different extent, making some challenges more relevant to them than others. For example, for FL settings in the cross-silo class, clients can be expected to be equipped with GPUs, making the challenge described above less relevant.
+
+The literature on adaptation techniques is fragmented, and FedNAS methods often lack clarity regarding the targeted FL setting and the challenges they address. As a result, extending and re-using existing techniques remains difficult. This poses a problem for FedNAS developers, since they need to trade off which challenges to address for their targeted FL setting without a clear overview of adaptation techniques that would be useful for that setting. Prior literature surveys~\cite{fl_to_nas_survey_2021}~\cite{nas_hpo_fl_survey_2023}~\cite{multi-objective_methods_in_fl_2025} summarise FedNAS methods on the whole, but do not dissect them in a manner that allows FedNAS developers to decide on the parts they wish to re-use. To aid the development of new FedNAS methods, we set out to answer our research question:
+
+\vspace{1em}
+\textbf{What challenges arise from different FL settings for FedNAS methods, and which adaptation techniques address them in the literature?}
+\vspace{1em}
 
 \section{Objectives}
 
+We aim to support FedNAS developers in creating new FedNAS methods by providing clarity on targeted FL settings and challenges of existing FedNAS methods. We aim to identify the source of challenges and elaborate on the known techniques to overcome them. The goal is for this knowledge to guide FedNAS developers in the creation of new FedNAS methods.
+
 \section{Explanation of Terms}
 
-\section{Research Approach}
+\textit{NAS} automates the process of engineering neural network architectures for Deep Learning application domains~\cite{nas_survey_2019}. This saves manual labour compared to the traditional approach, which is driven by a team of experts.
+
+\textit{FL} is a machine learning method whereby \textit{clients} collaboratively train a model without sharing their local data~\cite{fl_seminal_2017}. FL enables privacy-preserving machine learning on the increasing volume of privacy-sensitive, distributed data and avoids collecting client data at a central location.
+
+A \textit{FL setting} is determined by a set of parameters such as the degree of client hardware heterogeneity, the number of participating clients, the degree of data volume imbalance between clients, the degree of trust in participating parties, etc. \cite{fl_advances_and_open_problems_2021}. Our definition departs slightly from the literature where the two FL settings, cross-device and cross-silo, vaguely refer to a class of settings with somewhat similar parameters.
+
+\section{Research Approach}\label{sec:research_approach}
+
+To tackle our research question, we conduct a systematic literature review of papers that present FedNAS methods. We employ grounded theory and the methodology from \cite{cdml_2024}. For our review, we consider papers that modify NAS methods in response to the FL setting.
+
+We define a set of fine-grained parameters to characterise the targeted FL setting of each FedNAS method based on observations of varying setting parameters in the literature. With the help of this characterisation, we identify the violated centralised NAS assumptions and catalogue the challenges that arise from them. Next, we extract unrefined adaptation techniques from the FedNAS methods and iteratively refine and merge them to obtain a set of collectively exhaustive adaptation techniques. We analyse how each adaptation technique works towards, against, or does not affect each challenge, and present our findings in the form of a discussion for each adaptation technique, as well as an overview table. 
 
 \section{Structure}
 
 \begin{enumerate}
-    \item \textbf{Introduction} (4 pages)
+    \item \textbf{Introduction} (3 pages)
     
     \item \textbf{Background} (6 pages)
     \begin{enumerate}
-        \item Neural Architecture Search
+        \item Neural Architecture Search 
         \item Federated Learning
         \item Federated Neural Architecture Search 
     \end{enumerate}
     
-    \item \textbf{Method} (2 pages)
-    
-    \item \textbf{Reviewed Literature} (3 pages)
-
-    \item \textbf{Results} (5 pages): \textit{contains the two tables for challenges per 1. FedNAS method 2. adaptation technique}
-    
-    \item \textbf{Adaptation Techniques} (30 pages)
+    \item \textbf{Method} (5 pages)
     \begin{enumerate}
-        \item AT 1 (2 pages)
-        \item AT 2 (2 pages)
-        \item ...
-        \item AT 15 (2 pages)
+        \item Method and Literature Selection
+        \item Reviewed Literature
     \end{enumerate}
 
-    \item{Discussion}
+    \item \textbf{FedNAS Challenges} (10 pages): 
+    \begin{enumerate}
+        \item Parameters of FL settings relevant to FedNAS
+        \item Assumption Discrepancies between NAS and FedNAS
+        \item FedNAS Challenges
+    \end{enumerate}
+    
+    \item \textbf{Adaptation Techniques} (25 pages)
+    \begin{enumerate}
+        \item Adaptation Technique 1
+        \item Adaptation Technique 2 
+        \item ...
+        \item Adaptation Technique 20
+        \item Overview 
+    \end{enumerate}
 
-    \item{Conclusion}
+    \item \textbf{Discussion} (2 pages)
+
+    \item \textbf{Conclusion} (1 page)
 \end{enumerate}
 
 \section{Expected Results}
 
-\section{Open Issues and Problems (Optional)}
+We expect to generate a consolidated body of knowledge for adaptation techniques used by FedNAS methods to overcome challenges. We expect to identify important challenges for FedNAS that result from assumptions in centralised NAS that are violated to a different degree, depending on the parameters of the FL setting. 
 
 \printbibliography{}
 

@@ -31,6 +31,9 @@
 \usepackage{ifthen}
 \usepackage{tabularx}
 \usepackage{array}
+\usepackage{enumitem}
+\setlist[enumerate,1]{label=\arabic*.}
+\setlist[enumerate,2]{label=\arabic{enumi}.\arabic*}
 \newcolumntype{C}[1]{>{\centering\arraybackslash}m{#1}}
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}m{#1}}
 
