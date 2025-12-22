@@ -1,6 +1,6 @@
-# Thesis
+# Exposé
 
-FILE := main
+FILE := expose
 OUT  := build
 # expand args at runtime, since `jobname` doesn't exist outside targets 
 TEX_FLAGS = -interaction=nonstopmode -outdir="$(OUT)" -pdf -halt-on-error -jobname="$(jobname)" $(FILE)
