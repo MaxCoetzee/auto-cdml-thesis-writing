@@ -1,11 +1,11 @@
 % NAS explanation and why it is important
-Neural Architecture Search (NAS) automates the process of engineering neural network architectures for Deep Learning application~\cite{nas_survey_2019}. This saves manual labour compared to the traditional approach, which is driven by a team of experts.
+To automate the process of engineering neural network architectures for Deep Learning applications~\cite{nas_survey_2019}, researchers have invented \textit{Neural Architecture Search} (NAS) and developed it over the past decade. NAS saves manual labour compared to the traditional approach, whereby a team of domain experts and Deep Learning experts engineer a well-suited architecture based on expert knowledge and trial and error. 
 
 % FL explanation and why it is important
-Federated Learning (FL) is a machine learning method whereby \textit{clients} collaboratively train a model without sharing their local data~\cite{fl_seminal_2017}. FL enables privacy-preserving machine learning on the increasing volume of privacy-sensitive, distributed data and avoids collecting client data at a central location. 
+In parallel to NAS, researchers developed \textit{Federated Learning} (FL)~\cite{fl_seminal_2017}, which enables privacy-preserving machine learning on the increasing volume of privacy-sensitive, distributed data and avoids collecting client data at a central location. In FL, \textit{clients} collaboratively train a model without sharing their local data.
 
 % why NAS for FL is important: predefined architectures do not work well in FL 
-Using NAS in FL reduces manual effort for practitioners and can be used to mitigate the issues with predefined architectures in FL. Since client data is invisible to practitioners and client data distributions as well as client hardware vary in FL, predefined architectures are often suboptimal. Practitioners can use some NAS methods to tailor architectures to clients and enhance the effectiveness of FL training~\cite{fedpnas_2021}~\cite{spider_2021}~\cite{peaches_2024}.
+Recently, researchers have started using NAS in FL to reduce manual effort for practitioners and mitigate the issues with using a predefined architecture in FL. Since client data is invisible to practitioners and client data distributions as well as client hardware vary in FL, predefined architectures are often suboptimal. Practitioners can use some NAS methods to tailor architectures to clients and enhance the effectiveness of FL training~\cite{fedpnas_2021}~\cite{spider_2021}~\cite{peaches_2024}.
 
 % hook b) "What is the overall problem or situation in that domain?"
 % overall problem in FedNAS domain: assumption discrepancies create challenges for using NAS in FL
