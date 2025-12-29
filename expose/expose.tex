@@ -61,6 +61,196 @@
 
 % As part of the objectives, it must be made clear what the work is intended to achieve. The achievement of the main objective is the most important basis for the subsequent assessment of the work. Sub-objectives can be derived from this main objective, which represent necessary partial achievements to reach the main objective. The objective must be clearly described and verifiable. It should be possible to formulate the objectives in the form of specific questions. Subsequent changes to the objective may be made in consultation with the supervisor.
 
+The primary objective of this thesis is to support the design of new FedNAS methods by providing a structured overview of (i) challenges that arise when applying Neural Architecture Search (NAS) in different Federated Learning (FL) settings and (ii) adaptation techniques proposed in the literature to address these challenges.
+
+From this primary objective, the following sub-objectives are derived (cf. the objective decomposition style in the example exposé:
+\begin{enumerate}
+    \item \textbf{Derive a characterization of FL settings relevant to FedNAS:} Define a set of FL setting parameters that are reported in the FedNAS literature or can be inferred from experimental setups and that plausibly influence which NAS assumptions are violated.
+    
+    \item \textbf{Identify assumption discrepancies and resulting challenges:} Systematically identify which assumptions of centralised NAS methods are violated under which FL setting parameters and derive a catalogue of FedNAS challenges grounded in the reviewed papers.
+
+    \item \textbf{Extract and conceptualize adaptation techniques:} Extract technique candidates from FedNAS papers and iteratively refine them into a coherent set of adaptation techniques that is mutually exclusive and collectively exhaustive at the chosen abstraction level.
+
+    \item \textbf{Relate techniques to challenges:}
+    Analyse how each adaptation technique addresses, aggravates, or does not affect each challenge, and identify trade-offs reported or implied in the literature.
+
+    \item \textbf{Provide practitioner-oriented artefacts:}
+    Produce (a) an overview table mapping \emph{FedNAS methods} to the challenges they address via their techniques and (b) an overview table mapping \emph{adaptation techniques} to challenge effects to support technique selection and method design.
+\end{enumerate}
+
+\textbf{Verifiability / success criteria.}
+The objective is considered achieved if the resulting artefacts (i) cover all included FedNAS methods, (ii) allow each included method to be decomposed into a set of adaptation techniques, and (iii) provide an explicit, traceable mapping from techniques to challenges (with paper references) such that a reader can justify reuse decisions without re-reviewing the full literature corpus.
+
+\section{Explanation of Terms}
+
+% At this point, a definition of the central terms - in particular the terms that appear in the planned title of the academic paper - must be provided. Sources that were used to define the terms must be cited. Any deviations from existing definitions must be justified.
+
+\textbf{Neural Architecture Search (NAS)}: Traditionally, neural network architectures are designed by a team of domain and DL experts. In NAS, the architecture is automatically determined refers to the automated process of  neural network architectures that achieve high performance for a given task, dataset, and constraints. A NAS method is commonly described by its search space, search strategy, and performance estimation strategy.
+
+~\cite{nas_survey_2019}
+~\cite{nas_1000_papers}
+
+
+\textbf{Federated Learning }:
+FL is a distributed learning paradigm in which multiple clients collaboratively train a model under the coordination of a server while keeping training data local to the clients (see also the FL definition used in the Problem Statement).
+~\cite{fl_seminal_2017}
+
+\textbf{FL setting and FL setting parameters.}
+An \emph{FL setting} denotes the concrete environment in which FL (and here: FedNAS) is executed (e.g., cross-device vs.\ cross-silo, number of clients, client availability, hardware heterogeneity, bandwidth constraints, degree of non-IID data). \emph{FL setting parameters} are the specific attributes used to describe and compare such settings in a reproducible manner. In this thesis, the parameter set is derived from recurring variations observed in the FedNAS literature.
+~\cite{fl_advances_and_open_problems}
+% TODO: cite papers used for table
+
+\textbf{Federated Neural Architecture Search (FedNAS) method.}
+A FedNAS method is a NAS method that is designed to operate in an FL setting, i.e., it searches for architectures while respecting FL constraints such as decentralised data and communication limits.
+
+\textbf{Centralised NAS assumptions and assumption discrepancies.}
+\emph{Centralised NAS assumptions} are implicit or explicit prerequisites many NAS methods rely on (e.g., access to centrally pooled data, powerful search workers, synchronous evaluation). \emph{Assumption discrepancies} are mismatches between these prerequisites and the realities of a given FL setting.
+
+\textbf{FedNAS challenge.}
+A FedNAS challenge is a concrete problem that arises when assumption discrepancies prevent directly applying a centralised NAS method in an FL setting (e.g., excessive client-side compute demand, communication overhead, unstable search dynamics under partial participation).
+
+\textbf{Adaptation technique} An adaptation technique is any modification to a NAS method that is explicitly motivated by the FL setting (or by a FedNAS challenge) and is intended to make the search feasible, efficient, or effective in that setting. This thesis conceptualises adaptation techniques at a level where they can be reused as design building blocks across methods.
+
+
+\section{Research Approach}\label{sec:research_approach}
+
+We take a qualitiative research approach in the style of the CDML paper.
+- qualitative
+- iterative conceptualisation
+
+
+
+
+
+You said:
+MA_Proposal_NAS_for_SL.pdf
+PDF
+Following is my current Expose, the introduction which acts as the problem statement of the Expose and my current methodology. Flesh out all parts of the Expose except the "Problem Statement" with the help of the the attached example document, the thesis proposal guideline and the academic writing guideline.
+
+Introduction used as Problem Statement:
+% TODO: use coherent terminology instead of practitioners, developer, model trainers etc.
+
+% NAS explanation and why it is important
+Engineering the architecture of a neural network for a Deep Learning application is traditionally done by a team of domain experts and Deep Learning experts based on their expert knowledge and a process of trial and error. To reduce the amount of manual labour involved in this process, researchers invented \textit{Neural Architecture Search} (NAS)~\cite{nas_survey_2019} methods and improved them over the past decade. NAS methods employ diverse strategies to automatically search for a neural network architecture for a given Deep Learning application.
+
+% FL explanation and why it is important
+Independantly, but in parallel to NAS, researchers developed a distributed machine learning approach called \textit{Federated Learning} (FL)~\cite{fl_seminal_2017} in response to growing concerns about data privacy. In FL, \textit{clients} collaboratively train a model without sharing their local data. This enhances the privacy of clients' data, because model trainers can not view clients' data and client data is not collected at a central location where a single breach could expose the data of all clients. % TODO: use cases
+
+% why NAS for FL is important: predefined architectures do not work well in FL 
+Engineering neural network architectures in FL is as time-consuming (if not more so) % TODO: cite time it takes to engineer
+as in centralised Deep Learning, therefore researchers have started investigating the use of NAS methods in FL~\cite{fednas_2021}~\cite{fedoras_2022}~\cite{finch_2024}, creating \textit{Federated Neural Architecture Search methods} (FedNAS methods)~\cite{fednas_2021}. Additionally, NAS methods provide an alternative to selecting a fixed architecture upfront — a so-called \textit{prededfined architecture}. Predefined architectures can lead to slow training convergence and poorly performing models in FL, because model developers can view neither the clients' data nor, typically, client's hardware capabilities. Model developers may therefore select a predefined architecture that contains components irrelevant for generalising well from client data sets or select an architecture that trains slowly on some clients. Work has already been done that shows the use of NAS methods in FL can mitigate these issues~\cite{fedpnas_2021}~\cite{spider_2021}~\cite{peaches_2024}.
+
+% why use existing centralised NAS methods instead of developing own NAS methods for FL?
+
+% hook b) "What is the overall problem or situation in that domain?"
+% overall problem in FedNAS domain: assumption discrepancies create challenges for using NAS in FL
+Despite the potential benefits of using NAS in FL, it is non-trivial to do so. Developing NAS methods is a time-consuming, error-prone process in a centralised environment and even more so in FL, so researchers try to make use of existing work as much as possible. Since, NAS research has focused on a centralised setting, most NAS methods developed thus far are infeasible for direct application in FL, because they can make several assumptions about the search process that do not hold in the FL setting. These assumption discrepancies result in \textit{challenges} for using centralised NAS methods in FL, and developers have created \textit{adaptation techniques} for overcoming them. The majority of FedNAS methods developed so far use centralised NAS methods with the help of adaptation techniques.
+
+% challenge example: limited computational resources per client
+For example, one challenge arises from the fact that centralised NAS can assume worker nodes are computationally powerful, whereas clients in most FL settings are not. Since most centralised NAS methods place large computational burdens on worker nodes, practitioners using these NAS methods in FL without modification would experience detrimental search completion times. To combat this, FedNAS developers have created adaptation techniques to reduce the computational burden on individual clients in FedNAS methods~\cite{fedoras_2022}~\cite{efnas_2024}~\cite{nasfly_2024}. This typically involves reducing the overall computational work and splitting it up into smaller units, which presents a challenge, as the implementation of the resulting FedNAS method tends to be complex.
+
+% the relevant challenge subset depends on the targeted FL setting, which varies a lotg
+The subset of challenges faced by FedNAS methods depends on the specific FL setting, which can differ in many parameters~\cite{fl_advances_and_open_problems_2021}. The literature identifies two major classes of FL settings: the \textit{cross-device} class, wherein clients are edge devices, and the \textit{cross-silo} class, wherein clients are entire organisations, but even within these classes, there is significant variation in the setting parameters. Each FL setting violates centralised NAS assumptions to a different extent, making some challenges more relevant to them than others. For example, for FL settings in the cross-silo class, clients can be expected to be equipped with GPUs, making the challenge described above less relevant.
+
+% TODO: clearly formulate practical problem
+% concrete actor, concrete task, concrete problems that arise
+% Design decision support problem
+
+% practical problem
+FedNAS developers who design new FedNAS methods for a specific FL setting must decide which challenges to prioritise and which adaptation techniques to implement for their chosen NAS method. % TODO: not all FedNAS methods are based on centralised NAS methods
+However, informing these design decisions currently requires extensive, manual reviewing of a fragmented literature, because many FedNAS papers do not state the targeted FL setting parameters and assumptions clearly, nor do they clearly link techniques with the addressed challenges. As a result, developers struggle to assess the transferability of existing methods to their setting and risk selecting ineffective or select techniques for addressing a challenge that are known to worsen another. This slows down the development of new FedNAS methods.
+
+% # Gap
+% ## "Situate in research: What are the conclusions of existing literature for that problem / situation in this domain?"
+% ## "What is the problem or issue with that existing literature?" (practical problem)
+The literature on adaptation techniques is fragmented, and FedNAS methods often lack clarity regarding the targeted FL setting and the challenges they address. As a result, extending and re-using existing techniques remains difficult. This poses a problem for FedNAS developers, since they need to trade off which challenges to address for their targeted FL setting without a clear overview of adaptation techniques that would be useful for that setting. Prior literature surveys~\cite{fl_to_nas_survey_2021}~\cite{nas_hpo_fl_survey_2023}~\cite{multi-objective_methods_in_fl_2025} summarise FedNAS methods on the whole, but do not dissect them in a manner that allows FedNAS developers to decide on the parts they wish to re-use. To aid the development of new FedNAS methods, we set out to answer our research question:
+
+\vspace{1em}
+\textbf{What challenges arise from different FL settings for FedNAS methods, and which adaptation techniques address them in the literature?}
+\vspace{1em}
+
+% # "Study: How investigate? Process, context & why?"
+% ## "Indicate that this study addresses that problem or issue and state how."
+% ## "Describe the study, sample, and method for addressing that problem or issue."
+To tackle our research question, we conduct a systematic literature review of papers that present FedNAS methods. We employ grounded theory and the methodology from \cite{cdml_2024}. For our review, we consider papers that modify NAS methods in response to the FL setting.
+
+% ### from targeted FL settings and their challenges to adaptation techniques
+We define a set of fine-grained parameters to characterise the targeted FL setting of each FedNAS method based on observations of varying setting parameters in the literature. With the help of this characterisation, we identify the violated centralised NAS assumptions and catalogue the challenges that arise from them. Next, we extract unrefined adaptation techniques from the FedNAS methods and iteratively refine and merge them to obtain a set of collectively exhaustive adaptation techniques. We analyse how each adaptation technique works towards, against, or does not affect each challenge, and present our findings in the form of a discussion for each adaptation technique, as well as an overview table. 
+
+% # "Conclusion"
+% ## "Describe what you found. State explicitly how these findings extend and contribute to existing knowledge."
+% - first sentence: what is the main goal
+% - following sentences: contributions to knowledge and why they are relevant to research question
+Our review aims to support the creation of new FedNAS methods by developers. By identifying the source of challenges and elaborating on them, we provide clarity on the expected challenges for a targeted FL setting. Based on the expected challenges, FedNAS developers can use our overview of adaptation techniques to guide the design of new FedNAS methods and determine whether to re-use existing techniques, extend them, or develop new ones.
+
+% The outline paragraph (at `./03_outline.tex`) isn't included here, as it is not required by the exposé (it would be redundant due to the "Outline" section in the exposé). 
+% It is included in the thesis document via `../../main.tex`.
+
+
+Expose:
+% !BIB TS-program = biber
+
+\RequirePackage[l2tabu,orthodox]{nag}
+
+\documentclass[headsepline,footsepline,footinclude=false,oneside,fontsize=11pt,paper=a4,bibliography=totoc]{scrartcl}
+
+% Thesis/Exposé information (shared with main thesis where applicable)
+\newcommand*{\getUniversity}{Technische Universität München}
+\newcommand*{\getFaculty}{Informatics}
+\newcommand*{\getDegree}{Informatics}
+\newcommand*{\getSchool}{Computation, Information and Technology}
+\newcommand*{\getTitle}{Adaptation Techniques for using NAS Methods in the FL Setting}
+\newcommand*{\getTitleGer}{Techniken zur Anpassung von NAS Methoden an Federated Learning}
+\newcommand*{\getAuthor}{Max Coetzee}
+\newcommand*{\getDoctype}{Exposé — Bachelor's Thesis}
+\newcommand*{\getSupervisor}{M.Sc. Nick Henze}
+\newcommand*{\getAdvisor}{Dr.-Ing. Niclas Kannengießer}
+\newcommand*{\getKeywords}{Neural Architecture Search;Federated Learning;Federated Neural Architecture Search}
+\newcommand*{\getSubmissionDate}{tbd.}
+\newcommand*{\getSubmissionLocation}{Munich}
+
+% Load shared settings
+\input{settings-expose}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    
+    \vspace*{1cm}
+    {\Large\textbf{\getUniversity}\\[0.5em]}
+    {\large School of \getSchool\\[0.3em]}
+    {\large Department of \getFaculty\\[2cm]}
+    
+    {\LARGE\textbf{\getDoctype}\\[1cm]}
+    
+    {\Large\textbf{\getTitle}\\[2cm]}
+    
+    \begin{tabular}{ll}
+        \textbf{Author:} & \getAuthor \\[0.5em]
+        \textbf{Supervisor:} & \getSupervisor \\[0.5em]
+        \textbf{Advisor:} & \getAdvisor \\[0.5em]
+        \textbf{Date:} & \getSubmissionDate \\
+    \end{tabular}
+    
+    \vfill
+    
+\end{titlepage}
+
+\tableofcontents{}
+
+\newpage
+
+\section{Problem Statement}
+
+% First, the reason for the research project must be described. Considering the research cycle and using the cycle as a structure for your argumentation can help. The reason may, for example, lie in a lack of knowledge on an issue, an area or a theory in research or a problem that can be observed in practice. It must be made clear why the scientific study of the topic is considered relevant at all. The research problem to be solved in the thesis must be defined on the basis of a precisely formulated practical problem. The current state of research should also be identified. Which comparable research projects have already been carried out and what are the results? What is the status in the scientific literature and, if applicable, in practice?
+
+\input{../chapters/01_introduction/02_main_content}
+
+\section{Objectives}
+
+% As part of the objectives, it must be made clear what the work is intended to achieve. The achievement of the main objective is the most important basis for the subsequent assessment of the work. Sub-objectives can be derived from this main objective, which represent necessary partial achievements to reach the main objective. The objective must be clearly described and verifiable. It should be possible to formulate the objectives in the form of specific questions. Subsequent changes to the objective may be made in consultation with the supervisor.
+
 What is the work intended to achieve? Make it easier to incorporate existing adaptation techniques into newly designed FedNAS methods. 
 
 Test for achievement of objective: How long does it take to design a FedNAS method with and without the overview of this thesis.
@@ -84,6 +274,190 @@ Test for achievement of objective: How long does it take to design a FedNAS meth
 - iterative conceptualisation
 
 % The approach describes the research method with which the objectives of the work are to be achieved. This will vary greatly depending on the type of work (qualitative or quantitative work, etc.). The description of the approach should at least contain information on data collection and data analysis.
+
+\section{Structure}
+
+% Please provide a first outline of your thesis. The number of sections in a chapter and the level of detail should correspond to the importance of the sections. A 1st and 2nd level outline are sufficient for the proposal. The outline must be annotated. This means that the content and aim of each chapter must be described in the form of questions. The estimated number of pages per section must be added to the comments. Example: 1. Introduction (2 pages) 1.1 Problem definition (1 page) || Comment... ..
+
+\begin{enumerate}
+    \item \textbf{Introduction} (3 pages)
+    
+    \item \textbf{Background} (6 pages)
+    \begin{enumerate}
+        \item Neural Architecture Search 
+        \item Federated Learning
+        \item Federated Neural Architecture Search 
+    \end{enumerate}
+    
+    \item \textbf{Method} (5 pages)
+    \begin{enumerate}
+        \item Method and Literature Selection
+        \item Reviewed Literature
+    \end{enumerate}
+
+    \item \textbf{FedNAS Challenges} (10 pages): 
+    \begin{enumerate}
+        \item Parameters of FL settings relevant to FedNAS
+        \item Assumption Discrepancies between NAS and FedNAS
+        \item FedNAS Challenges
+    \end{enumerate}
+    
+    \item \textbf{Adaptation Techniques} (25 pages)
+    \begin{enumerate}
+        \item Adaptation Technique 1
+        \item Adaptation Technique 2 
+        \item ...
+        \item Adaptation Technique 20
+        \item Overview 
+    \end{enumerate}
+
+    \item \textbf{Discussion} (2 pages)
+
+    \item \textbf{Conclusion} (1 page)
+\end{enumerate}
+
+\section{Expected Results}
+
+- challenges for FedNAS methods based on FL system parameters
+- catalog of adaptation techniques
+- bibliography of FedNAS methods
+
+% The expected results may vary depending on the topic. As a rule, these will be descriptions of specific products of scientific work. These include, for example, criteria catalogs, evaluation reports, software programs, survey results, models, descriptions of methods/procedures, bibliographies, etc. Initial hypotheses about the expected results of the study can also be outlined.
+
+\section{Open Issues and Problems}
+
+% If any questions or uncertainties arise while working on the proposal, these can be noted and described in this chapter. These questions should be clarified with the supervisor and, if necessary, presented in the interim presentation
+
+- finding the correct abstraction level for adaptation techniques
+
+\printbibliography{}
+
+\end{document}
+
+
+Methodology:
+% !TeX root = ../main.tex
+\chapter{Method}\label{chapter:method}
+
+[TODO: overhaul to include method for identifying challenges and FL settings]
+- targeted FL setting can be stated directly, indirectly or must be inferred from experimental setup 
+
+We use various techniques from \cite{grounded_theory_2015} and lean on parts of the methodology of \cite{cdml_2024} to perform a systematic literature review.
+
+\begin{enumerate}
+    \item \textbf{Literature Selection:} We follow the guidelines and flow diagrams provided by PRISMA 2020 \cite{prisma_2020} for inclusion and exclusion of papers and perform forward and backwards citation searching. We identify 58 papers that present FedNAS methods. Each paper contains one or more FedNAS methods. 
+    \item \textbf{Unrefined Adaptation Technique Extraction:} Once the set of included papers is fixed, we perform open coding on each FedNAS method to extract unrefined adaptation techniques. Any modification to a NAS method that is explicitly motivated by the federated setting is treated coded as one unrefined adaptation technique.
+    \item \textbf{Adaptation Techniques Coneceptualization:} We iteratively refine and merge unrefined adapatation techniques in an axial coding step to obtain a coherent set of adaptation techniques that are mutually exclusive and collectively exhaustive. Unrefined adaptation techniques with conceptually highly-similar mechanisms are merged into a single representative adaptation technique.
+    \item \textbf{Categorise Adaptation Techniques:} After merging, in a second axial coding step, we cluster adaptation techniques based on a) the FedNAS challenges they address and b) the conceptual similarity of their mechanisms. As a result, we obtain a taxonomy of adaptation techniques.
+    \item \textbf{Discuss FedNAS Challenges for Adaptation Techniques:} We discuss how each adaptation technique works towards, against, or does not affect overcoming each of FedNAS challenges.
+    \item \textbf{Produce Table Overviews:} Finally, we create two tables that practicioners can use to make decisions about FedNAS methods for their use case. 
+
+    The first table contains a coded vector of effects over the FedNAS challenges for each \textit{FedNAS method}. The effects per FedNAS method are the result of the effects of its adaptation techniques in aggregate. Practicioners can use this table to decide which FedNAS method suits their use case or if their use case would benefit from a new FedNAS method.
+    
+    The second table table contains a coded vector of effects over the FedNAS challenges for each \textit{adaptation technique} based on the prior discussion. If practicioners need to create new FedNAS methods, they can use this table to choose existing adaptation techniques relevant to the set of FedNAS challenges they need to address for their use case.
+\end{enumerate}
+FedNAS Researcher said:
+
+Thought for 44s
+Below is paste-ready LaTeX that fleshes out every Exposé section except the Problem Statement. I mirrored the level of specificity and question-style annotations from the attached example exposé and followed the proposal requirements (e.g., annotated outline + page estimates, define central terms, describe data collection + analysis) .
+While writing, I also applied the academic writing guidance to prioritize clarity and precision (e.g., “communicating your (complex) ideas clearly” and “Word ambiguity forces your reader to work” ).
+
+\section{Objectives}
+
+% Guideline reminder: objectives should be clear and verifiable. :contentReference[oaicite:4]{index=4}
+
+The primary objective of this thesis is to support the design of new Federated Neural Architecture Search (FedNAS) methods by providing a structured, reusable overview of (i) challenges that arise when applying Neural Architecture Search (NAS) in different Federated Learning (FL) settings and (ii) adaptation techniques proposed in the literature to address these challenges.
+
+From this primary objective, the following sub-objectives are derived (cf. the objective decomposition style in the example exposé :contentReference[oaicite:5]{index=5}):
+\begin{enumerate}
+    \item \textbf{Derive a characterization of FL settings relevant to FedNAS:}
+    Define a set of FL setting parameters that are reported in the FedNAS literature or can be inferred from experimental setups and that plausibly influence which NAS assumptions are violated.
+    
+    \item \textbf{Identify assumption discrepancies and resulting challenges:}
+    Systematically identify which assumptions of centralised NAS methods are violated under which FL setting parameters and derive a catalogue of FedNAS challenges grounded in the reviewed papers.
+
+    \item \textbf{Extract and conceptualize adaptation techniques:}
+    Extract technique candidates from FedNAS papers and iteratively refine them into a coherent set of adaptation techniques that is mutually exclusive and collectively exhaustive at the chosen abstraction level.
+
+    \item \textbf{Relate techniques to challenges:}
+    Analyse how each adaptation technique addresses, aggravates, or does not affect each challenge, and identify trade-offs reported or implied in the literature.
+
+    \item \textbf{Provide practitioner-oriented artefacts:}
+    Produce (a) an overview table mapping \emph{FedNAS methods} to the challenges they address via their techniques and (b) an overview table mapping \emph{adaptation techniques} to challenge effects to support technique selection and method design.
+\end{enumerate}
+
+\textbf{Verifiability / success criteria.}
+The objective is considered achieved if the resulting artefacts (i) cover all included FedNAS methods, (ii) allow each included method to be decomposed into a set of adaptation techniques, and (iii) provide an explicit, traceable mapping from techniques to challenges (with paper references) such that a reader can justify reuse decisions without re-reviewing the full literature corpus.
+
+
+\section{Explanation of Terms}
+
+% Guideline reminder: define central terms (especially from the title) and cite sources. :contentReference[oaicite:6]{index=6}
+
+This section defines the central terms used throughout the thesis. Where the thesis uses a term in a narrower or more operationalised manner than common definitions, this is stated explicitly.
+
+\textbf{Neural Architecture Search (NAS).}
+NAS refers to the automated process of identifying neural network architectures that achieve high performance for a given task, dataset, and constraints. A NAS method is commonly described by its search space, search strategy, and performance estimation strategy.
+
+\textbf{Federated Learning (FL).}
+FL is a distributed learning paradigm in which multiple clients collaboratively train a model under the coordination of a server while keeping training data local to the clients (see also the FL definition used in the Problem Statement).
+
+\textbf{FL setting and FL setting parameters.}
+An \emph{FL setting} denotes the concrete environment in which FL (and here: FedNAS) is executed (e.g., cross-device vs.\ cross-silo, number of clients, client availability, hardware heterogeneity, bandwidth constraints, degree of non-IID data). \emph{FL setting parameters} are the specific attributes used to describe and compare such settings in a reproducible manner. In this thesis, the parameter set is derived from recurring variations observed in the FedNAS literature.
+
+\textbf{Federated Neural Architecture Search (FedNAS) method.}
+A FedNAS method is a NAS method that is designed to operate in an FL setting, i.e., it searches for architectures while respecting FL constraints such as decentralised data and communication limits.
+
+\textbf{Centralised NAS assumptions and assumption discrepancies.}
+\emph{Centralised NAS assumptions} are implicit or explicit prerequisites many NAS methods rely on (e.g., access to centrally pooled data, powerful search workers, synchronous evaluation). \emph{Assumption discrepancies} are mismatches between these prerequisites and the realities of a given FL setting.
+
+\textbf{FedNAS challenge.}
+A FedNAS challenge is a concrete problem that arises when assumption discrepancies prevent directly applying a centralised NAS method in an FL setting (e.g., excessive client-side compute demand, communication overhead, unstable search dynamics under partial participation).
+
+\textbf{Adaptation technique.}
+An adaptation technique is any modification to a NAS method that is explicitly motivated by the FL setting (or by a FedNAS challenge) and is intended to make the search feasible, efficient, or effective in that setting. This thesis conceptualises adaptation techniques at a level where they can be reused as design building blocks across methods.
+
+
+\section{Research Approach}\label{sec:research_approach}
+
+% The approach describes the research method with which the objectives of the work are to be achieved. This will vary greatly depending on the type of work (qualitative or quantitative work, etc.). The description of the approach should at least contain information on data collection and data analysis.
+
+The thesis follows a qualitative, iterative research approach in the form of a systematic literature review combined with grounded-theory-inspired coding. The goal is to derive a conceptual model that links FL setting parameters, violated NAS assumptions, resulting challenges, and adaptation techniques.
+
+\subsection{Data Collection (Literature Selection)}
+We collect and select papers that propose or evaluate FedNAS methods. The inclusion and exclusion procedure follows a structured screening process inspired by PRISMA-style selection reporting (identification, screening, eligibility, inclusion). The final corpus consists of FedNAS papers that include one or more explicit adaptations of NAS to an FL setting.
+
+\textbf{Inclusion criteria (examples).}
+A paper is included if it (i) proposes a method that performs architecture search in an FL setting or (ii) presents a substantive modification of a NAS method specifically motivated by FL constraints.
+
+\textbf{Exclusion criteria (examples).}
+A paper is excluded if it (i) performs only hyperparameter optimisation without architecture search, (ii) applies a fixed architecture in FL without searching, or (iii) does not provide sufficient methodological detail to extract adaptations.
+
+\subsection{Data Analysis (Coding and Conceptualisation)}
+The analysis proceeds in iterative steps (open and axial coding), aligned with the staged and explicit structure exemplified in the attached proposal:
+
+\begin{enumerate}
+    \item \textbf{FL setting characterisation:}
+    For each FedNAS method, extract reported FL setting parameters. If parameters are not stated, infer them conservatively from the experimental setup and clearly mark them as inferred.
+
+    \item \textbf{Challenge derivation via assumption discrepancies:}
+    Identify which centralised NAS assumptions do not hold under the extracted setting parameters and code the resulting challenges. Challenges are refined iteratively until they form a stable catalogue.
+
+    \item \textbf{Unrefined adaptation technique extraction (open coding):}
+    Extract technique candidates as any modification explicitly motivated by the FL setting or by a FedNAS challenge.
+
+    \item \textbf{Adaptation technique conceptualisation (axial coding):}
+    Merge and refine technique candidates into adaptation techniques based on mechanism similarity. The goal is a coherent set of techniques at a reusable abstraction level.
+
+    \item \textbf{Technique--challenge mapping (axial coding):}
+    For each technique, code its effect on each challenge as \emph{mitigates}, \emph{aggravates}, or \emph{no clear effect}. Where the literature is ambiguous, the coding records uncertainty explicitly.
+
+    \item \textbf{Synthesis into artefacts:}
+    Produce (i) a taxonomy of adaptation techniques, (ii) a method-to-challenges overview derived from each method's techniques, and (iii) a technique-to-challenges overview to support design decisions.
+\end{enumerate}
+
+\textbf{Traceability and rigor.}
+To ensure transparency, the thesis maintains an audit trail that links each coded technique, challenge, and setting parameter to supporting passages in the source papers. Where interpretations are required (e.g., inferred setting parameters), the thesis distinguishes clearly between reported and inferred information, reflecting the writing guideline that clear communication is the goal ("communicating your (complex) ideas clearly".
 
 \section{Structure}
 
