@@ -1,10 +1,10 @@
 % TODO: use coherent terminology instead of practitioners, developer, model trainers etc.
 
 % NAS explanation and why it is important
-Engineering the architecture of a neural network for a Deep Learning application is traditionally done by a team of domain experts and Deep Learning experts based on their expert knowledge and a process of trial and error. To reduce the amount of manual labour involved in this process, researchers invented \textit{Neural Architecture Search} (NAS)~\cite{nas_survey_2019} methods and improved them over the past decade. NAS methods employ diverse strategies to automatically search for a neural network architecture for a given Deep Learning application.
+Engineering the architecture of a neural network for a Deep Learning application is traditionally done by a team experts via a process of trial and error. To reduce the amount of manual labour involved in this process, researchers invented \textit{Neural Architecture Search} (NAS)~\cite{nas_survey_2019} methods and improved them over the past decade. NAS methods employ diverse strategies to automatically search for a neural network architecture for a given Deep Learning application.
 
 % FL explanation and why it is important
-Independantly, but in parallel to NAS, researchers developed a distributed machine learning approach called \textit{Federated Learning} (FL)~\cite{fl_seminal_2017} in response to growing concerns about data privacy. In FL, \textit{clients} collaboratively train a model without sharing their local data. This enhances the privacy of clients' data, because model trainers can not view clients' data and client data is not collected at a central location where a single breach could expose the data of all clients. % TODO: use cases
+Independantly, but in parallel to NAS, researchers developed a distributed machine learning approach called \textit{Federated Learning} (FL)~\cite{fl_seminal_2017} in response to growing concerns about data privacy. In FL, \textit{clients} collaboratively train a model without sharing their local data. This enhances the privacy of clients' data by ensuring model trainers can not view clients' data and client data is not collected at a central location where a single breach could expose the data of all clients. % TODO: use cases
 
 % why NAS for FL is important: predefined architectures do not work well in FL 
 Engineering neural network architectures in FL is as time-consuming (if not more so) % TODO: cite time it takes to engineer
