@@ -112,9 +112,6 @@ An \emph{FL setting} denotes the concrete environment in which FL (and here: Fed
 \textbf{Federated Neural Architecture Search (FedNAS) method}
 A FedNAS method is a NAS method that is designed to operate in an FL setting, i.e., it searches for architectures while respecting FL constraints such as decentralised data and communication limits.
 
-\textbf{Centralised NAS assumptions and assumption discrepancies.}
-\emph{Centralised NAS assumptions} are implicit or explicit prerequisites many NAS methods rely on (e.g., access to centrally pooled data, powerful search workers, synchronous evaluation). \emph{Assumption discrepancies} are mismatches between these prerequisites and the realities of a given FL setting.
-
 \textbf{FedNAS challenge}
 A FedNAS challenge is a concrete problem that arises when assumption discrepancies prevent directly applying a centralised NAS method in an FL setting (e.g., excessive client-side compute demand, communication overhead, unstable search dynamics under partial participation).
 
@@ -122,10 +119,8 @@ A FedNAS challenge is a concrete problem that arises when assumption discrepanci
 
 
 \section{Research Approach}
-
+- How is the data collected?
 We take a qualitiative research approach in the style of the CDML paper.
-- qualitative
-- iterative conceptualisation
 
 - qualitative
 - iterative conceptualisation

@@ -6,15 +6,35 @@ Engineering the architecture of a neural network for a Deep Learning application
 % FL explanation and why it is important
 Independantly, but in parallel to NAS, researchers developed a distributed machine learning approach called \textit{Federated Learning} (FL)~\cite{fl_seminal_2017} in response to growing concerns about data privacy. In FL, \textit{clients} collaboratively train a model without sharing their local data. This enhances the privacy of clients' data by ensuring model trainers can not view clients' data and client data is not collected at a central location where a single breach could expose the data of all clients. % TODO: use cases
 
-% why NAS for FL is important: predefined architectures do not work well in FL 
-Engineering neural network architectures in FL is as time-consuming (if not more so) % TODO: cite time it takes to engineer
+% why NAS for FL is useful: predefined architectures do not work well in FL 
+Engineering neural network architectures in FL is as time-consuming and error-prone (if not more so) % TODO: cite time it takes to engineer
 as in centralised Deep Learning, therefore researchers have started investigating the use of NAS methods in FL~\cite{fednas_2021}~\cite{fedoras_2022}~\cite{finch_2024}, creating \textit{Federated Neural Architecture Search methods} (FedNAS methods)~\cite{fednas_2021}. Additionally, NAS methods provide an alternative to selecting a fixed architecture upfront — a so-called \textit{prededfined architecture}. Predefined architectures can lead to slow training convergence and poorly performing models in FL, because model developers can view neither the clients' data nor, typically, client's hardware capabilities. Model developers may therefore select a predefined architecture that contains components irrelevant for generalising well from client data sets or select an architecture that trains slowly on some clients. Work has already been done that shows the use of NAS methods in FL can mitigate these issues~\cite{fedpnas_2021}~\cite{spider_2021}~\cite{peaches_2024}.
+
+% practical problem
+The variety in FL settings is large 
+Unclear how to design FedNAS method.
+
+Centralised NAS has received significantly more research attention and therefore a large part of FedNAS is just about taking centralised NAS methods and making them work for the FL setting.
+
+The development of new FedNAS methods is hard. 
+who struggles: FedNAS developers
+what do they struggle with: decdiding 
+
+since the literature is fragmented and 
+
+time-consuming and error-prone process. FL environments
+- literature is fragmented
+- creating NAS methods is hard in the centralised setting, even more so in the less stable FL setting
+- therefore the approach thus far has been to take what works in the centralised setting and adapt it to FL, but this poses some problems
 
 % why use existing centralised NAS methods instead of developing own NAS methods for FL?
 
-% hook b) "What is the overall problem or situation in that domain?"
-% overall problem in FedNAS domain: assumption discrepancies create challenges for using NAS in FL
-Despite the potential benefits of using NAS in FL, it is non-trivial to do so. Developing NAS methods is a time-consuming, error-prone process in a centralised environment and even more so in FL, so researchers try to make use of existing work as much as possible. Since, NAS research has focused on a centralised setting, most NAS methods developed thus far are infeasible for direct application in FL, because they can make several assumptions about the search process that do not hold in the FL setting. These assumption discrepancies result in \textit{challenges} for using centralised NAS methods in FL, and developers have created \textit{adaptation techniques} for overcoming them. The majority of FedNAS methods developed so far use centralised NAS methods with the help of adaptation techniques.
+% overall problem in FedNAS domain: designing FedNAS methods is hard, make use of centralised NAS as much as possible
+
+% problem with using centralised NAS methods: assumption discrepancies create challenges for using NAS in FL
+% why is it still worth using centralised NAS methods if they need adapting, instead developing own FedNAS methods?
+
+Despite the potential benefits of using NAS in FL, it is non-trivial to do so. Since NAS research has focused on a centralised setting, most NAS methods developed thus far are infeasible for direct application in FL, because they make several assumptions about the search process that do not hold in the FL setting. These assumption discrepancies result in \textit{challenges} for using centralised NAS methods in FL, and developers have created \textit{adaptation techniques} for overcoming them. The majority of FedNAS methods developed so far use centralised NAS methods with the help of adaptation techniques.
 
 % challenge example: limited computational resources per client
 For example, one challenge arises from the fact that centralised NAS can assume worker nodes are computationally powerful, whereas clients in most FL settings are not. Since most centralised NAS methods place large computational burdens on worker nodes, practitioners using these NAS methods in FL without modification would experience detrimental search completion times. To combat this, FedNAS developers have created adaptation techniques to reduce the computational burden on individual clients in FedNAS methods~\cite{fedoras_2022}~\cite{efnas_2024}~\cite{nasfly_2024}. This typically involves reducing the overall computational work and splitting it up into smaller units, which presents a challenge, as the implementation of the resulting FedNAS method tends to be complex.
@@ -26,7 +46,13 @@ The subset of challenges faced by FedNAS methods depends on the specific FL sett
 % concrete actor, concrete task, concrete problems that arise
 % Design decision support problem
 
-% practical problem
+% developing FedNAS methods takes a long time, lots of compute and is error-prone => researchers want to re-use prior work as much as possible 
+
+% practical problem: creating FedNAS methods is hard, rely on prior work, but that is hard, because no literature overview or guide
+Developing NAS methods is a time-consuming, compute-hungry affair in a centralised  % TODO: incorporate "800 GPUs for weeks" from https://www.automl.org/nas-bench-101-towards-reproducible-neural-architecture-search/
+
+, error-prone process in a centralised environment and even more so in FL, so researchers try to make use of existing work as much as possible. 
+
 FedNAS developers who design new FedNAS methods for a specific FL setting must decide which challenges to prioritise and which adaptation techniques to implement for their chosen NAS method. % TODO: not all FedNAS methods are based on centralised NAS methods
 However, informing these design decisions currently requires extensive, manual reviewing of a fragmented literature, because many FedNAS papers do not state the targeted FL setting parameters and assumptions clearly, nor do they clearly link techniques with the addressed challenges. As a result, developers struggle to assess the transferability of existing methods to their setting and risk selecting ineffective or select techniques for addressing a challenge that are known to worsen another. This slows down the development of new FedNAS methods.
 
