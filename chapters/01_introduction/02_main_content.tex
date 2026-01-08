@@ -25,8 +25,7 @@ The subset of challenges faced by these kinds of FedNAS methods depends on the s
 %For example, one challenge arises from the fact that centralised NAS can assume worker nodes are computationally powerful, whereas clients in most FL settings are not. Since most centralised NAS methods place large computational burdens on worker nodes, practitioners using these NAS methods in FL without modification would experience detrimental search completion times. To combat this, FedNAS developers have created adaptation techniques to reduce the computational burden on individual clients in FedNAS methods~\cite{fedoras_2022}~\cite{efnas_2024}~\cite{nasfly_2024}. This typically involves reducing the overall computational work and splitting it up into smaller units, which presents a challenge, as the implementation of the resulting FedNAS method tends to be complex.
 
 % practical problem: hard to make design decisions based on current literature
-% TODO: "warum haben wir jetzt einen trade off?"
-Developers adapting a centralised NAS method to FL with a specific set of FL system parameters in mind must decide which challenges to prioritise and which adaptation techniques to implement, but the literature does not offer clear advice for these design decisions. The incurred challenges are scattered throughout the literature, the adaptation techniques used to address them are often not presented in isolation and many FedNAS papers do not clearly state the targeted FL system parameters. As a result, developers struggle to assess the usefuleness of existing adaptation techniques for their targeted FL system parameters and risk selecting ineffective techniques or select techniques for addressing a challenge that are known to worsen another. 
+Developers adapting a centralised NAS method to FL with a specific set of FL system parameters in mind must decide which challenges to prioritise and which adaptation techniques to implement, but the literature does not offer clear advice for these design decisions. The incurred challenges are scattered throughout the literature, the adaptation techniques used to address them are often not presented in isolation and many FedNAS papers do not clearly state the targeted FL system parameters. As a result, developers struggle to assess the usefuleness of existing adaptation techniques for their targeted FL system parameters and risk selecting ineffective techniques or selecting techniques for addressing a challenge that are known to worsen another. 
 
 % # Gap
 % ## "Situate in research: What are the conclusions of existing literature for that problem / situation in this domain?"
@@ -38,7 +37,9 @@ To ease the adaptation of centralised NAS methods to FL in the future, we set ou
 
 \vspace{1em}
 % TODO: "Aus der Forschungsfrage wird mir nicht klar, ob du bestimmte FL settings definieren willst, dafür die challenges und dann die adaptationt echniques ableitest? Oder ob die FL settings erstmal nicht interessant für dich sind, so wie es die Intro den Anschein erwecken lässt. Also willst du nur adaptation technuques zu den challenges vorstellen oder auf konkrete FL settings eingehen?"
-\textbf{What challenges arise from adapting centralised NAS methods to FL and which techniques address these challenges in the literature?}
+Die Auspraegung der Challenges haengt von den FL Systemparametern ab. Ich will die FL Systemparameter nutzen um die Staerke der Auspraegung des Challenges fuer eine bestimmte Konfiguration herzuleiten. Die Challenges werden also nicht von den FL Systemparametern hergeleiten, sondern befinden sich auf einem Spektrum in Abhaengigkeit on den Systemparametern.
+
+\textbf{What challenges arise when adapting centralised NAS methods to FL and which techniques address these challenges in the literature?}
 \vspace{1em}
 
 % # "Study: How investigate? Process, context & why?"
