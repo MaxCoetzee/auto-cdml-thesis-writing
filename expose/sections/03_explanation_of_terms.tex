@@ -6,16 +6,18 @@
 
 \subsection{Neural Architecture Search (NAS)}
 
-Traditionally, the neural network architecture for an applying Deep Learning effectively are designed by a team of domain and Deep Learning experts. In NAS, the architecture is automatically searched by continuously evaluating the performance of candidate architectures and updating the architectures with high performance for a given task, dataset, and constraints. Most NAS methods can be described by their \textit{search space} of possible architectures, the employed \textit{search strategy}, and the \textit{performance estimation strategy}. 
-TODO: supernetwork and hypernetworkbased don't neatly fall into category
+Traditionally, the neural network architecture for an applying Deep Learning effectively are designed by a team of domain and Deep Learning experts. In NAS, the architecture is automatically searched by continuously evaluating the performance of candidate architectures and updating the architectures with high performance for a given task, dataset, and constraints. 
 
 \subsection{Centralised NAS}
 
+
 \subsection{Federated Learning}
 
-FL is a machine learning approach in which multiple \textit{clients} collaboratively train a model while keeping training data local to the clients. The training is coordinated by a central \textit{server} that initiates \textit{communication rounds} 
+FL is a machine learning approach in which multiple \textit{clients} collaboratively train a shared model while keeping training data local to the clients. A central \textit{server} coordinates \textit{communication rounds} with the clients, wherein each client trains the model for several epochs locally and finally sends gradient updates to the server for aggregation into the shared model.
 
 \subsection{FL system parameters}
+
+FL setting vs system parameters
 
 - number of clients
 - degree of variance in hardware of clients
@@ -28,4 +30,11 @@ FL is a machine learning approach in which multiple \textit{clients} collaborati
 
 \subsection{Adaptation technique}
 
-An adaptation technique is a modification to a centralised NAS method that is explicitly motivated by making the NAS method feasible for FL. This thesis conceptualises adaptation techniques at a level where they can be reused for adapting.
+An adaptation technique is a modification to a centralised NAS method that is explicitly motivated by making the NAS method feasible for FL. 
+
+For example, letting each client train a supernet of a centralised NAS method in a cross-device setting would lead to detrimental search completion times, because the having each client train the entire supernet, works for the
+cross-silo FL setting [HAA21], it does not translate to the cross-device setting.
+Clients in the cross-device setting are generally less powerful, and such a training
+scheme would result in detrimental completion times. Instead, in one FedNAS
+method [DLF22], researchers have opted to reduce the computational burden on
+clients by only sampling and training subnets within the client’s training budget.
