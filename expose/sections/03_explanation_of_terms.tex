@@ -1,40 +1,13 @@
 \section{Explanation of Terms}
 
-% Explanation of Terms: Begriffe genauer erklären, für FL beispielsweise die Funktionsweise und „Mitglieder“ einführen
-
-% At this point, a definition of the central terms - in particular the terms that appear in the planned title of the academic paper - must be provided. Sources that were used to define the terms must be cited. Any deviations from existing definitions must be justified.
-
 \subsection{Neural Architecture Search (NAS)}
 
-Traditionally, the neural network architecture for an applying Deep Learning effectively are designed by a team of domain and Deep Learning experts. In NAS, the architecture is automatically searched by continuously evaluating the performance of candidate architectures and updating the architectures with high performance for a given task, dataset, and constraints. 
-
-\subsection{Centralised NAS}
-
+Traditionally, neural network architectures are designed by a team of domain and Deep Learning experts for a specific Deep Learning application. In NAS, the architecture is automatically searched by continuously evaluating the performance of candidate architectures and updating the architectures with high performance for a given task. NAS methods differ in their \textit{search space} for potential candidate architectures, the \textit{search strategy} they employ to find an optimal architecture, and the \textit{performance estimation strategy} used by the search strategy to make decisions on which candidates to favour or explore next.
 
 \subsection{Federated Learning}
 
 FL is a machine learning approach in which multiple \textit{clients} collaboratively train a shared model while keeping training data local to the clients. A central \textit{server} coordinates \textit{communication rounds} with the clients, wherein each client trains the model for several epochs locally and finally sends gradient updates to the server for aggregation into the shared model.
 
-\subsection{FL system parameters}
-
-FL setting vs system parameters
-
-- number of clients
-- degree of variance in hardware of clients
-- average networking latency of clients 
-- average computing power of clients
-- degree of data imbalance between clients
-- availability of clients
-
-\subsection{Federated Neural Architecture Search (FedNAS)}
-
 \subsection{Adaptation technique}
 
-An adaptation technique is a modification to a centralised NAS method that is explicitly motivated by making the NAS method feasible for FL. 
-
-For example, letting each client train a supernet of a centralised NAS method in a cross-device setting would lead to detrimental search completion times, because the having each client train the entire supernet, works for the
-cross-silo FL setting [HAA21], it does not translate to the cross-device setting.
-Clients in the cross-device setting are generally less powerful, and such a training
-scheme would result in detrimental completion times. Instead, in one FedNAS
-method [DLF22], researchers have opted to reduce the computational burden on
-clients by only sampling and training subnets within the client’s training budget.
+An adaptation technique is a modification to a centralised NAS method that is explicitly motivated by making the NAS method feasible for FL. We refer to the example from the problem statement: The FedNAS method \textit{FedorAS}~\cite{fedoras_2022} makes use of the centralised NAS method \textit{SPOS}~\cite{spos_2020}, but runs into the following challenge caused by the fact that centralised NAS can assume worker nodes are connected via low latency, high-bandwidth links, whereas clients in FL are not: sending the parameters of the entire supernet used in SPOS to each client would take an infeasible amount of time. Instead, \textit{FedorAS} adapts \textit{SPOS} such that only a small, sampled subspace of the supernet is sent to each client for training and evaluation.
