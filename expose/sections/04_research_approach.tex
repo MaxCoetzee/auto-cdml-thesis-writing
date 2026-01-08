@@ -1,0 +1,34 @@
+\section{Research Approach}
+
+%Methods: Wie willst du dein Literature Review vornehmen? In welcher Datenbank willst du suchen? Mit welchem Suchstring? Willst du forward oder backwards search machen? Wie sieht die Methodik von dem CDML-Paper aus, die du anwenden willst. Grounded theory kannst du weglassen, das sagt hier nichts aus. Was genau machst du? Wie analysierst du die Daten?
+
+We take a qualitiative research approach in the style of the CDML paper.
+
+\subsection{Data Collection}
+
+We obtain the set of literature relevant to our review by searching the abstract, title and keywords of literature in Scopus [TODO: cite] with the search string "federated learning neural architecture search" and include literature that presents a FedNAS method that uses a centralised NAS method explicitly modified for FL. We exclude literature that (i) designs FedNAS methods from scratch, (ii) performs only hyperparameter optimisation, (iii) or does does not provide sufficient methodological detail to extract adaptation techniques.
+
+We extend this initial set of literature by recursively adding literature from the references of the literature that meets our inclusion and exclusion criteria until we obtain a set of literature for which no new literature can be added. 
+
+\subsection{Data Analysis}
+
+% The approach describes the research method with which the objectives of the work are to be achieved. This will vary greatly depending on the type of work (qualitative or quantitative work, etc.). The description of the approach should at least contain information on data collection and data analysis.
+
+We follow a qualitative research approach in the form of a systematic literature review. In our review, we develop a conceptual model that links FL system parameters to violated centralised NAS assumptions, the resulting challenges, and the adaptation techniques used to overcome these challenges as follows:
+
+\begin{enumerate}
+    \item \textbf{Define Relevant FL System Parameters:} For each FedNAS method, we extract the reported FL system parameters. If parameters are not stated, we infer them from the experimental setup and mark them as inferred.
+    \item \textbf{Challenges arising from Assumption Discrepancies:} We first define challenges that arise for centralised NAS methods in FL, because of assumptions that hold for the centralised NAS, but do not hold for FL.
+    \item \textbf{Unrefined Adaptation Technique Extraction:} We perform open coding on each FedNAS method to extract unrefined adaptation techniques. Any modification to a NAS method that is explicitly motivated by the federated setting is initially coded as one unrefined adaptation technique.
+    \item \textbf{Adaptation Techniques Coneceptualization:} We iteratively refine and merge the unrefined adapatation techniques (similar to ~\cite{cdml_2024}) in an axial coding step to obtain a coherent set of adaptation techniques. Unrefined adaptation techniques with conceptually highly-similar mechanisms are merged into a single representative adaptation technique.
+    \item \textbf{Discuss FedNAS Challenges for Adaptation Techniques:} We discuss how each adaptation technique works towards, against, or does not affect overcoming each of FedNAS challenges.
+    \item \textbf{Table Overview:} 
+    
+    Finally, we create a table that researchers can use to make design decisions about the techniques they wish to use to adapt a NAS method to FL. 
+    
+    The table contains a coded vector of effects over the FedNAS challenges for each \textit{adaptation technique} based on the prior discussion. new FedNAS methods, they can use this table to choose existing adaptation techniques relevant to the set of FedNAS challenges they need to address for their use case.
+\end{enumerate}
+
+\begin{enumerate}
+    \item \textbf{Categorise Adaptation Techniques:} After merging, in a second axial coding step, we cluster adaptation techniques based on a) the FedNAS challenges they address and b) the conceptual similarity of their mechanisms. As a result, we obtain a taxonomy of adaptation techniques.
+\end{enumerate}

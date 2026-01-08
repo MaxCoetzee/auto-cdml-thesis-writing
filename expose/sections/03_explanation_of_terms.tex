@@ -1,0 +1,31 @@
+\section{Explanation of Terms}
+
+% Explanation of Terms: Begriffe genauer erklären, für FL beispielsweise die Funktionsweise und „Mitglieder“ einführen
+
+% At this point, a definition of the central terms - in particular the terms that appear in the planned title of the academic paper - must be provided. Sources that were used to define the terms must be cited. Any deviations from existing definitions must be justified.
+
+\subsection{Neural Architecture Search (NAS)}
+
+Traditionally, neural network architectures are designed by a team of domain and Deep Learning experts. In NAS, the architecture is automatically searched by continuously evaluating the performance of candidate architectures and updating the architectures high performance for a given task, dataset, and constraints. Most NAS methods can be described by their \textit{search space} of possible architectures, the employed \textit{search strategy}, and the \textit{performance estimation strategy}. 
+TODO: supernetwork and hypernetworkbased don't neatly fall into category
+
+\subsection{Centralised NAS}
+
+\subsection{Federated Learning}
+
+FL is a machine learning approach in which multiple \textit{clients} collaboratively train a model while keeping training data local to the clients. The training is coordinated by a central \textit{server} that initiates \textit{communication rounds} 
+
+\subsection{FL system parameters}
+
+- number of clients
+- degree of variance in hardware of clients
+- average networking latency of clients 
+- average computing power of clients
+- degree of data imbalance between clients
+- availability of clients
+
+\subsection{Federated Neural Architecture Search (FedNAS)}
+
+\subsection{Adaptation technique}
+
+An adaptation technique is any modification to a NAS method that is explicitly motivated by the FL setting (or by a FedNAS challenge) and is intended to make the search feasible, efficient, or effective in that setting. This thesis conceptualises adaptation techniques at a level where they can be reused as design building blocks across methods.
