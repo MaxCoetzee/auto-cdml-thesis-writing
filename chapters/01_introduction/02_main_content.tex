@@ -12,6 +12,13 @@ Practitioners\footnote{In this thesis, \textit{practitioners} refers to both use
 % overall problem in "adapting NAS to FL" domain
 Despite the benefits, using NAS in FL is not straightforward. Most NAS methods were developed with a centralised setting in mind and work due to assumptions that can be made in a centralised setting. In FL, these assumptions do not hold, requiring most NAS methods to be \textit{adapted} to the FL setting. These assumption discrepancies result in \textit{challenges} for adapting centralised NAS methods to FL, and practitioners have created various techniques for overcoming challenges, which we shall call \textit{adaptation techniques}. [TODO: reword clients vs. worker nodes clarity] For example, centralised NAS can assume worker nodes are connected via low-latency, high-bandwidth links, but clients in FL are not. [TODO: more concise, less convoluted] This poses a problem for using unmodified supernet-based NAS methods in particular, since the server would need to transfer the updated weights of the entire supernet to each client after aggregation, which would take so long as to make it unworkable in practice. One adaptation technique overcomes this challenge by only sending a randomly sampled subspace of the supernet such that the size of the sent weights fits within a budget that can realistically be expected to take a short amount of time to transfer over the network.
 
+% core problem: can't do fine-grained re-use from the literature
+%Pracitioners consntaly adapt new NAS methods to FL.
+%- developing FedNAS method is expensive
+%- want to re-use knowledge gained by prior adaptations of NAS to FL
+%- have been past literature reviews, but all focus on the whole end-result thing
+%- missing knowledge: the NAS methods are adapted and fine-grained, re-usable technique
+
 % part of pracitcal problem?: the relevant challenge subset depends on the targeted FL setting, which varies a lot
 The relevant subset of challenges practitioners face, when adapting a centralised NAS method to FL depends on the characteristics of the targeted FL system~\cite{fl_advances_and_open_problems_2021}. For example, if clients can be expected to posess high-end hardware, challenges caused by low-end hardware in FL become less relevant. [TODO: should list other characteristics?] Since implementing an adaptation techniques takes signficant time and testing, it is in the interest of practitioners to implement only adaptation techniques that overcome the set of challenges relevant for their targeted FL system characteristics. Additionally some techniques may worsen some challenges while overcoming others.
 
@@ -19,7 +26,7 @@ The relevant subset of challenges practitioners face, when adapting a centralise
 % TODO: add point? "adapting NAS methods to an as-yet untargeted set of FL system characteristics" 
 [TODO: rephrase sentence] The field of NAS research is moving fast and practitioners are constantly adapting new NAS methods to FL, but doing so is difficult. Developing adaptation techniques involves time-consuming iterations of testing and adjusting the techniques on expensive compute setups. Therefore practitioners benefit from re-using or building on top of tried and tested adaptation techniques. However, finding potentially useful adaptation techniques requires practitioners to comb the increasingly large body of FedNAS literature for techniques and evaluate whether they are a good fit.
 
-Practitioners adapting a centralised NAS method to FL with a specific set of FL system characteristics in mind must decide which challenges to prioritise and which adaptation techniques to implement. However, the literature does not offer clear guidance for these design decisions. The incurred challenges are scattered throughout the literature, the adaptation techniques used to address them are often not presented in isolation, and a large portion of the FedNAS literature does not clearly state the targeted FL system parameters. As a result, practitioners struggle to assess the usefulness of existing adaptation techniques for their targeted FL system parameters and risk selecting ineffective techniques or selecting techniques for addressing a challenge that are known to worsen another.
+Practitioners adapting a centralised NAS method to FL with a specific set of FL system characteristics in mind must decide which challenges to prioritise and which adaptation techniques to implement. However, the literature does not offer clear guidance for these design decisions nor does it relate FedNAS methods which use similar techniques. The incurred challenges are scattered throughout the literature, the adaptation techniques used to address them are often not presented in isolation, and a large portion of the FedNAS literature does not clearly state the targeted FL system parameters. As a result, practitioners struggle to assess the usefulness of existing adaptation techniques for their targeted FL system parameters and risk selecting ineffective techniques or selecting techniques for addressing a challenge that are known to worsen another.
 
 % # Gap
 % ## "Situate in research: What are the conclusions of existing literature for that problem / situation in this domain?"
@@ -31,6 +38,9 @@ There is a lack of an overview of the potentially relevant challenges that pract
 \vspace{1em}
 \textit{What challenges arise when adapting NAS methods developed in a centralised setting to FL and how do adaptation techniques in the literature overcome these challenges?}
 \vspace{1em}
+% Alternative RQ, that doesn't prematurely introduce the concept of an adaptation technique: 
+% What challenges arise when adapting NAS methods developed in a centralised setting to FL and how are they overcome in the literature?
+% Maybe the fact that there is a disitinction between a centralised vs. decentralised NAS method should also be part of the solution and not part of the research question
 
 % # "Study: How investigate? Process, context & why?"
 % ## "Indicate that this study addresses that problem or issue and state how."
@@ -40,7 +50,7 @@ To tackle our research question, we conduct a systematic literature review of li
 % ### from targeted FL settings and their challenges to adaptation techniques
 We conduct a literature search using Scopus~\cite{scopus} to collect relevant publications. We include FedNAS literature that explicitly modifies a centralised NAS method for FL, and exclude FedNAS methods built from scratch, concern only hyperparameter optimisation, or methods with insufficient detail. We then recursively add eligible literature from references.
 
-We extract adaptation techniques through open coding and iteratively refine them afterwards. We map each technique's effect onto each challenge and summarise results in a challenge-technique table for practitioners.
+We analyse the literature through the lens of adaptation technique. We extract adaptation techniques through open coding and iteratively refine them afterwards. We map each technique's effect onto each challenge and summarise results in a challenge-technique table for practitioners.
 
 % # "Conclusion"
 % ## "Describe what you found. State explicitly how these findings extend and contribute to existing knowledge."
