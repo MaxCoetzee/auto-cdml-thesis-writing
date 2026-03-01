@@ -1,5 +1,3 @@
-% TODO at the end: make the "adaptation technique" lens + challenges mapping part of the solution
-
 % NAS explanation and why it is important
 In the wake of the deep learning revolution, deep learning is being applied to perform an increasingly diverse set of tasks. Applying deep learning traditionally involves a team of deep learning and domain experts that tailor a neural network architecture towards a specific task via a lengthy process of trial and error. To automate this process, researchers invented \textit{Neural Architecture Search} (NAS)~\cite{nas_survey_2019} methods. NAS methods employ diverse strategies to automatically search for a neural network architecture for a given deep learning task within an architecture search space.
 
@@ -21,22 +19,17 @@ To this end practitioners need to comb the increasingly large body of FedNAS lit
 % # Gap
 % ## "Situate in research: What are the conclusions of existing literature for that problem / situation in this domain?"
 % ## "What is the problem or issue with that existing literature?"
-% was machen die surveys genau und wie grenzt sich das von deinem Vorhaben ab?
-Prior surveys of the FedNAS literature focus on the FedNAS method as a whole instead of the individual adaptation techniques a FedNAS method uses. Additionally, they only analyse a small fraction of the FedNAS literature. \cite{fl_to_nas_survey_2021} categorises FedNAS methods into offline versus online architecture search and single-objective versus multi-objective methods. \cite{nas_hpo_fl_survey_2023} gives a brief overview of the FedNAS landscape at the time as part of a larger survey into combining NAS and Hyperparameter Optimisation. It highlights the major scientific contributions each FedNAS method has made. \cite{multi-objective_methods_in_fl_2025} provides an overview of how multi-objective optimisation can be integrated into FL in general and includes sections that discuss how this is done specifically for FedNAS methods. Unfortunately, knowledge on potential challenges that occur when adapting a centralised NAS method to FL remains fragmented and an extensive overview of how adaptation techniques overcome them is lacking. This leads to our research question:
+Prior surveys of the FedNAS literature focus on the FedNAS method as a whole instead of the individual adaptation techniques a FedNAS method uses. Additionally, they only analyse a small fraction of the FedNAS literature. \cite{fl_to_nas_survey_2021} categorises FedNAS methods into offline versus online architecture search and single-objective versus multi-objective methods. \cite{nas_hpo_fl_survey_2023} gives a brief overview of the FedNAS landscape at the time as part of a larger survey into combining NAS and Hyperparameter Optimisation. It highlights the major scientific contributions each FedNAS method has made. \cite{multi-objective_methods_in_fl_2025} provides an overview of how multi-objective optimisation can be integrated into FL in general and includes sections that discuss how this is done specifically for FedNAS methods. Unfortunately, knowledge on potential challenges that occur when adapting a centralised NAS method to FL remains fragmented and an extensive overview of how adaptation techniques overcome them is lacking, leading to our research question:
 
 \vspace{1em}
-\textit{What challenges arise when adapting NAS methods developed in a centralised setting to FL and how do adaptation techniques in the literature overcome these challenges?}
+\textit{What challenges arise when adapting centralised NAS methods to FL and how do adaptation techniques in the literature overcome these challenges?}
 \vspace{1em}
-% Alternative RQ, that doesn't prematurely introduce the concept of an adaptation technique: 
-% What challenges arise when adapting NAS methods developed in a centralised setting to FL and how are they overcome in the literature?
-% Maybe the fact that there is a disitinction between a centralised vs. decentralised NAS method should also be part of the solution and not part of the research question
 
 % # "Study: How investigate? Process, context & why?"
 % ## "Indicate that this study addresses that problem or issue and state how."
 % ## "Describe the study, sample, and method for addressing that problem or issue."
 To tackle our research question, we conduct a systematic literature review of literature that presents FedNAS methods which modify centralised NAS methods in response to the FL setting.
 
-% ### from targeted FL settings and their challenges to adaptation techniques
 We conduct a literature search using Scopus~\cite{scopus} to collect relevant publications. We include FedNAS literature that explicitly modifies a centralised NAS method for FL, and exclude FedNAS methods built from scratch, concern only hyperparameter optimisation, or methods with insufficient detail. We then recursively add eligible literature from references.
 
 We analyse the literature through the lens of adaptation technique. We extract adaptation techniques through open coding and iteratively refine them afterwards. We map each technique's effect onto each challenge and summarise results in a challenge-technique table for practitioners.
