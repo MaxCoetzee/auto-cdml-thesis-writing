@@ -1,13 +1,35 @@
 \section{Explanation of Terms}
 
-\subsection{Neural Architecture Search (NAS)}
+\subsection{Neural Architecture Search}
 
-Traditionally, neural network architectures are designed by a team of domain and Deep Learning experts for a specific Deep Learning application. In NAS, the architecture is automatically searched by continuously evaluating the performance of candidate architectures and updating the architectures with high performance for a given task. NAS methods differ in their \textit{search space} for potential candidate architectures, the \textit{search strategy} they employ to find an optimal architecture, and the \textit{performance estimation strategy} used by the search strategy to make decisions on which candidates to favour or explore next.
+Neural Architecture Search (NAS) enables the automatic search for neural network architecture as opposed to manual experimentation.
+A NAS method consists of a \textit{search space} for potential candidate architectures, a \textit{search strategy} that guides the architecture search, and a \textit{performance estimation strategy} used by the search strategy to decide which candidates to favour or explore next.
 
 \subsection{Federated Learning}
 
-FL is a machine learning approach in which multiple \textit{clients} collaboratively train a shared model while keeping training data local to the clients. A central \textit{server} coordinates \textit{communication rounds} with the clients, wherein each client trains the model for several epochs locally and finally sends gradient updates to the server for aggregation into the shared model.
+FL is a machine learning approach in which multiple \textit{clients} collaboratively train a shared model while keeping their training data local. A central \textit{server} coordinates \textit{communication rounds} with the clients, wherein each client trains the model for several epochs locally and finally sends gradient updates to the server for aggregation into the shared model. After aggregation, the server sends the updates to clients for the next round of training.
+
+\subsection{FedNAS method}\label{subsec:fednas}
+
+A FedNAS method is a NAS method that runs on an FL system.
+
+\subsubsection{Adapted vs Novel FedNAS method}
+
+We consider a FedNAS method to be an adaptation of a centralised NAS method if a large share of its three components (search space, search strategy, performance estimation strategy) are adaptations of components of an existing centralised NAS method. If this is not the case, i.e., a large share of the three components is a novel creation, we consider the FedNAS method to be novel. Using this definition, we observe that novel FedNAS methods are scarce in the literature.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.8\linewidth]{../../figures/fednas_method_composition.pdf}
+  \caption{Conceptual overview of an adapted FedNAS method.}
+  \label{fig:myfigure}
+\end{figure}
 
 \subsection{Adaptation technique}
 
-An adaptation technique is a modification to a centralised NAS method that is explicitly motivated by making the NAS method feasible for FL. We refer to the example from the problem statement: The FedNAS method \textit{FedorAS}~\cite{fedoras_2022} makes use of the centralised NAS method \textit{SPOS}~\cite{spos_2020}, but runs into the following challenge caused by the fact that centralised NAS can assume worker nodes are connected via low latency, high-bandwidth links, whereas clients in FL are not: sending the parameters of the entire supernet used in SPOS to each client would take an infeasible amount of time. Instead, \textit{FedorAS} adapts \textit{SPOS} such that only a small, sampled subspace of the supernet is sent to each client for training and evaluation.
+An adaptation technique is a substantial modification to the FL pipeline or a centralised NAS method that:
+\begin{enumerate}
+    \item allows running a centralised NAS method on an FL system, and
+    \item is explicitly motivated by the need to overcome a challenge that arises as a result of an assumption mismatch between a centralised and an FL setting.
+\end{enumerate}
+ 
+For example, The FedNAS method \textit{FedorAS}~\cite{fedoras_2022} makes use of the centralised NAS method \textit{SPOS}~\cite{spos_2020}, but runs into the following challenge caused by the fact that centralised NAS can assume worker nodes are connected via low latency, high-bandwidth links, whereas clients in FL are not: sending the parameters of the entire supernet used in SPOS to each client would take an infeasible amount of time. Instead, \textit{FedorAS} adapts \textit{SPOS} such that only a small, sampled subspace of the supernet is sent to each client for training and evaluation per communication round.
