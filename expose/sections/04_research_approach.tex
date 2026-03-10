@@ -2,11 +2,11 @@
 
 \subsection{Data Collection}
 
-We obtain the set of literature relevant to our review by searching the abstract, title and keywords of English literature in Scopus~\cite{scopus} with the search query \textit{"federated learning" AND "neural architecture search"} and include literature that describes a FedNAS method as defined in \hyperref[subsec:fednas]{\ref*{subsec:fednas}. \nameref*{subsec:fednas}}. We do not include surveys as part of our review. We extend this initial set of literature by a single iteration of a snowball search. We exclude literature that does not provide sufficient methodological detail to extract techniques for using NAS in FL.
+We obtain the set of literature relevant to our review by searching the abstract, title and keywords of English literature in Scopus~\cite{scopus} with the search query \textit{"federated learning" AND "neural architecture search"} and include literature that describe method for using NAS in FL. We do not include surveys as part of our review. We extend this initial set of literature by a single iteration of a snowball search. We exclude literature that does not provide sufficient methodological detail to extract techniques for using NAS in FL.
 
 \subsection{Data Analysis}
 
-We employ a qualitative research approach, specifically a systematic literature review. In our review, we develop a conceptual model that links violated centralised NAS assumptions to resulting challenges for adapting a centralised NAS method to FL, and the adaptation techniques used to overcome these challenges as follows:
+We employ a qualitative research approach, specifically a systematic literature review. In our review, we develop a conceptual model that links violated centralised NAS assumptions to resulting challenges for using NAS in FL, and the techniques used to overcome these challenges as follows:
 
 \begin{enumerate}
     \item \textbf{Challenges arising from Assumption Discrepancies:} We first create a list of challenges that arise when using NAS in FL as a result of the assumption discrepancies between the centralised setting, for which NAS methods tend to get developed, and the FL setting. We use two sources:
@@ -16,11 +16,11 @@ We employ a qualitative research approach, specifically a systematic literature 
     \end{itemize}
     For both of the sources, the assumption discrepancy resulting in the challenges is typically explicitly mentioned, but when it is not, we infer it by examining which centralised NAS assumption must be violated for the described challenge to arise in FL.
 
-    \item \textbf{Influence of FL System Parameters on Challenges:} Next, we define a set of FL system characteristics based on observations of varying characteristics in the literature. We assign FL system characteristics to each of the items in our set of relevant literature and increment the effect of a specific characteristic value on a challenge, when the challenge is mentioned in a literature item. 
+    \item \textbf{Influence of FL System Parameters on Challenges:} Next, we define a set of FL system characteristics based on observations of varying characteristics in the literature. We assign FL system characteristics to each of the items in our set of relevant literature and increment the effect of a specific characteristic value on a challenge, when the challenge is mentioned in a corresponding literature item. 
 
-    \item \textbf{Adaptation Technique Conceptualisation:} Next, we extract adaptation techniques from the literature in two steps.
+    \item \textbf{Adaptation Technique Conceptualisation:} Next, we extract techniques for using NAS in FL from the literature in two steps.
     \begin{enumerate}
-        \item First, we perform open coding on each FedNAS method to extract unrefined adaptation techniques. Any modification to a NAS method explicitly motivated by the federated setting is initially coded as a single unrefined adaptation technique.
-        \item Then, we iteratively refine and merge the unrefined adaptation techniques by merging unrefined techniques with conceptually highly similar mechanisms into a single representative adaptation technique. Thus, we obtain a coherent set of mutually exclusive and collectively exhaustive adaptation techniques.     
+        \item First, we perform open coding on each item in the literature to extract unrefined techniques for using NAS in FL. Any modification to a NAS method explicitly motivated by the federated setting is initially coded as a single unrefined technique.
+        \item Then, we iteratively refine and merge the unrefined techniques by merging unrefined techniques with conceptually highly similar mechanisms into a single representative technique. Thus, we obtain a coherent set of mutually exclusive and collectively exhaustive techniques for using NAS in FL.     
     \end{enumerate}
 \end{enumerate}
