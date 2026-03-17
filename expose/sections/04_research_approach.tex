@@ -2,21 +2,16 @@
 
 \subsection{Data Collection}
 
-We obtain the set of literature relevant to our review by searching the abstract, title and keywords of English literature in Scopus~\cite{scopus} with the search query \textit{"federated learning" AND "neural architecture search"} and include literature that describes a method for using NAS in FL. We do not include surveys as part of our review. We extend this initial set of literature by a single iteration of a snowball search. We exclude literature that does not provide sufficient methodological detail to extract techniques for using NAS in FL.
+We obtain the set of literature relevant to our review by searching the abstract, title and keywords of English literature in Scopus~\cite{scopus} with the search query \textit{"federated learning" AND "neural architecture search"} and include literature that describes a method for using NAS in FL. We do not include surveys as part of our review. We extend this initial set of literature by a single iteration of a snowball search. We exclude literature that does not provide sufficient methodological detail to extract challenges or techniques for using NAS in FL.
 
 \subsection{Data Analysis}
 
 We employ a qualitative research approach, specifically a systematic literature review. In our review, we develop a conceptual model that links violated centralised NAS assumptions to resulting challenges for using NAS in FL, and the techniques used to overcome these challenges as follows:
 
 \begin{enumerate}
-    \item \textbf{Challenges arising from Assumption Discrepancies:} We first create a list of challenges that arise when using NAS in FL as a result of the assumption discrepancies between the centralised setting, for which NAS methods tend to get developed, and the FL setting. We use two sources:
-    \begin{itemize}
-        \item We re-use challenges from prior surveys on challenges that result from assumption discrepancies between centralised ML and FL in general~\cite{fl_seminal_2017}~\cite{fl_advances_and_open_problems_2021}~\cite{fl_in_practice_reflections_2024}~\cite{fl_taxonomy_2024}, but only include challenges that are also applicable to using NAS in FL. 
-        \item For each item in our set of relevant literaure we examine the motivation of the work with respect to overcoming challenges of NAS in FL and add include challenges specific to using NAS in FL. 
-    \end{itemize}
-    For both of the sources, the assumption discrepancy resulting in the challenges is typically explicitly mentioned, but when it is not, we infer it by examining which centralised NAS assumption must be violated for the described challenge to arise in FL.
+    \item \textbf{Challenges arising from Assumption Discrepancies:} We first create a list of challenges that arise when using NAS in FL as a result of the assumption discrepancies between the centralised setting, for which NAS methods tend to get developed, and the FL setting. For each item in our set of relevant literaure, we perform open coding to identify challenges, whereby we focus on the motivation of the work with respect to overcoming challenges of NAS in FL in particular. We do not code challenges which occur for reasons other than the aforementioned assumption discrepancies.
 
-    \item \textbf{Influence of FL System Parameters on Challenges:} Next, we define a set of FL system characteristics based on observations of varying characteristics in the literature. We assign FL system characteristics to each of the items in our set of relevant literature and increment the effect of a specific characteristic value on a challenge, when the challenge is mentioned in a corresponding literature item. 
+    \item \textbf{Influence of FL System Parameters on Challenges:} Next, we use open coding to identify FL system characteristics based on observations of varying characteristics in the literature. We assign a set of FL system characteristics to each item in the literature and use axial coding to record associations between a set of characteristics and the relevance of a challenge. 
 
     \item \textbf{Technique Conceptualisation:} Next, we extract techniques for using NAS in FL from the literature in two steps.
     \begin{enumerate}
