@@ -1,0 +1,58 @@
+\section{Heterogeneity}
+
+In FL, clients are heterogenous in many aspects. This makes using NAS particularily difficult.
+
+\subsection{Architecture Search on heterogneous hardware}
+
+%TODO: explain how client's varying hardware heterogeneity becomes an impediment to the architecture search and makes it challenging
+
+\subsection{Searching architectures deployable to heterogeneous clients}
+
+In NAS-in-FL, the searched architectures are usually trained as well as deployed on the same set of devices. This means in addition to taking client heterogeneity into account at search time, the NAS-in-FL method needs to account for the heterogeneous deployment environment as well. A single architecture tailored to the least capable device can leave the resources of more capable devices unused, while an architecture tailored to the most capable device hardware may be infeasible for deployment on less capable clients \cite{fedoras_2022}. In a cross-device setting, the variance between client hardware capabilities is particularly pronounced.
+
+\subsubsection{Searching Separate Architectures for Hardware Tiers}
+
+Tier-based search assigns clients with similar inference budgets to a common hardware tier and searches one feasible architecture for each tier \cite{fedoras_2022,clustered_direct_fednas_2022,fgfl_2024}. This lets stronger devices use more of their capacity than a model sized for the least capable tier.
+
+\subsubsection{Training a Shared Supernet for Constraint-Specific Local Selection}
+
+After training a weight-sharing supernet, clients select subnets or exits that fit their compute and memory limits and rank well on local validation data \cite{superfednas_2024,hapfnas_2025,enasfl_2024}. This permits architectures to reflect per-client hardware and data heterogeneity while retaining a shared weight space.
+
+\subsubsection{Including Hardware Costs in the Search Objective}
+
+Hardware-aware search adds a hardware cost, such as measured latency or a MAC budget, to the accuracy objective and selects a candidate within the target limit \cite{clustered_direct_fednas_2022,load_monitoring_fednas_2025,fgfl_2024}. Using a different budget or latency profile for each device or hardware group yields architectures tailored to different inference hardware.
+
+\subsection{Client Data Heterogeneity}
+- different data distributions
+- unbalanced data
+
+\subsection{Client Network Heterogeneity}
+\section{Heterogeneity}
+
+In FL, clients are heterogenous in many aspects. This makes using NAS particularily difficult.
+
+\subsection{Architecture Search on heterogneous hardware}
+
+%TODO: explain how client's varying hardware heterogeneity becomes an impediment to the architecture search and makes it challenging
+
+\subsection{Searching architectures deployable to heterogeneous clients}
+
+In NAS-in-FL, the searched architectures are usually trained as well as deployed on the same set of devices. This means in addition to taking client heterogeneity into account at search time, the NAS-in-FL method needs to account for the heterogeneous deployment environment as well. A single architecture tailored to the least capable device can leave the resources of more capable devices unused, while an architecture tailored to the most capable device hardware may be infeasible for deployment on less capable clients \cite{fedoras_2022}. In a cross-device setting, the variance between client hardware capabilities is particularly pronounced.
+
+\subsubsection{Searching Separate Architectures for Hardware Tiers}
+
+Tier-based search assigns clients with similar inference budgets to a common hardware tier and searches one feasible architecture for each tier \cite{fedoras_2022,clustered_direct_fednas_2022,fgfl_2024}. This lets stronger devices use more of their capacity than a model sized for the least capable tier.
+
+\subsubsection{Training a Shared Supernet for Constraint-Specific Local Selection}
+
+After training a weight-sharing supernet, clients select subnets or exits that fit their compute and memory limits and rank well on local validation data \cite{superfednas_2024,hapfnas_2025,enasfl_2024}. This permits architectures to reflect per-client hardware and data heterogeneity while retaining a shared weight space.
+
+\subsubsection{Including Hardware Costs in the Search Objective}
+
+Hardware-aware search adds a hardware cost, such as measured latency or a MAC budget, to the accuracy objective and selects a candidate within the target limit \cite{clustered_direct_fednas_2022,load_monitoring_fednas_2025,fgfl_2024}. Using a different budget or latency profile for each device or hardware group yields architectures tailored to different inference hardware.
+
+\subsection{Client Data Heterogeneity}
+- different data distributions
+- unbalanced data
+
+\subsection{Client Network Heterogeneity}
