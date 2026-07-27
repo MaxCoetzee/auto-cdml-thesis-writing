@@ -1,0 +1,90 @@
+% !TeX root = ../main.tex
+\chapter{Challenges and Solutions for Using NAS in FL}\label{chapter:nas_in_fl_ch_and_sol}
+
+We identified five overarching classes of challenges present in the NAS-in-FL literature: Client Resource Constraints, Heterogeneity, Client Unreliability, Security and Architecture Search Coordination. The severity and applicability of challenges depends on the FL system characteristics as well as the the NAS-in-FL archetype, which we will explain in the following. 
+
+Each class of challenges contains several challenges and for most challenges there are several proposed solutions in the literature. In the following we present the challenges and their solutions. The challenges and appropriate solutions depend on the FL system characteristics as well as the archetype of the NAS-in-FL method. 
+
+% TODO: explain better the circumstance and context for which NAS in FL can be conditionally applied
+
+\section{Client Resource Constraints}
+
+Even in a centralised setting, making NAS work is difficult due to the expense of searching and evaluating many neural network architectures over many iterations. % TODO: Back-up with NASbench 101 claim
+FL system setups typically feature even less computational resources, exacerbating the difficulty with making NAS work. This is one of the core issues of using NAS in FL: making it work despite the lack of resources of participating clients.
+
+\subsection{Computational Constraints}
+
+% challenge: NAS is already hard to do centralised, even more so in FL
+This challenge is present across all NAS-in-FL archetypes in a cross-device FL setting.
+
+NAS increases the amount of computation compared to training predefined architectures, because clients must train or evaluate candidate architectures before one can be selected \cite{peaches_2024,dfnas_2020}. This additional expense makes cross-device FL particularily challenging, where clients may be mobile phones or IoT\footnote{Internet of Things} devices whose limited computing capacity must also support their primary workload \cite{fednas_over_hetero_mobile_devices_2022,dfnas_2020}. \cite{peaches_2024} reports architecture search times in the range of multiple hours to reach a $>70\%$ test accuracy on CIFAR-10 with a testbed of 30 NVIDIA Jetson TX2 devices. Though technically edge devices, they are more performant than an average mobile phone, therefore longer search completion times can be expected in practice and practitioners must go to great lengths to optimise the search process to make it take a feasible amount of time. 
+
+Computational constraints are less severe in cross-silo FL, where clients may be GPU-equipped servers operated by organisations \cite{fednas_over_hetero_mobile_devices_2022,fednas_2021}.
+
+\subsubsection{Training One Supernet Path at a Time}
+
+Single-path training updates one sampled path through the supernet at each step instead of evaluating every candidate operation, reducing the computation to that of training one network \cite{dfnas_2020}.
+
+\subsubsection{Pruning the Search Space during Training}
+
+Progressive pruning removes the weakest operation from each edge at fixed intervals, reducing the supernet computation required in later search rounds \cite{peaches_2024}.
+
+\subsubsection{Limiting Candidate Fine-Tuning}
+
+Dynamic round budgets shorten early candidate evaluations, while early elimination stops weak candidates after a few rounds so that only the best receives extended training \cite{fednas_over_hetero_mobile_devices_2022}.
+
+\subsubsection{Reusing Supernet Weights}
+
+Weight inheritance evaluates candidates with trained supernet weights instead of retraining them from scratch, reducing the reported retraining cost from minutes to seconds \cite{medical_image_segmentation_fednas_2024}.
+
+\subsubsection{Predicting Candidate Performance}
+
+A performance predictor learns from a small evaluated sample and estimates the remaining candidates without running each one on the client \cite{hapfnas_2025}.
+
+\subsubsection{Narrowing the Search Space to Task-Specific Lightweight Components}
+
+Here, NAS searches a small set of low-cost operations chosen for one application \cite{fed_auto_mri_2023,intrusion_detection_fednas_2024,cit2fr-fl-nas_2022}. For example, FedAutoMRI includes parameter-efficient depthwise separable convolutions in its MRI-reconstruction search space and obtains a model with 0.016 million parameters \cite{fed_auto_mri_2023}. This lowers the shared task's model footprint but does not adapt the model to different client hardware.
+
+However, narrowing the search space down this far, reduces the usefulness of performing NAS, since practitioners need domain knowledge to define the narrow search space.
+
+\subsection{Challenges caused by Communication Constraints}
+
+
+\subsection{Challenges caused by Memory Constraints}
+
+\section{Heterogeneity}
+
+In FL, clients are heterogenous in many aspects. This makes using NAS particularily difficult.
+
+\subsection{Architecture Search on heterogneous hardware}
+
+%TODO: explain how client's varying hardware heterogeneity becomes an impediment to the architecture search and makes it challenging
+
+\subsection{Searching architectures deployable to heterogeneous clients}
+
+In NAS-in-FL, the searched architectures are usually trained as well as deployed on the same set of devices. This means in addition to taking client heterogeneity into account at search time, the NAS-in-FL method needs to account for the heterogeneous deployment environment as well. A single architecture tailored to the least capable device can leave the resources of more capable devices unused, while an architecture tailored to the most capable device hardware may be infeasible for deployment on less capable clients \cite{fedoras_2022}. In a cross-device setting, the variance between client hardware capabilities is particularly pronounced.
+
+\subsubsection{Searching Separate Architectures for Hardware Tiers}
+
+Tier-based search assigns clients with similar inference budgets to a common hardware tier and searches one feasible architecture for each tier \cite{fedoras_2022,clustered_direct_fednas_2022,fgfl_2024}. This lets stronger devices use more of their capacity than a model sized for the least capable tier.
+
+\subsubsection{Training a Shared Supernet for Constraint-Specific Local Selection}
+
+After training a weight-sharing supernet, clients select subnets or exits that fit their compute and memory limits and rank well on local validation data \cite{superfednas_2024,hapfnas_2025,enasfl_2024}. This permits architectures to reflect per-client hardware and data heterogeneity while retaining a shared weight space.
+
+\subsubsection{Including Hardware Costs in the Search Objective}
+
+Hardware-aware search adds a hardware cost, such as measured latency or a MAC budget, to the accuracy objective and selects a candidate within the target limit \cite{clustered_direct_fednas_2022,load_monitoring_fednas_2025,fgfl_2024}. Using a different budget or latency profile for each device or hardware group yields architectures tailored to different inference hardware.
+
+\subsection{Client Data Heterogeneity}
+- different data distributions
+- unbalanced data
+
+\subsection{Client Network Heterogeneity}
+
+\section{}
+
+- how can clients be different?
+
+
+- flow chart showing applicability and severity of challenges and solutions?
