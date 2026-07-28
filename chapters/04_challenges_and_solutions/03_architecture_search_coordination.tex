@@ -8,7 +8,7 @@ Centralised NAS maintains the variables and observations that guide a search wit
 
 Differentiable NAS optimises network weights and continuous architecture parameters together. The architecture parameters determine which candidate operations contribute to the network, while the evidence used to update them depends on the current operation weights. When clients update both variable sets locally, aggregating only the network weights preserves federated model training but discards the structural decisions made during local search. Conversely, combining architecture parameters with unrelated model weights can evaluate structural choices under a different model state from the one that produced them. NAS-in-FL therefore requires an aggregation protocol that reconciles both parts of the shared search state \cite{fednas_2021,dfnas_2020,feathers_2023}.
 
-\subsubsubsection{Solution 3.1a: Aggregating Architecture and Model Parameters Together}
+\subsubsection{Solution 3.1a: Aggregating Architecture and Model Parameters Together}
 
 Clients can perform local weight and architecture updates and return both variable sets at the end of a federated round. The server applies the same sample-weighted aggregation principle to each set and broadcasts the resulting global architecture parameters together with the corresponding global weights \cite{fednas_2021,dfnas_2020,feathers_2023}. This maintains one shared differentiable search trajectory across rounds and allows subsequent local updates to start from a mutually consistent state. Parameter-wise aggregation is meaningful only when clients use the same supernet topology and assign the same semantics to every architecture variable. Searches with incompatible client search spaces require a different representation or a separate personalisation mechanism.
 
@@ -16,7 +16,7 @@ Clients can perform local weight and architecture updates and return both variab
 
 Not every search represents its progress as differentiable architecture parameters. Reinforcement-learning approaches can use a controller whose policy is gradually trained to sample promising architectures. If clients are reinitialised when they join a new round, retaining only the sampled model weights loses the controller's accumulated policy knowledge. Each local search then begins from a cold state even though previous rounds have already evaluated parts of the search space \cite{efficient_model_training_fednas_2024}. The loss can occur despite successful client participation because the coordination protocol omits the information required to continue the search.
 
-\subsubsubsection{Solution 3.2a: Persisting and Redistributing Search-Policy State}
+\subsubsection{Solution 3.2a: Persisting and Redistributing Search-Policy State}
 
 The search policy can be made part of the federated state. Clients upload their controller parameters alongside the shared candidate-weight dictionary, after which the server retains controller state and redistributes it for the next round \cite{efficient_model_training_fednas_2024}. Newly initialised clients can consequently continue from policy knowledge accumulated in earlier rounds. This principle applies to controller-based searches and, more generally, to search strategies with learned state beyond ordinary model weights. The cited proposal is conceptual and does not empirically establish which server-side rule for choosing or combining controller states is most reliable.
 
@@ -26,11 +26,11 @@ The search policy can be made part of the federated state. Clients upload their 
 
 The apparent quality of an architecture depends on the configuration under which it is trained and evaluated. Optimiser choices such as the learning rate interact with architectural depth and gradient propagation, while FL-specific choices such as the number of local epochs and the participating-client fraction change the optimisation trajectory used to obtain a candidate's fitness \cite{feathers_2023,aging_fednas_2025,breastcancer_fednas_2024}. A sequential procedure that fixes one configuration, searches an architecture, and then tunes the configuration can therefore invalidate the comparisons that led to the selected architecture. Coordinating NAS and hyperparameter optimisation is especially important when every candidate is evaluated through a federated training process with its own control variables.
 
-\subsubsubsection{Solution 3.3a: Alternating Architecture and Hyperparameter Optimisation}
+\subsubsection{Solution 3.3a: Alternating Architecture and Hyperparameter Optimisation}
 
 An alternating procedure can use a hyperparameter-optimisation phase to select a promising training configuration and then run a federated architecture-search phase under that configuration. The results of the architecture phase subsequently inform another hyperparameter decision \cite{feathers_2023}. Evolutionary search provides a related option in which an individual encodes both an architecture and its training hyperparameters and receives fitness from federated training and client-side validation \cite{aging_fednas_2025}. Both approaches preserve the dependency between the two decisions during search. Alternation offers more explicit control over each subproblem, whereas joint evolution can explore cross-dependencies directly at the cost of a larger combined search space.
 
-\subsubsubsection{Solution 3.3b: Including FL Control Variables in the Search Space}
+\subsubsection{Solution 3.3b: Including FL Control Variables in the Search Space}
 
 The joint search space can include variables that control the federated procedure itself. One black-box formulation represents the number of local training epochs and the fraction of clients activated in each round alongside architecture and conventional hyperparameter choices, and evaluates a complete configuration through decentralised federated training \cite{breastcancer_fednas_2024}. Candidate comparisons therefore incorporate the FL configuration with which each architecture will operate. This formulation requires the fitness evaluation to capture the complete federated outcome, since a locally favourable control setting need not produce the strongest aggregated model.
 
@@ -40,11 +40,11 @@ The joint search space can include variables that control the federated procedur
 
 Federated optimisation repeatedly alternates local updates and server aggregation. During NAS, the same trajectory also changes the model's structure. Architecture gradients can favour different operations at different depths, and an early preference for parameter-free operations can cause performance collapse before the remaining candidates have been assessed fairly \cite{remote_sensing_fednas_2025}. In progressive searches, committing to an operation changes the active computation graph and the weight-sharing relationships used by subsequent rounds. Making several such decisions without allowing the shared weights to adapt can cause disruption from one decision to distort the evaluation of the next candidate \cite{spider_2021}.
 
-\subsubsubsection{Solution 3.4a: Regularising Layer-Wise Updates}
+\subsubsection{Solution 3.4a: Regularising Layer-Wise Updates}
 
 A client-side alignment term can constrain the relationship between layer gradients and architecture parameters during local differentiable search. The regulariser proposed in \cite{remote_sensing_fednas_2025} measures gradient alignment across layers and incorporates it into the architecture objective, counteracting strongly depth-dependent operation preferences that can prevent architecture convergence. Because the term modifies the structural update before server aggregation, it stabilises the search signal that clients contribute to the shared trajectory. Its influence is controlled by an additional coefficient and therefore introduces a stability hyperparameter that must itself be selected.
 
-\subsubsubsection{Solution 3.4b: Separating Structural Decisions with Warm-Up and Recovery Rounds}
+\subsubsection{Solution 3.4b: Separating Structural Decisions with Warm-Up and Recovery Rounds}
 
 Progressive selection can divide the search into explicit phases. Initial warm-up rounds first train the shared supernet weights; the search then fixes one operation at a time using the effect of removing each operation on local validation accuracy. After each structural decision, several recovery rounds update the remaining weights before the next edge is evaluated \cite{spider_2021}. Recovery separates the consequences of consecutive structural changes and gives later decisions a more comparable weight state. Once all relevant edges have been resolved, the architecture is fixed and ordinary training continues. This schedule addresses instability within the collective search process; client-specific stopping times are treated separately as a reliability issue.
 
@@ -54,7 +54,7 @@ Progressive selection can divide the search into explicit phases. Initial warm-u
 
 In vertical FL, parties hold different feature sets for the same entities and operate separate portions of a joint model. A local architecture's output becomes useful only after it is combined with the outputs of the other parties, so no feature holder can calculate the complete prediction, loss, or architecture gradient independently. Aggregating architecture parameters is insufficient because the local submodels need not share a topology and their forward computations are complementary \cite{self-supervised_vertical_fednas_2023}. The search protocol must coordinate an end-to-end evaluation while allowing every party to optimise its own portion of the architecture.
 
-\subsubsubsection{Solution 3.5a: Coordinating Local Searches through Intermediate Representations}
+\subsubsection{Solution 3.5a: Coordinating Local Searches through Intermediate Representations}
 
 Each party can retain its own supernet, model weights, and architecture parameters while participating in a split-model forward and backward pass. Feature-holding parties send intermediate outputs to an aggregating party, which computes the joint prediction and loss and returns the corresponding intermediate gradients. Each party then uses the returned gradient to update its local weights or architecture parameters \cite{self-supervised_vertical_fednas_2023}. This provides the end-to-end signal required for coordinated one-shot search without requiring compatible local architectures. Protection of the exchanged representations is a security concern and is therefore addressed separately.
 
@@ -62,6 +62,6 @@ Each party can retain its own supernet, model weights, and architecture paramete
 
 The joint forward and backward pass requires records that can be matched across all participating parties. In practice, the intersection of their datasets may contain far fewer samples than the union of the unaligned local datasets. The coordinated search must then learn both useful representations and architectural choices from a small aligned subset, while most locally available observations cannot contribute to the end-to-end supervised objective \cite{self-supervised_vertical_fednas_2023}. The challenge arises from the sample alignment required to form a collaborative architecture-search signal. Differences between client data distributions remain part of data heterogeneity.
 
-\subsubsubsection{Solution 3.6a: Pretraining Local Search State before Coordinated Search}
+\subsubsection{Solution 3.6a: Pretraining Local Search State before Coordinated Search}
 
 Before the joint search, each party can perform self-supervised one-shot NAS on all of its local data, updating both its model weights and architecture parameters. The parties then use these locally learned states to initialise supervised vertical NAS on the smaller aligned dataset \cite{self-supervised_vertical_fednas_2023}. Unaligned observations thus contribute to the initial representations and structural preferences even though they cannot produce a joint label-based loss. The supervised collaborative phase remains necessary because independently pretrained local architectures are not guaranteed to be compatible when their outputs are combined.
