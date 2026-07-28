@@ -1,13 +1,19 @@
 \section{Limited Client Resources}
 
-Even in a centralised setting, making NAS work is difficult due to the expense of searching and evaluating many neural network architectures over many iterations. % TODO: Back-up with NASbench 101 claim
-FL system setups typically feature even less computational resources, exacerbating the difficulty with making NAS work. This is one of the core issues of using NAS in FL: making it work despite the lack of resources of participating clients.
+NAS is already challenging in a centralised setting, with the most recent wave of interest sparked as a result of several influential papers that showed the viability of NAS on large amounts of compute as well as papers that focused on making NAS more efficient.  % TODO: Back-up with NASbench 101 claim
+
+Therefore the difficulty of using NAS is amplified in FL, where clients typically feature even less resources. This is one of the key areas which makes NAS-in-FL challenges and has spawned a plethora of challenges and solutions in the literature. We have discovered two main sub-themes of challenges related to client resource constraints: challenges stemming from the limited computational resources available to clients and challenges relating the limited networking capabilities available to clients.
+
+Cross-silo FL suffers less from challenges in this category, since ... . 
 
 \subsection{Limited Computational Power} % challenges and solutions related to computation
 
 \subsubsection{Challenge 1.1: Local Architecture Search Exceeds Client Compute and Memory Budgets}
 
-Architecture search requires clients to optimise architecture choices or evaluate candidate operations in addition to model weights. In cross-device FL, this work runs on mobile phones or IoT\footnote{Internet of Things} devices whose limited computing capacity must also support their primary workload \cite{fednas_over_hetero_mobile_devices_2022,dfnas_2020}. Supernet-based searches can also require clients to store weights and intermediate activations for several candidate operations. A client that can train a predefined model may therefore be unable to fit the search model in memory or complete a local search update within a practical computation or energy budget \cite{peaches_2024,dfnas_2020,load_monitoring_fednas_2025}. This constraint affects all NAS-in-FL archetypes, although it is less severe in cross-silo FL, where clients may be GPU-equipped organisational servers \cite{fednas_over_hetero_mobile_devices_2022,fednas_2021}.
+- These NAS archetypes are typically very demanding of compute and memory and require extra care to make them work on constrained edge devices
+- For these NAS archetypes it depends on the situation
+
+Architecture search requires clients to optimise architecture choices or evaluate candidate operations in addition to model weights. In cross-device FL, this work runs on mobile phones or edge devices whose limited computing capacity must also support their primary workload \cite{fednas_over_hetero_mobile_devices_2022,dfnas_2020}. Supernet-based searches can also require clients to store weights and intermediate activations for several candidate operations. A client that can train a predefined model may therefore be unable to fit the search model in memory or complete a local search update within a practical computation or energy budget \cite{peaches_2024,dfnas_2020,load_monitoring_fednas_2025}. This constraint affects all NAS-in-FL archetypes, although it is less severe in cross-silo FL, where clients may be GPU-equipped organisational servers \cite{fednas_over_hetero_mobile_devices_2022,fednas_2021}.
 
 \subsubsubsection{Solution 1.1a: Training One Supernet Path at a Time}
 
