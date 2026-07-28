@@ -1,5 +1,7 @@
 \section{Security}
 
+Since candidate architectures are exchanged between clients in NAS-in-FL, this creates a different attack surface than traditional FL where only model weights are exchanged. Practitioners need to be aware of this difference and the challenges this can cause for performing NAS-in-FL securely.
+
 \subsection{Challenge 1: Architecture search poisoning}
 
 NAS-in-FL gives participating clients influence over both model weights and architecture parameters, creating two targets for malicious updates \cite{privacy_preserving_fednas_for_edge_2025}. An attacker can poison local data or manipulate its optimisation procedure so that the aggregated updates pursue a backdoor objective and corrupt the architecture search \cite{privacy_preserving_fednas_for_edge_2025}. Weight sharing can spread compromised weights across every candidate that reuses them, distorting comparisons throughout the search space. In an experiment with one attacker among eight clients and a fourfold update-scaling factor, ENAS search became nearly ineffective and SPOS performance declined markedly \cite{privacy_preserving_fednas_for_edge_2025}. The attacker can therefore corrupt a structural decision that persists in the selected architecture.

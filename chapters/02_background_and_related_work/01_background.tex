@@ -1,19 +1,20 @@
-% !TeX root = ../main.tex
-\chapter{Background and Related Work}\label{chapter:background}
+\section{Background}
+\subsection{Neural Architecture Search (NAS)}
 
-Understanding challenges in distributed architecture search requires context about both the learning system and the search method. This chapter provides that context for the applicability judgements in Chapter~\ref{chapter:nas_in_fl_ch_and_sol}.
+Neural architecture search (NAS) automates the design of a neural network architecture. There are many different ways to perform NAS, resulting in different \textit{NAS methods}. A NAS methods consists of a search space, a search strategy, and a performance-estimation strategy~\cite{nas_survey_2019,nas_1000_papers_2023}. 
 
-\section{Neural Architecture Search (NAS)}
+The search space defines the potential candidate architectures. Search spaces can be ...., ... or .. .
 
-Neural architecture search (NAS) automates the design of a neural network architecture. A NAS method comprises a search space, a search strategy, and a performance-estimation strategy~\cite{nas_survey_2019,nas_1000_papers_2023}. The search space defines the candidates, including their operations, connections, depth, and width. The search strategy uses observations gathered during the search to select further candidates, while performance estimation approximates how candidates would perform after full training. A search can optimise predictive performance alone or add objectives such as model size, latency, energy consumption, and communication cost.
+including their operations, connections, depth, and width. The search strategy uses observations gathered during the search to select further candidates, while performance estimation approximates how candidates would perform after full training. A search can optimise predictive performance alone or add objectives such as model size, latency, energy consumption, and communication cost.
 
-Search strategies differ in their required work and state. Black-box strategies select discrete candidates and use measured or predicted performance to guide subsequent selections~\cite{nas_1000_papers_2023}. Evaluating many independently trained candidates is expensive, although the evaluations admit parallel execution.
+Search strategies differ in their required work and state. Black-box strategies select discrete candidates and use measured or predicted performance to guide subsequent selections~\cite{nas_1000_papers_2023}. Evaluating many independently trained candidates is expensive, although the evaluations are ameanable to parallel execution.
 
+% TODO: collapse into just supernet-based methods, since hypernetwork papers are bad and just 2
 One-shot strategies represent many candidates within a shared supernet, from which subnetworks inherit weights. Differentiable variants maintain continuous architecture parameters, whereas other variants sample or progressively prune subnetworks. Weight sharing reduces search cost but introduces a large shared state and can make inherited-weight performance an unreliable proxy for independently trained performance~\cite{nas_1000_papers_2023}.
 
 Performance estimation further changes the cost of either strategy. Full training provides high-fidelity evidence at substantial cost; shortened training and predictors trade estimation fidelity for speed~\cite{nas_1000_papers_2023}. Together, the three NAS components determine which computations clients perform, what search state they store and exchange, and how frequently they evaluate architectures.
 
-\section{Federated Learning (FL)}
+\subsection{Federated Learning (FL)}
 
 Federated learning (FL) enables clients to train a model collaboratively while keeping their raw data local. In a common server-coordinated process, the server selects clients and distributes the global model. Each selected client trains the model locally and returns an update, which the server aggregates for the next communication round~\cite{fl_seminal_2017}. The server consequently receives data-dependent signals; additional privacy mechanisms remain necessary when those signals are sensitive~\cite{fl_advances_and_open_problems_2021}.
 
@@ -21,7 +22,7 @@ FL systems vary in scale and client characteristics. Cross-device FL commonly in
 
 Cross-silo FL usually involves fewer, better-resourced organisations or data centres with stable identities and reliable participation~\cite{fl_advances_and_open_problems_2021}. Its data can be partitioned horizontally, with clients holding different samples, or vertically, with parties holding different features for overlapping samples. In both settings, data quantities and distributions can differ between clients. These settings describe characteristic configurations rather than an exhaustive dichotomy, but establish different expectations about resource constraints, reliability, coordination, and trust.
 
-\section{NAS in FL}
+\subsection{NAS in FL}
 
 NAS in FL incorporates architecture search into the federated process without centralising client data. Conventional NAS training becomes local client training, while architecture instantiation, evaluation, search-state updates, and selection can occur at the server, at clients, or at both~\cite{nas_in_fl_2026}. Clients may exchange model weights together with architecture parameters, candidate encodings, controller state, performance scores, or intermediate representations. The search can produce one global model or client- and group-specific models. Candidate quality also depends on its federated training configuration, coupling architecture search with choices such as local epochs and client participation~\cite{nas_in_fl_2026}.
 
