@@ -1,39 +1,30 @@
 \section{Limited Client Resources}
 
-NAS is already challenging in a centralised setting, with the most recent wave of interest sparked as a result of several influential papers that showed the viability of NAS on large amounts of compute as well as papers that focused on making NAS more efficient.  % TODO: Back-up with NASbench 101 claim
+NAS is computationally demanding even in a centralised setting because a search may train and compare many candidate architectures. NAS-Bench-101 made repeated NAS experiments practical through table look-ups by precomputing more than five million trained models for 423,000 unique convolutional architectures, a dataset that required over 100 TPU-years of computation~\cite{ying2019nasbench101reproducibleneuralarchitecture}. This scale illustrates the cost that candidate evaluation can impose before FL-specific constraints are considered.
 
-Therefore the difficulty of using NAS is amplified in FL, where clients typically feature even less resources. This is one of the key areas which makes NAS-in-FL challenges and has spawned a plethora of challenges and solutions in the literature. We have discovered two main sub-themes of challenges related to client resource constraints: challenges stemming from the limited computational resources available to clients and challenges relating the limited networking capabilities available to clients.
+FL compounds this cost because cross-device clients vary in compute performance, memory, bandwidth and availability, and these capabilities are typically lower than those of data-centre nodes~\cite{fl_advances_and_open_problems_2021,fl_in_practice_reflections_2024}. This thematic analysis identified three resource-related sub-themes: limited computation and memory, limited networking and client unreliability.
 
-Cross-silo FL suffers less from challenges in this category, since ... . 
+These constraints are generally less severe in cross-silo FL because its clients are usually fewer, more powerful, more reliable and addressable. This eliminates many cross-device system challenges, although computation or communication can still be the primary bottleneck~\cite{fl_advances_and_open_problems_2021}.
 
 \subsection{Limited Computational Power} % challenges and solutions related to computation
 
-\subsubsection{Challenge 1.1: Local Architecture Search Exceeds Client Compute and Memory Budgets}
+\subsubsection{Challenge 1.1: Evaluating Candidate Architectures on Constrained Computational Resources}
 
-- These NAS archetypes are typically very demanding of compute and memory and require extra care to make them work on constrained edge devices
-- For these NAS archetypes it depends on the situation
+NAS-in-FL can become infeasible when the model that a client must evaluate in one search round exceeds its available memory capacity or the evaluation cannot be completed within the time available for a search round. This concern is central to approaches that target mobile and edge clients~\cite{fedoras_2022,fednas_over_hetero_mobile_devices_2022,dfnas_2020} where client memory and computational power is rather limited. The problem is particularly acute for Differentiable Supernet-Based strategies that distribute a shared supernet and require clients to update multiple mixed candidate operations locally~\cite{fednas_2021,dp-fnas_2020,feathers_2023,fed_auto_mri_2023}. Other search strategy types usually assign one discrete or generated candidate at a time, but it remains challenging to evaluate even just one candidate model in a feasible amount of time.
 
-Architecture search requires clients to optimise architecture choices or evaluate candidate operations in addition to model weights. In cross-device FL, this work runs on mobile phones or edge devices whose limited computing capacity must also support their primary workload \cite{fednas_over_hetero_mobile_devices_2022,dfnas_2020}. Supernet-based searches can also require clients to store weights and intermediate activations for several candidate operations. A client that can train a predefined model may therefore be unable to fit the search model in memory or complete a local search update within a practical computation or energy budget \cite{peaches_2024,dfnas_2020,load_monitoring_fednas_2025}. This constraint affects all NAS-in-FL archetypes, although it is less severe in cross-silo FL, where clients may be GPU-equipped organisational servers \cite{fednas_over_hetero_mobile_devices_2022,fednas_2021}.
+\noindent\textbf{Solution 1.1a: Build the search space from inexpensive components.} Practitioners can apply this solution to every search strategy type by restricting candidate architectures to inexpensive operations, blocks or modules, depending on the search space type. Prominent examples include depthwise-separable convolutions and mobile-oriented CNN blocks~\cite{fed_auto_mri_2023,intrusion_detection_fednas_2024}. This makes client-side evaluation cheaper, but may exclude expensive components that increase prediction accuracy.
 
-\subsubsubsection{Solution 1.1a: Training One Supernet Path at a Time}
+\noindent\textbf{Solution 1.1b: Prune the search space progressively.} During the architecture search, supernet-based strategies can progressively remove weak operations, while black-box optimisation strategies can similarly narrow their search domain after obtaining comparable evidence for discrete candidates~\cite{dfnas_2020,peaches_2024}. Pruning reduces the alternatives stored and evaluated in later rounds, but leaves the initial cost unchanged and can discard useful operations when applied too early.
 
-Single-path training activates and updates one sampled path through the supernet at each step. This reduces local computation to approximately that of training one network \cite{dfnas_2020}.
+\noindent\textbf{Solution 1.1c: Train only one subnet at a time.} Supernet-based search strategies can be modified such that clients sample one path corresponding to a candidate architecture evalutate it instead of a weighted mixture of candidate operations~\cite{dfnas_2020}. This reduces peak computation and activation memory to approximately that of one network while retaining stochastic architecture updates~\cite{nas_1000_papers_2023}. Non-Differentiable Supernet-Based strategies already typically train single paths, but can restrict sampling to paths that satisfy a client's computation budget~\cite{fedoras_2022}. Black-Box Optimisation and Hypernetwork-based strategies gain no benefit unless they use a multi-path supernet for candidate evaluation.
 
-\subsubsubsection{Solution 1.1b: Pruning the Search Space during Training}
+\noindent\textbf{Solution 1.1d: Share weights across nested candidate operations.} When defining a supernet's parameterisation, Differentiable and Non-Differentiable Supernet-Based strategies can store the largest candidate kernel once and represent smaller kernels with centred sub-tensors~\cite{load_monitoring_fednas_2025}. This reduces local storage, but applies only to operations that admit a correct nested parameterisation. Black-Box Optimisation strategies benefit only when they evaluate candidates through such a supernet, while Hypernetwork-based strategies require a generator designed for the nested representation.
 
-Progressive pruning periodically removes the weakest operation from each search-space edge. Later rounds consequently evaluate fewer operations and require less client computation \cite{peaches_2024}.
-
-\subsubsubsection{Solution 1.1c: Using Task-Specific Lightweight Search Spaces}
-
-The search can be restricted to a small set of low-cost operations selected for the application \cite{fed_auto_mri_2023,intrusion_detection_fednas_2024,cit2fr-fl-nas_2022}. For example, FedAutoMRI includes depthwise separable convolutions and obtains an MRI-reconstruction model with 0.016 million parameters \cite{fed_auto_mri_2023}. This approach reduces search computation but requires enough domain knowledge to define a useful restricted space.
-
-\subsubsubsection{Solution 1.1d: Sharing Weights across Candidate Kernel Sizes}
-
-Candidate convolutions with different kernel sizes can be represented by one tensor for the largest kernel, with each smaller kernel using a centred sub-tensor. The client then stores one set of shared convolutional weights rather than a separate tensor for every candidate operation \cite{load_monitoring_fednas_2025}. This reduces the memory required by the search space without removing kernel-size choices, although it applies only when candidate operations admit such a nested representation.
-
-\subsubsection{Challenge 1.2: Federated Candidate Evaluation Multiplies Search Cost}
+\subsubsection{Challenge 1.2: Federated Evaluation Slows Down Search Completion}
 
 Candidate-based NAS must estimate the quality of many architectures before selecting one. In NAS-in-FL, each estimate can require distributing a candidate, performing local training and validation, and aggregating updates over several rounds. The outer search loop therefore invokes an inner FL process repeatedly, multiplying the computation required compared with training one fixed architecture \cite{finch_2024,decnas_2022}. Increasing the number of candidates or the depth of their evaluation can make the complete search impractically long even when every individual update is feasible.
+
+- solution: make the search space small
 
 \subsubsubsection{Solution 1.2a: Limiting Candidate Fine-Tuning}
 
