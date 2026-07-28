@@ -31,94 +31,70 @@ For example, \cite{decnas_2022,fednas_over_hetero_mobile_devices_2022} observes 
 
 \noindent\textbf{Solution 1.2c: Predict candidate performance.} Performance prediction is a standard AutoML technique for reducing the number of costly configuration evaluations~\cite{automl_book_hpo_2019}. In NAS-in-FL, candidate-based strategies can evaluate a small set of architectures and train a predictor to estimate the quality of the remaining candidates~\cite{hapfnas_2025,energy_fednas_2025}. Additional care is required because private and non-IID client data can make architecture rankings client-specific. Predictors can therefore be trained separately for each client~\cite{hapfnas_2025}, or learned collaboratively by aggregating their parameters without transmitting the locally evaluated architectures~\cite{federated_bayesian_optimization_nas_2023}. This reduces the number of candidates evaluated by clients, but its reliability depends on whether the evaluated architectures represent the relevant parts of the search space.
 
-\noindent\textbf{Solution 1.2d: Evaluate candidates in parallel.} In black-box strategies that generate several distinct candidates per iteration the candidates can be trained and evaluated concurrently by separate client groups~\cite{decnas_2022,rt_fed_evo_nas_2020,energy_fednas_2025}. 
+\noindent\textbf{Solution 1.2d: Evaluate candidates in parallel.} Since black-box search strategies generate several distinct candidates per iteration the candidates can be trained and evaluated concurrently by separate client groups~\cite{decnas_2022,rt_fed_evo_nas_2020,energy_fednas_2025}. 
 
 Supernet-based strategies can instead sample several subnets, allocate each to a client cluster and merge their updates back into the shared supernet~\cite{finch_2024}. This potentially reduces elapsed search time when enough clients are available, but comparisons can become biased when the groups evaluate candidates on different data distributions~\cite{decnas_2022}.
 
 \noindent\textbf{Solution 1.2e: Reuse supernet weights for candidate evaluation.} Weight-sharing strategies can train common operation weights and allow each candidate to inherit the subset associated with its architecture~\cite{fl-agnns_2023,optimize_fednas_edge_2021}. This avoids training every candidate independently from scratch, although inherited-weight performance can rank candidates differently from full training. A short incremental federated fine-tuning stage can provide a higher-fidelity estimate for a smaller set of promising candidates~\cite{medical_image_segmentation_fednas_2024}.
 
-\subsubsection{Challenge 1.3: Post-Search Retraining}
+\subsubsection{Challenge 1.3: Post-Search Retraining Duplicates Federated Computation}
 
-Many NAS workflows train the selected architecture from scratch after completing the search. In NAS-in-FL, this adds another complete federated optimisation stage after clients have already spent computation on finding and evaluating the architecture. The additional local epochs and aggregation rounds delay the production of a usable model \cite{medical_image_segmentation_fednas_2024,privacy_preserving_fednas_for_edge_2025}.
+Some NAS strategies use search-time training only to select an architecture and then train the selected model from a new initialisation. In NAS-in-FL, this adds another sequence of client-side epochs and aggregation rounds after clients have already spent computation and communication on the search~\cite{medical_image_segmentation_fednas_2024,privacy_preserving_fednas_for_edge_2025}. This challenge applies whenever the search produces an architecture without reusable final weights and therefore delays the availability of a deployable model.
 
-\subsubsection{Solution 1.3a: Reusing Weights Learned during Search}
+\noindent\textbf{Solution 1.3a: Reuse weights learned during search.} Weight-sharing supernet strategies can initialise the selected subnet with the corresponding operation weights learned during search and perform only limited final fine-tuning~\cite{medical_image_segmentation_fednas_2024}. This reuses client computation that has already been spent on the selected operations, although weights learned jointly with competing subnets may be a poor initialisation for the final model.
 
-Weight inheritance initialises the selected candidate with weights learned in its supernet, reducing the fine-tuning required after selection. FS-ENAS reports that this changes candidate retraining from minutes to seconds \cite{medical_image_segmentation_fednas_2024}.
-
-\subsubsection{Solution 1.3b: Producing a Deployable Architecture during Search}
-
-One-stage optimisation trains weights while progressively concentrating the architecture distribution or pruning weak operations, so the search terminates with a discrete, trained architecture that can be used without a separate retraining stage \cite{dfnas_2020,fed_meta_nas_2025,perfedrlnas_2024}. This removes the duplicated federated stage rather than merely shortening it through weight inheritance. Its effectiveness depends on the final path having received sufficient training while it shared weights with competing paths.
+\noindent\textbf{Solution 1.3b: Produce a deployable model during search.} One-stage supernet-based strategies can jointly optimise architecture selection and model weights while concentrating the architecture distribution or pruning weak operations, so the search terminates with a discrete model and trained weights~\cite{dfnas_2020,fed_meta_nas_2025}. Reinforcement-learning strategies over a weight-sharing supernet can similarly turn later search rounds into fine-tuning as their sampling probabilities concentrate~\cite{perfedrlnas_2024}. This eliminates the separate retraining stage, but the final path may remain undertrained if it received too few updates while sharing weights with competing paths.
 
 \subsubsection{Challenge 1.4: Separate Searches for Deployment Targets Multiply Cost}
 
-NAS-in-FL systems may need different architectures for several latency or computation budgets. Searching and training independently for every target repeats the complete federated procedure and makes the total cost grow with the number of targets \cite{superfednas_2024}. This cost becomes substantial when one service must support many device classes.
+A NAS-in-FL deployment may require different architectures for several latency or computation budgets. Searching and training independently for each target repeats the federated procedure, so the required client computation and communication grow with the number of device classes~\cite{superfednas_2024}.
 
-\subsubsection{Solution 1.4a: Reusing One Supernet across Deployment Targets}
-
-A shared supernet can be trained once through FL and reused to extract architectures for several deployment constraints. SuperFedNAS performs predictor-guided local selection without additional training and reports an elevenfold training-cost reduction for 20 deployment targets \cite{superfednas_2024}.
+\noindent\textbf{Solution 1.4a: Reuse one supernet across deployment targets.} A weight-sharing supernet containing subnets of different depths and widths can be trained once through FL. Clients can then use predictor-guided local search to select subnets for their deployment constraints without further federated training. This amortises the training cost across targets and has reduced it elevenfold for 20 targets~\cite{superfednas_2024}. Co-training many subnets can, however, cause weight-sharing interference and leave rarely sampled parameters stale~\cite{superfednas_2024}.
 
 \subsubsection{Challenge 1.5: Split-Model Search Leaves Client Computation Idle}
 
-In split-model training, different clients or device groups execute consecutive model segments and exchange intermediate activations and gradients. A client can therefore spend part of each round waiting for the remaining segments to complete, even though it has local computation available. Architecture search inherits this sequential dependency and can leave scarce client resources unused while the search model advances through other partitions \cite{nasfly_2024}. This challenge is specific to NAS-in-FL methods that partition model execution across clients.
+In split-model training, different clients or device groups execute consecutive model segments and exchange intermediate activations and gradients. The resulting sequential dependency leaves clients waiting while other segments execute. NAS-in-FL methods that distribute a search model in this manner inherit these idle periods during architecture search~\cite{nasfly_2024}.
 
-\subsubsection{Solution 1.5a: Searching Locally during Split-Training Idle Periods}
-
-Auxiliary input and output components can temporarily turn a client's assigned segment into a locally executable search model. During otherwise idle periods, the client samples and trains alternative branches, using the corresponding split-model segment as a teacher for feature distillation \cite{nasfly_2024}. This converts waiting time into search work, but adds local memory and computation and therefore remains suitable only when the client has spare capacity.
+\noindent\textbf{Solution 1.5a: Search locally during split-training idle periods.} Auxiliary input and output components can turn an assigned model segment into a locally executable supernet. During otherwise idle periods, the client samples and trains alternative branches, using the corresponding segment of the split model as a teacher for feature distillation~\cite{nasfly_2024}. This converts waiting time into architecture-search work that can proceed without the remaining model partitions.
 
 \subsection{Limited Networking} % networking related challenges and solutions
 
-Cross-device clients often communicate with the server over capacity-limited wide-area links. Typical wide-area bandwidths of 5--25 Mbit/s are far below the more than 10 Gbit/s available within data centres \cite{peaches_2024}. The discussion below assumes a common bandwidth limit; unequal connectivity is treated separately as client heterogeneity.
+Cross-device clients often communicate with the server over capacity-limited wide-area links. Typical wide-area bandwidths of 5--25 Mbit/s are far below the more than 10 Gbit/s available within data centres~\cite{peaches_2024}. The discussion below assumes a common bandwidth limit. Unequal connectivity is treated separately as client heterogeneity.
 
 \subsubsection{Challenge 1.6: Search Messages Exceed Client Transfer Budgets}
 
-Fixed-model FL exchanges the parameters of one architecture, whereas NAS-in-FL can add an over-parameterised supernet, architecture parameters, or candidate-specific outputs. A supernet contains weights for mutually exclusive operations and can therefore be much larger than any architecture selected from it. Transmitting the complete operation space and its weights can become intractable on a limited link \cite{fedoras_2022,hapfnas_2025}. A client may consequently have enough computation for a local update but insufficient network capacity to receive or return its search state within the communication budget.
+Fixed-model FL exchanges the parameters of one architecture. NAS-in-FL may additionally exchange an over-parameterised supernet or architecture variables. A supernet contains weights for mutually exclusive operations and can therefore be much larger than any selected architecture, making the complete search state infeasible to transfer over a constrained client link~\cite{fedoras_2022,hapfnas_2025}.
 
-\subsubsection{Solution 1.6a: Compressing Search Updates}
+\noindent\textbf{Solution 1.6a: Compress search updates.} Quantisation represents update entries with fewer bits, while sparsification transmits only selected entries. One differentiable supernet-based approach uses 8-bit stochastic quantisation and retains the largest 20\% of entries after clipping~\cite{fedregnas_2025}. These operations reduce the transferred weight and architecture updates without changing the search variables.
 
-Quantisation represents each update with fewer bits, while sparsification transmits only selected entries. FedRegNAS applies 8-bit stochastic quantisation and retains the largest 20\% of entries in its weight and architecture updates before transmission \cite{fedregnas_2025}. These operations reduce the message size without changing which architecture variables the search optimises.
-
-\subsubsection{Solution 1.6b: Encoding Architecture Choices Compactly}
-
-When clients already hold a compatible master model or trained supernet, the server can identify a candidate using a compact selector or genotype instead of transmitting its parameters again. Clients reconstruct the indicated subnet locally and return its evaluation or updated subset of weights \cite{rt_fed_evo_nas_2020,medical_image_segmentation_fednas_2024,intrusion_detection_fednas_2024}. Unlike quantisation or sparsification, this reduces traffic by changing the communicated representation; it requires clients to retain the shared weights and an identical definition of the search space.
+\noindent\textbf{Solution 1.6b: Encode architecture choices compactly.} When clients already hold a compatible master model or trained supernet, the server can identify a candidate using a selector or genotype instead of transmitting its parameters. Clients reconstruct the indicated subnet locally and return its evaluation or updated weights~\cite{rt_fed_evo_nas_2020,medical_image_segmentation_fednas_2024,intrusion_detection_fednas_2024}. This requires the server and clients to share the search-space definition and clients to retain the common weights.
 
 \subsubsection{Challenge 1.7: Architecture Search Adds Repeated Synchronisation}
 
-Differentiable NAS-in-FL updates architecture parameters alongside model weights. Synchronising both variables in every round adds an architecture-update channel that fixed-model FL does not require \cite{fednas_2021,fedregnas_2025}. Its traffic accumulates throughout the search even when an individual architecture update is small. A long search can therefore exhaust a client's transfer budget through frequency rather than message size alone.
+Differentiable NAS-in-FL updates architecture variables alongside model weights. Synchronising both in every round adds a communication channel that fixed-model FL does not require~\cite{fednas_2021,fedregnas_2025}. Even small architecture updates can consume substantial bandwidth when exchanged throughout a long search.
 
-\subsubsection{Solution 1.7a: Synchronising Architecture Parameters Less Frequently}
+\noindent\textbf{Solution 1.7a: Synchronise architecture variables less frequently.} Architecture variables can be treated as slow variables that are updated and uploaded less frequently than model weights. One approach transmits them every \(H_{\alpha}\) rounds and stops doing so after the architecture has been fixed, while ordinary weight training continues~\cite{fedregnas_2025}.
 
-Architecture parameters can be updated locally over several weight-training rounds before they are uploaded. FedRegNAS treats them as slow variables, transmits them every \(H_{\alpha}\) rounds, and stops their transmission after fixing the selected architecture \cite{fedregnas_2025}. Model training continues while the additional search channel is used only when needed.
+\noindent\textbf{Solution 1.7b: Aggregate search updates hierarchically.} A nearby aggregator can combine the model and architecture updates of several clients before forwarding one result to the remote server. Frequent aggregation then uses local links, while fewer exchanges traverse the wide-area network~\cite{finch_2024}. In one non-IID CIFAR-10 evaluation, this reduced traffic at 80\% target accuracy from 3.29--4.68 GB to 1.64 GB~\cite{finch_2024}.
 
-\subsubsection{Solution 1.7b: Aggregating Search Updates Hierarchically}
-
-A nearby aggregator can combine several clients' model and architecture updates before forwarding one result to the remote server. Frequent aggregation then uses local links, while the less frequent global exchange traverses the wide-area network \cite{finch_2024}. FINCH reports 1.64 GB of traffic at 80\% target accuracy on non-IID CIFAR-10, compared with 3.29--4.68 GB for four NAS-in-FL baselines \cite{finch_2024}.
-
-\subsubsection{Solution 1.7c: Parallelising Architecture and Weight Optimisation}
-
-Some differentiable formulations make the architecture and weight updates independent within a round, allowing the two computations to proceed in parallel rather than through sequential alternating steps. In vertically partitioned NAS, this reduces the number of synchronised exchanges required to update both variable sets \cite{self-supervised_vertical_fednas_2023}. The solution removes a sequential dependency rather than reducing the size of each message and therefore applies only when the optimisation formulation permits independent updates.
+\noindent\textbf{Solution 1.7c: Parallelise architecture and weight optimisation.} Vertically partitioned differentiable strategies can formulate the architecture and weight updates independently within a round, allowing both to proceed in parallel rather than through alternating steps. This removes a sequential dependency and reduces the synchronised exchanges needed to update both variable sets~\cite{self-supervised_vertical_fednas_2023}.
 
 \subsubsection{Challenge 1.8: Communication-Unaware Search Produces Expensive Federated Models}
 
-An architecture selected only for predictive performance or local computation can still contain many parameters. FL must transmit those parameters again in every subsequent training round, so the search decision determines the continuing load on each client's link. A model that fits client memory and computation budgets may therefore remain impractical to train federatively under a fixed transfer budget \cite{multi_objective_evo_fl_2020}. This cost arises even when every client has the same network capacity.
+An architecture selected only for predictive performance or local computation can still contain many parameters that FL must transmit in every subsequent training round. The search decision therefore determines the continuing load on client links, and a model that meets computation and memory budgets may still exceed the transfer budget~\cite{multi_objective_evo_fl_2020}.
 
-\subsubsection{Solution 1.8a: Optimising the Architecture for Transmitted Model Size}
-
-Communication cost can be included directly in the architecture objective. Multi-objective evolutionary search has minimised global error together with the average number of weights uploaded by clients, producing sparse architectures whose updates contain fewer parameters \cite{multi_objective_evo_fl_2020}. FedRegNAS similarly includes expected transmitted bytes in its resource objective \cite{fedregnas_2025}. The search therefore exposes the accuracy--communication trade-off before an architecture is selected.
+\noindent\textbf{Solution 1.8a: Optimise for transmitted model size.} Communication cost can be included directly in the architecture objective. Evolutionary search can optimise global error together with the average number of weights uploaded by clients, favouring sparse architectures~\cite{multi_objective_evo_fl_2020}. Differentiable supernet-based search can similarly regularise the expected number of transmitted bytes~\cite{fedregnas_2025}. Both expose the trade-off between predictive performance and continuing communication cost before selecting an architecture.
 
 \subsection{Client Unreliability}
 
 \subsubsection{Challenge 1.9: Client Dropout Interrupts Architecture Search}
 
-Cross-device clients can become unavailable because of changing network conditions, battery constraints, or competing local workloads. A search procedure that requires a fixed cohort in every round can then stall or lose candidate updates when selected clients disconnect \cite{optimize_fednas_edge_2021}. This differs from receiving a delayed update: a dropped client provides no update that can subsequently be corrected or down-weighted. Repeated absence can also reduce the representation of that client's data in architecture decisions.
+Cross-device clients can become unavailable because of changing network conditions, battery constraints or competing local workloads. A search procedure that requires the same cohort in every round can then stall or lose updates for the candidates or supernet paths assigned to disconnected clients~\cite{optimize_fednas_edge_2021}.
 
-\subsubsection{Solution 1.9a: Designing the Search for Partial Participation}
-
-The server can select a new random subset of available clients in each round and update the search model from the responses that arrive. Architecture search can consequently continue without waiting for every registered client, while participation can vary between rounds \cite{optimize_fednas_edge_2021}. This solution requires enough available clients to provide a useful search signal, and random selection alone does not correct systematic unavailability among particular client groups.
+\noindent\textbf{Solution 1.9a: Design the search for partial participation.} The server can require only a random subset of clients to participate in each round and aggregate the search updates returned by that subset. The participating clients may change between rounds, allowing architecture search to continue without requiring every registered client to remain available~\cite{optimize_fednas_edge_2021}.
 
 \subsubsection{Challenge 1.10: Clients Reach Architecture Decisions at Different Times}
 
-Clients can optimise architecture variables at different rates because their data distributions and local optimisation trajectories differ. A common stopping round can therefore terminate some local searches prematurely while allowing others to overfit their validation data, for example by increasingly favouring parameter-free operations \cite{collaborative_nas_for_pfl_2025}. The resulting imbalance can reduce the quality of client-specific architectures even when every client remains connected.
+In personalised differentiable search, clients can optimise architecture variables at different rates because their data distributions and local trajectories differ. A common stopping round can terminate some searches prematurely while allowing others to overfit, for example by increasingly favouring skip connections~\cite{collaborative_nas_for_pfl_2025}.
 
-\subsubsection{Solution 1.10a: Stopping Architecture Updates Independently}
-
-After an initial warm-up period, each client can monitor its local architecture and stop updating its architecture variables when a client-specific overfitting criterion is reached. Other clients continue their searches until their own criteria are satisfied, rather than following one synchronised stopping point \cite{collaborative_nas_for_pfl_2025}. This accommodates asynchronous convergence, although the stopping criterion must distinguish genuine convergence from noisy changes caused by a small local validation set.
+\noindent\textbf{Solution 1.10a: Stop architecture updates independently.} After a shared warm-up period, each client can stop updating its architecture variables when a local criterion detects increasing preference for skip connections. Other clients continue searching until they meet their own stopping criteria~\cite{collaborative_nas_for_pfl_2025}.

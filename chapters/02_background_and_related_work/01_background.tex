@@ -3,11 +3,11 @@
 
 Neural architecture search (NAS) automates the design of a neural network architecture. There are many different ways to perform NAS, resulting in different \textit{NAS methods}. A NAS methods consists of a search space, a search strategy, and a performance-estimation strategy~\cite{nas_survey_2019,nas_1000_papers_2023}. 
 
-The search space defines the potential candidate architectures. Search spaces can be ...., ... or .. .
+The search space defines the potential candidate architectures. Search spaces can be cell-based, ... or ... .
 
 including their operations, connections, depth, and width. The search strategy uses observations gathered during the search to select further candidates, while performance estimation approximates how candidates would perform after full training. A search can optimise predictive performance alone or add objectives such as model size, latency, energy consumption, and communication cost.
 
-Search strategies differ in their required work and state. Black-box strategies select discrete candidates and use measured or predicted performance to guide subsequent selections~\cite{nas_1000_papers_2023}. Evaluating many independently trained candidates is expensive, although the evaluations are ameanable to parallel execution.
+Search strategies differ in their required work and state. Black-box strategies select discrete candidates and use measured or predicted performance to guide subsequent selections~\cite{nas_1000_papers_2023}. 
 
 % TODO: collapse into just supernet-based methods, since hypernetwork papers are bad and just 2
 One-shot strategies represent many candidates within a shared supernet, from which subnetworks inherit weights. Differentiable variants maintain continuous architecture parameters, whereas other variants sample or progressively prune subnetworks. Weight sharing reduces search cost but introduces a large shared state and can make inherited-weight performance an unreliable proxy for independently trained performance~\cite{nas_1000_papers_2023}.

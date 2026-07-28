@@ -1,71 +1,57 @@
 \section{Heterogeneity}
 
-In FL, clients particiapting in an architecture can differ substantially in their hardware, data, and connectivity. These differences create several challenges for NAS. (TODO: reformulate) This represents a distinct class of challenges from resource constraints, because challenges related to resource-constraints are caused by a lack of client capabilities, but NAS-in-FL methods designed for heterogenous clients need to account for a wide variety of devices. If practitioners can assume all clients to have the same compute and networking capabilities, this makes using NAS-in-FL a lot simpler.
+FL clients can differ substantially in hardware, data and connectivity. Resource constraints determine whether clients can perform the required search work, while heterogeneity makes the same workload, architecture or search decision unsuitable across the client population. NAS-in-FL must therefore account for variation both while distributing the search and when selecting architectures for deployment.
 
 \subsection{Hardware Heterogeneity}
 
 \subsubsection{Challenge 2.1: Architecture Search on Heterogeneous Hardware}
 
-Clients participating in NAS-in-FL can vary widely in computation and memory capacity. One client may be able to evaluate a candidate architecture within seconds while another would take minutes to evaluate it. As a result, slow devices delay the architecture search. Some clients may also struggle to fit certain candidate architectures into their memory, so practitioners must adjust the NAS-in-FL to account for this.
+Differences in client computation and memory make a uniform search workload inefficient or infeasible. A candidate that is inexpensive for one client can exceed another client's memory or extend the round until that client finishes. In weight-sharing search, assigning only hardware-feasible subnets also means that clients train different parts of the supernet, creating unequal exposure across operations and widths~\cite{fedoras_2022,peaches_2024,supernet_trade-off_fednas_2025}.
 
-\subsubsection{Solution 2.1a: Matching Local Search Work to Client Capacity}
+\noindent\textbf{Solution 2.1a: Match local search work to client capacity.} Supernet-based strategies can assign each client a feasible subspace or sampled subnet and adjust its local depth or optimisation budget to the available computation and memory~\cite{fedoras_2022,apons_2023,divide-and-conquer_fednas_2023,peaches_2024,fgfl_2024,supernet_trade-off_fednas_2025}. The shared search can consequently include weak and strong clients without requiring each of them to execute the complete supernet.
 
-Resource-aware methods restrict each client to a feasible supernet subsubspace, subnet, number of cells, or local optimisation budget, so its search work follows its computation and memory capacity \cite{fedoras_2022,apons_2023,divide-and-conquer_fednas_2023,peaches_2024,fgfl_2024,supernet_trade-off_fednas_2025}.
+\noindent\textbf{Solution 2.1b: Group clients by training latency.} Split-model strategies can profile client computation and communication times and form device groups whose segments have similar completion times. The grouping can be adjusted from observed round latency so that supernet training spends less time waiting for the slowest segment~\cite{nasfly_2024}.
 
-\subsubsection{Solution 2.1b: Grouping Clients by Training Latency}
+\noindent\textbf{Solution 2.1c: Tolerate slow or stale clients.} A soft-synchronous search can proceed after most selected clients respond and incorporate sufficiently recent late updates using delay compensation~\cite{rl_fednas_2021}. Differentiable search can instead reduce the aggregation weight of an update as its staleness increases~\cite{fedregnas_2025}. These mechanisms prevent slow clients from blocking the search or giving stale updates full influence.
 
-NASFLY profiles client computation and communication costs and forms split-learning groups that minimise mean waiting latency during supernet training \cite{nasfly_2024}.
+\noindent\textbf{Solution 2.1d: Account for unequal supernet exposure.} When clients train different feasible subnets, the server can aggregate each operation only from clients that updated it and weight those updates by the number of examples that passed through the operation~\cite{fedoras_2022,fgfl_2024,supernet_trade-off_fednas_2025}. This prevents untrained parameters from being treated as ordinary client updates.
 
-\subsubsection{Solution 2.1c: Tolerating Slow or Stale Clients}
+\noindent\textbf{Solution 2.1e: Keep the full search model on the server.} The server can retain the complete supernet and send each client only a feasible sampled subnet~\cite{perfedrlnas_2024,rafl_2024}. Clients can also train lightweight knowledge models whose predictions guide server-side supernet training through distillation~\cite{hapfnas_2025}. These designs keep the largest search structure off constrained devices.
 
-Straggler-tolerant search removes hard round barriers or down-weights stale client updates, preventing slow clients from blocking or unduly biasing the search \cite{rl_fednas_2021,fedregnas_2025}.
+\subsubsection{Challenge 2.2: Searching Architectures for Heterogeneous Deployment Hardware}
 
-\subsubsection{Solution 2.1d: Accounting for Unequal Supernet Exposure}
+The clients involved in NAS-in-FL may also be the deployment targets. A single architecture sized for the least capable client leaves stronger hardware underused, while one sized for the strongest client may be infeasible elsewhere~\cite{fedoras_2022}. The search must therefore produce architectures for several inference-time computation, memory or latency constraints.
 
-Exposure-aware aggregation averages each supernet parameter only across the clients that trained it, accounting for the unequal operator or width coverage produced by hardware-feasible subsubnets \cite{fedoras_2022,fgfl_2024,supernet_trade-off_fednas_2025}.
+\noindent\textbf{Solution 2.2a: Search separate architectures for hardware tiers.} Clients with similar inference constraints can be assigned to capability tiers, with one feasible architecture searched for each tier~\cite{fedoras_2022,clustered_direct_fednas_2022}. Shared supernet weights allow these tier-specific architectures to learn from one federated search while stronger tiers retain greater model capacity.
 
-\subsubsection{Solution 2.1e: Keeping the Full Search Model on the Server}
+\noindent\textbf{Solution 2.2b: Train a supernet for constraint-specific selection.} A weight-sharing supernet can expose subnets of different depths, widths or exits. After federated training, each client selects a subnet that satisfies its hardware limits and performs well on its validation data~\cite{superfednas_2024,hapfnas_2025,enasfl_2024}. This supports finer specialisation than a fixed set of hardware tiers without training an independent model for every client.
 
-Server-side methods keep the search space or full supernet off clients: clients receive one sampled candidate, query a cloud supernet for a feasible subnet, or train a lightweight knowledge model from which the server trains the supernet \cite{perfedrlnas_2024,rafl_2024,hapfnas_2025}.
-
-\subsubsection{Challenge 2.2: Searching architectures deployable to heterogenous clients}
-
-In NAS-in-FL, the searched architectures are usually trained as well as deployed on the same set of devices. This means in addition to taking client heterogeneity into account at search time, the NAS-in-FL method needs to account for the heterogeneous deployment environment as well. A single architecture tailored to the least capable device can leave the resources of more capable devices unused, while an architecture tailored to the most capable device hardware may be infeasible for deployment on less capable clients \cite{fedoras_2022}. In a cross-device setting, the variance between client hardware capabilities is particularly pronounced.
-
-\subsubsection{Solution 2.2a: Per-Client Personalisation}
-
-\subsubsection{Solution 2.2a: Searching Separate Architectures for Hardware Tiers}
-
-Tier-based search assigns clients with similar inference budgets to a common hardware tier and searches one feasible architecture for each tier \cite{fedoras_2022,clustered_direct_fednas_2022,fgfl_2024}. This lets stronger devices use more of their capacity than a model sized for the least capable tier.
-
-\subsubsection{Solution 2.2c: Training a Shared Supernet for Constraint-Specific Local Selection}
-
-After training a weight-sharing supernet, clients select subsubnets or exits that fit their compute and memory limits and rank well on local validation data \cite{superfednas_2024,hapfnas_2025,enasfl_2024}. This permits architectures to reflect per-client hardware and data heterogeneity while retaining a shared weight space.
-
-\subsubsection{Solution 2.2d: Including Hardware Costs in the Search Objective}
-
-Hardware-aware search adds a hardware cost, such as measured latency or a MAC budget, to the accuracy objective and selects a candidate within the target limit \cite{clustered_direct_fednas_2022,load_monitoring_fednas_2025,fgfl_2024}. Using a different budget or latency profile for each device or hardware group yields architectures tailored to different inference hardware.
+\noindent\textbf{Solution 2.2c: Include hardware costs in the search objective.} Candidate-based and supernet-based strategies can optimise predictive performance subject to a measured latency or multiply--accumulate operation budget~\cite{clustered_direct_fednas_2022,load_monitoring_fednas_2025,fgfl_2024}. Supplying a different hardware profile or budget for each client group makes the selected architecture specific to its deployment hardware.
 
 \subsection{Client Data Heterogeneity}
 
 \subsubsection{Challenge 2.3: Differing Client Data Distributions}
 
-Client data can differ in class balance and feature distribution, for example because mobile-phone users have different usage patterns. As clients evaluate candidate architectures on their local data, they may favour different operations or rank the same candidates differently \cite{collaborative_nas_for_pfl_2025,superfednas_2024}. These conflicting evaluations and training updates make the global search signal inconsistent and can make inherited-weight candidate rankings unreliable \cite{hapfnas_2025}.
+Differences in class balance and feature distributions can cause clients to favour different operations or rank the same candidates differently~\cite{collaborative_nas_for_pfl_2025,superfednas_2024}. In weight-sharing search, the resulting gradient conflicts destabilise supernet training and make inherited-weight candidate rankings unreliable~\cite{hapfnas_2025}. Aggregating these signals without accounting for their distributions can select an architecture suited mainly to the dominant client data.
 
-\subsubsection{Challenge 2.4: Imablance Client Data Volumes}
+\noindent\textbf{Solution 2.3a: Train the weakest subnets on each data partition.} A robust supernet objective can target the candidate with the highest loss on each client partition instead of minimising only average candidate loss. Sampling the smallest, largest and random subnets provides a tractable approximation and reduces interference when different architectures perform poorly on different distributions~\cite{superfednas_2024}.
 
-Some clients can hold significantly more training data than others. Consequently, estimates of candidate performance from small local datasets can be noisier than those from large datasets. Unequal sample counts can also give data-rich clients more influence over shared weights and architecture decisions, causing the search to favour their data characteristics \cite{fednas_2021}.
+\noindent\textbf{Solution 2.3b: Cluster clients by data distribution.} Clients with complementary class distributions can be grouped so that each candidate is trained on a cluster whose combined data approximate the global distribution~\cite{finch_2024}. When different distributions require different architectures, clients can instead be clustered by the similarity of their locally learned architecture variables and train one architecture per cluster~\cite{electricity_load_forecasting_fl_darts_2023}.
 
-\subsection{Client Networking Capability Heterogeneity}
+\noindent\textbf{Solution 2.3c: Apply fairness-aware aggregation after search.} Once a common architecture has been selected, clients whose local model performs better than the aggregated model can receive greater weight during final model training. This reduces cross-client risk gaps and prevents the trained weights from compounding distributional disparities~\cite{mri_generalizable_reconstruction_fednas_2025}. The mechanism changes the weights of the selected architecture rather than the preceding architecture search.
+
+\subsubsection{Challenge 2.4: Imbalanced Client Data Volumes}
+
+Clients can hold substantially different numbers of examples. Candidate estimates from small local datasets are typically less reliable, while sample-weighted aggregation gives data-rich clients more influence over shared weights and architecture decisions~\cite{fednas_2021}. NAS-in-FL must therefore determine whether the searched architecture should represent the pooled examples or the participating clients.
+
+\noindent\textbf{Solution 2.4a: Choose aggregation weights to match the search objective.} Weighting architecture and model updates by local sample count makes the search represent the pooled training examples~\cite{fednas_2021}. Equal client influence can instead be approximated by uniformly averaging client predictions on shared unlabelled data and distilling the result into sampled subnets~\cite{hapfnas_2025}. The aggregation unit should follow whether performance is evaluated across examples or across clients.
+
+\subsection{Client Connectivity Heterogeneity}
 
 \subsubsection{Challenge 2.5: Bias from Overrepresenting Frequently Available and Well-Connected Participants}
 
-Network conditions and availability cause some clients to participate more often than others. Clients with slow or unreliable links, low battery, or long candidate runtimes miss more round deadlines, so their data affect fewer architecture decisions \cite{optimize_fednas_edge_2021,peaches_2024}. Resource-aware schedulers can compound this imbalance by assigning poorly connected or low-capability clients only small candidates \cite{fedoras_2022}. Each candidate is then trained on a different, non-IID client subset, which couples its apparent quality to the data it received. In weight-sharing searches, this coupling produces conflicting shared-weight updates and unreliable candidate rankings, biasing the search towards frequently available and well-connected clients \cite{hapfnas_2025}.
+Differences in bandwidth and availability cause some clients to participate more often or meet more round deadlines than others~\cite{optimize_fednas_edge_2021,peaches_2024}. Resource-aware assignment can also make small candidates train mainly on low-capability clients and large candidates on well-connected clients~\cite{fedoras_2022}. Candidate quality then becomes entangled with the non-IID data of the clients able to train it, which can bias shared weights and architecture rankings towards frequently available participants~\cite{hapfnas_2025}.
 
-\subsubsection{Solution 2.5a: Balancing Connectivity and Data Coverage Jointly}
+\noindent\textbf{Solution 2.5a: Balance connectivity and data coverage jointly.} Candidate-training groups can be constrained by bandwidth while also being adjusted to cover representative class distributions. The literature implements this by rebalancing bandwidth-based groups according to class distribution, or by minimising each cluster's distance from the population distribution under a completion-time limit~\cite{network_aware_fed_nas_2025,finch_2024}. This makes candidate comparisons less dependent on which client links can support them.
 
-Candidate-training groups can be formed using both network constraints and data coverage, preventing connectivity alone from determining which data train each architecture. Group membership is adjusted to give each candidate a more representative data mixture while keeping its communication or completion time feasible. For example, NAFNAS groups clients by bandwidth and class distribution, while FINCH minimises each cluster's distance from the population distribution under a completion-time limit \cite{network_aware_fed_nas_2025,finch_2024}. These joint assignments make candidate evaluations more comparable because network conditions have less influence on the data seen by each architecture.
-
-\subsubsection{Solution 2.5b: Decoupling Client Knowledge from Candidate Assignment}
-
-Client knowledge can be aggregated into a common teaching signal before it is used to train different candidate architectures. Each candidate then learns from several clients, rather than only from the devices capable of executing it. For example, HAPFNAS distils averaged predictions from lightweight client models into sampled supernet paths, while PAS uses ensembled client feature maps to guide heterogeneous personalised architectures \cite{hapfnas_2025,collaborative_nas_for_pfl_2025}. Knowledge aggregation therefore transfers information across architecture boundaries without requiring every client to train every candidate.
+\noindent\textbf{Solution 2.5b: Decouple client knowledge from candidate assignment.} Client predictions or feature maps on shared inputs can be aggregated into a teaching signal and distilled into different candidate architectures. Sampled supernet paths or personalised models then learn from several clients, including those unable to execute that candidate directly~\cite{hapfnas_2025,collaborative_nas_for_pfl_2025}. This transfers knowledge across architecture boundaries without requiring every client to train every candidate.
