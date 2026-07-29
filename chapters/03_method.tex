@@ -1,33 +1,34 @@
 % !TeX root = ../main.tex
 \chapter{Method}\label{chapter:method}
 
-We conduct a literature review following~\cite{webster_watson_literature_review_2002} and analyse the literature on the basis of thematic analysis.
+We conduct a literature review following~\cite{webster_watson_literature_review_2002} and analyse the literature on the basis of thematic analysis. I
 
 % how can I extract individual challengs and solutions and connect cause and effect from the literature?
 
 % Data Collection
 \section{Literature Selection}
 
-- In accordance with Webster and Watson, we did...
+We start our literature selection with a search across titles, abstracts and keywords of English-language publications indexed by Scopus using the query \texttt{"federated learning" AND "neural architecture search"}~\cite{scopus}. A publication is eligible when it describes a method in which federated client work or information contributed to candidate training or evaluation, search-state updates or architecture selection. We excluded publications that addressed only NAS or FL independently and publications in which centrally completed NAS merely preceded FL without performing NAS within FL. Review publications were excluded from the analysis corpus and considered as related work.
 
-- scopus search of the topic
-- filtered papers according to criteria: Do they describe a NAS-in-FL method? 
-- filtered out reviews, they belong in related work
-- perform snowballing search until no more NAS-in-FL methods are found
+For inclusion in the thematic analysis, a publication had to provide evidence from which at least one relevant challenge or solution could be coded. A challenge met this threshold when the publication connected a condition of FL to a consequence for architecture search. A solution met it when the described procedure contained a deliberate intervention whose effect on the NAS-in-FL process could be identified. General claims that an approach addressed concerns such as heterogeneity, efficiency or privacy without explaining the relevant consequence or intervention did not meet this threshold.
 
-TODO: include prisma chart (applicable with webster and watson?)
+We extended the initial set through backward and forward citation searching of the eligible publications, as recommended by~\cite{webster_watson_literature_review_2002}. Newly identified publications were screened using the same criteria, and citation searching ended when an iteration yielded no additional eligible publications.
+
+TODO: include prisma chart to reduce prose significantly (applicable with webster and watson?)
 
 % Data Analysis
 \section{Literature Analysis}
 
-inductive thematic analysis
+- analyzed literature using inductive thematic analysis as described in ~\cite{using_thematic_analysis_2006}
+- for familiarisation we read papers
+- for initial codes we used the concept matrix proposed by~\cite{webster_watson_literature_review_2002} and create a row for each NAS-in-FL method where we code all passages that a) indicate FL system characteristics, b) indicate the NAS method type, c) show challenges that are due to using NAS in FL and d) solutions for these challenges 
 
-and analyse the included publications using thematic analysis~\cite{using_thematic_analysis_2006}. As the starting point for our synthesis, we construct the concept matrix proposed by~\cite{webster_watson_literature_review_2002}. For each publication, we use the matrix to record passages describing challenges caused by using NAS in FL, proposed solutions and the relevant FL system characteristics. The matrix preserves the link between publications and concepts while organising the synthesis around recurring challenges and solutions instead of individual NAS-in-FL methods.
+TODO: read what we did in the split and merge rounds of markdown files to flesh this method description out and map it onto thematic analysis
+- then we iteratively refined challenges and solutions until internal homogeneity and external heterogeneity as described in ...:
+    - we do multiple iterations of merging, splitting up and clarifying boundaries between challenges and solutions as well discarding challenges/solution which make weak claims or are not relevant to our research problem as recommended in ... 
+    - challenges are int. hom. and ext. het. when they make just one analytical claim relavant to our narrative
+    - solutions are int. hom. and ext. het. when they consist of just a single mechanism that ...
+- we then attach solutions to challenges based on (how do we decide if a solution belongs to a challenge? TODO: come up with approach)
 
-We apply the six stages of thematic analysis through three analytical iterations inspired by~\cite{smart_contracts_challenges_solutions_2022} and~\cite{cdml_2024}. In the first iteration, we familiarise ourselves with the complete literature set and populate the concept matrix with initial semantic codes. Each code records the meaning of a passage describing an FL system characteristic, a challenge or a solution without assigning it to a predetermined theme.
-
-In the second iteration, we search for themes by comparing codes across publications and collating conceptually equivalent descriptions. Related codes form recurring challenges and solution types, which we arrange into candidate subthemes and overarching themes. A theme captures a repeated pattern relevant to the research question, while a subtheme distinguishes a coherent pattern within a broader theme. We retain patterns for which the literature provides sufficient evidence to define their meaning and applicability.
-
-In the third iteration, we review the candidate themes against both their coded passages and the complete literature set. We express each challenge as one central analytical claim and merge challenges when their codes describe the same claim in different contexts. We retain separate challenges when they describe independently meaningful relationships and split a challenge when its propositions can hold independently. This applies internal homogeneity within challenges and external heterogeneity between them~\cite{using_thematic_analysis_2006}. We then define and name each theme through its central concept.
-
-We map a solution to a challenge only when its mechanism acts on the cause, process or consequence expressed by the challenge. We distinguish primary responses from secondary effects and record separately whether the relationship is evaluated, claimed by the publication or inferred from the mechanism. A solution may address several challenges, although it is presented with its primary challenge and cross-referenced where necessary. This mapping connects the recurring solutions to the applicable FL system characteristics and NAS approaches without treating their co-occurrence in one publication as evidence of a relationship.
+- next we derive relevant FL system characteristics and NAS method types
+- TODO: How did we decide which characteristics to include and how to classify NAS method types?

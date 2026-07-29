@@ -4,52 +4,28 @@ Deep learning has seen widespread adoption over the last decade and is being app
 % FL explanation and why it is important
 Independently, but in parallel to NAS, researchers developed a machine learning approach called \textit{Federated Learning} (FL)~\cite{fl_seminal_2017}, which enables training an ML model on data distributed across a set of clients without sharing their data. The model is distributed from the server to the clients, which train the model on their local data. The clients then send the model weight updates to the server, which aggregates them and redistributes them to the clients. This process is repeated for several rounds. FL enhances the privacy of client data and enables training even when clients' data is too large to transfer effectively to a central training site or cannot be shared due to regulatory or privacy constraints.
 
-There has been significant interest in using NAS in FL over the last couple of years, but using NAS methods in FL is not straightforward. Most NAS methods were developed for a centralised setting and rely on assumptions that often do not hold for FL. These assumption discrepancies create several \textit{challenges} for using NAS in FL. For example, in a centralised setting, practitioners can expect a NAS method to run on worker nodes connected via low-latency, high-bandwidth links. However, in FL, a NAS method may run on clients connected via an unreliable, high-latency, low-bandwidth network. This creates a challenge when transferring the weights of large candidate models between clients and the server to coordinate an architecture search. Practitioners need specialised solutions to overcome such challenges, such as only transferring encodings of candidate architectures to clients \cite{aging_fednas_2025}.
+There has been significant interest in using NAS in FL over the last couple of years, spawning \textit{NAS-in-FL methods}~\cite{nas_in_fl_2026}, but using NAS methods in FL is not straightforward. Most NAS methods were developed for a centralised setting and can not be applied directly in FL. For example, in a centralised setting, NAS methods typically run on worker nodes connected via low-latency, high-bandwidth links. However, in FL, a NAS method may run on clients connected via an unreliable, high-latency, low-bandwidth network. This creates a \textit{challenge} when transferring the weights of large candidate models between clients and the server to coordinate an architecture search. Specialized solutions are needed to overcome such challenges for NAS-in-FL methods, such as only transferring encodings of candidate architectures to clients \cite{aging_fednas_2025}.
 
-The NAS-in-FL literature contains many NAS-in-FL methods that propose various solutions for overcoming the challenges of using NAS in FL \cite{nas_in_fl_2026}. As NAS-in-FL research has progressed, several overarching challenges and solution themes have appeared in the literature. Despite differences in implementation and terminology, solutions are often conceptually similar. For example, different methods use partial-parameter aggregation or knowledge transfer to coordinate searches involving heterogeneous architectures \cite{fedoras_2022,rafl_2024,hapfnas_2025}. 
+Many solutions for addressing these challenges have been proposed in the NAS-in-FL literature, but solutions are usually bundled as part of individual NAS-in-FL methods. Across the literature, similar challenges and solution mechanisms are described at different levels of abstraction using different terminology. Treating each NAS-in-FL method as an indivisible unit obscures which challenges and solutions recur across the literature at a fine-grained level and does not allow specifying the conditions under which a specific challenge occurs. An overview/something ... is needed.
 
-Earlier reviews classify methods as online or offline and single- or multi-objective, summarise a small set of NAS-in-FL methods within a broader NAS and hyperparameter optimisation review, or discuss NAS as one part of multi-objective FL \cite{fl_to_nas_survey_2021,nas_hpo_fl_survey_2023,multi-objective_methods_in_fl_2025}. More recent work supports comparison by conceptualising a generic NAS-in-FL pipeline, design elements, and method archetypes \cite{nas_in_fl_2026}. While these reviews provide an overview of the types of NAS-in-FL methods, they do not highlight individual challenges of NAS-in-FL methods and the solutions covered in the literature to overcome them. NAS-in-FL research lacks a concept-centric overview of its problem and solution space. Individual studies describe challenges and solutions for particular NAS methods and FL settings using different terminology and levels of abstraction, but they do not reveal which challenges and solutions recur across the literature as overarching concepts.
+% introduce NAS-in-FL scenario in this paragraph?
+Earlier reviews classify NAS-in-FL methods by properties such as when search occurs and which objectives it optimizes~\cite{fl_to_nas_survey_2021}, summarize selected methods within broader reviews~\cite{nas_hpo_fl_survey_2023}, or discuss NAS as part of multi-objective FL~\cite{,,multi-objective_methods_in_fl_2025}. More recent work supports a more fine-grained comparison through a generic NAS-in-FL pipeline, design elements, and method archetypes~\cite{nas_in_fl_2026}. These contributions organize complete methods and their configurations, but reasons for why challenges occur and under which conditions they occur remain underspecified. Challenges remain scattered across the literature along with the recurring solution mechanisms that address them. % Why do we want this? How does it help?
 
-% TODO: what is the confusion, how do we help create clarity?
-% NAS-in-FL is an emerging field, but the challenge-solution space remains underspecified
-% It's clear that NAS-in-FL is difficult, but the reasons why it is difficult are murky
-% What makes NAS-in-FL challenging, how is it challenging, how can we overcome these challenges?
+% explain why it would be useful here
 
-%This thesis contributes a component-level synthesis of NAS-in-FL design knowledge. It decomposes complete NAS-in-FL methods into recurring challenge and solution mechanisms, maps their many-to-many relationships, and retains the conditions, dependencies and trade-offs under which the literature presents these mechanisms as applicable. This decomposition complements method-level classifications by showing how solution components can be combined into configurations for different federated conditions.
+% dead weight paragraph
+Challenge and solution themes alone do not establish their applicability because NAS-in-FL methods operate under different FL conditions and distribute architecture search in different ways. For example, the same client constraints have different consequences depending on whether clients train a complete supernet or evaluate individual candidates. Recurring combinations of FL system characteristics and NAS design properties can therefore be consolidated into common NAS-in-FL scenarios. Relating these scenarios to challenge and solution themes preserves the conditions under which the literature supports each relationship.
 
-% contributions:
-% - conditions under which those relationships apply
-% - recurring challenges that are described differently across papers
-% - dependencies and trade-offs between solution components
-% - recurring challenges that are described differently across papers
-% - reusable solution mechanisms that recur within otherwise different methods, i.e. they are backed by the literature
-% - conditions under which those relationships apply
-% - claim is NOT "if these characteristics, this is the solution", but more like "if these characteristics, solutions already exist for challenges"
+NAS-in-FL research lacks a synthesis of challenges, the conditions under which they occur and the solutions used to address challenges. Such a synthesis would (TODO: too strong statement, more like would start shedding light on or begin explainging) clarify why challenges arise, which solution mechanisms the literature proposes for them, and under which conditions those mechanisms (TODO: too strong statement) are applicable. This leads to the following research question:
 
-% challenges remain underspecified
+% missing motivation: several recurring scenarios, each with its own set of challenges 
+% missing in intro: explanation of what a NAS-in-FL scenario is
 
-% Research Problem:
-% - Under what circumstances do which challenges arise?
-% - What are the reasons that NAS in FL is hard?
-% - How has the literature dealt with these challenges so far?
+% TODO: not quite targeted at chapter 5 and 6 yet.
+\textit{How do solutions address recurring challenges in the literature?}
 
-While themes in challenges and solutions have emerged, they can not be applied universally, since they depend on the FL system characteristics and the used NAS-in-FL method. Furhtermore, seemingly related challenges are quite different upon closer inspection and warrant different solutions. A clear overview of the challenge and solution space for NAS-in-FL is needed to make practitioners aware under which circumstance which potential pitfalls occur and make them aware for which circumstances solutions already exist and where work can be done. This leads us to ask the following research question:
-
-% Gap:
-% - recurring NAS-in-FL scenarios have not been consolidated  
-% - challenges are described using inconsistent terminology  
-% - recurring solution mechanisms have not been synthesized  
-% - scenario–challenge–solution relationships remain unclear
-
-% Most current research question candidates
-\textit{What solutions exist for challenges in NAS-in-FL scenarios common in the literature?}
-\textit{How does the literature relate common NAS-in-FL scenarios to challenges and their proposed solutions?}
-
-% TODO: add adjective that allows room for discussion
-% adjectives: recurring/common
-% or maybe recurring challenges?
-% single short, research question that asks one question in one sentence (no cheating with commas and coupling sentences)
-\textit{Which <adjective placeholder> solutions does the literature propose for addressing the challenges that arise when using NAS in FL?}
+We propose grouping challenges and solution around central themes (or should it be around which parts of the NAS-in-FL scenario activates it?)
+recurring combinations of FL system characteristics and NAS method types which we call NAS-in-FL scenarios. NAS-in-FL scenario is part of my contribution.
 
 % # "Study: How investigate? Process, context & why?"
 % ## "Indicate that this study addresses that problem or issue and state how."
