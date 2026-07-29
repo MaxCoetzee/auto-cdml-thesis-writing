@@ -1,6 +1,6 @@
-\section{Heterogeneity}
+\section{Client Heterogeneity}
 
-FL clients can differ substantially in hardware, connectivity and data distribution. Resource constraints determine whether clients can perform the required search work, while heterogeneity makes the same workload, architecture or search decision unsuitable across the client population. NAS-in-FL must therefore account for variation both while distributing the search and when selecting architectures for deployment.
+Clients within an FL system can differ in their operational capabilities and learning contexts. This theme covers how these differences affect clients' ability to perform search work and the suitability of architectures for their data, tasks and deployment constraints.
 
 \subsection{Hardware Heterogeneity}
 
@@ -65,13 +65,3 @@ Cross-client heterogeneity may also vary over time. A fixed architecture selecte
 Conventional NAS can reduce search cost by using a small proxy dataset, but the resulting architecture may rank differently on the target data. In NAS-in-FL, non-IID client distributions can enlarge this gap and the private target data cannot be pooled to construct a representative central proxy~\cite{privacy-preserving_nas_across_fl_iot_2021}. A search space designed for one dataset may create a related transfer problem when applied to different federated data~\cite{privacy_preserving_fednas_for_edge_2025}.
 
 \noindent\textbf{Solution 2.7a: Search directly on private target data.} Clients can update sampled architectural paths on their local target data and aggregate the resulting model and architecture variables without transferring raw examples. Hardware latency can be included in the same objective so that direct search also reflects the deployment platform~\cite{privacy-preserving_nas_across_fl_iot_2021}. Server-side search-space preselection, as described in Solution 4.1b, is an alternative when representative server data are available.
-
-\subsection{Client Connectivity Heterogeneity}
-
-\subsubsection{Challenge 2.8: Bias from Overrepresenting Frequently Available and Well-Connected Participants}
-
-Differences in bandwidth and availability cause some clients to participate more often or meet more round deadlines than others~\cite{optimize_fednas_edge_2021,peaches_2024}. Resource-aware assignment can also make small candidates train mainly on low-capability clients and large candidates on well-connected clients~\cite{fedoras_2022}. Candidate quality then becomes entangled with the non-IID data of the clients able to train it, which can bias shared weights and architecture rankings towards frequently available participants~\cite{hapfnas_2025}.
-
-\noindent\textbf{Solution 2.8a: Balance connectivity and data coverage jointly.} Candidate-training groups can be constrained by bandwidth while also being adjusted to cover representative class distributions. The literature implements this by rebalancing bandwidth-based groups according to class distribution, or by minimising each cluster's distance from the population distribution under a completion-time limit~\cite{network_aware_fed_nas_2025,finch_2024}. This makes candidate comparisons less dependent on which client links can support them.
-
-\noindent\textbf{Solution 2.8b: Decouple client knowledge from candidate assignment.} Client predictions or feature maps on shared inputs can be aggregated into a teaching signal and distilled into different candidate architectures. Sampled supernet paths or personalised models then learn from several clients, including those unable to execute that candidate directly~\cite{hapfnas_2025,collaborative_nas_for_pfl_2025}. This transfers knowledge across architecture boundaries without requiring every client to train every candidate.

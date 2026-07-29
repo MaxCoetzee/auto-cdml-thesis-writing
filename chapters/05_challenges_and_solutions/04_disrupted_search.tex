@@ -1,0 +1,37 @@
+\section{Disrupted Architecture Search}
+
+Changes in client participation and unstable structural decisions can interrupt architecture search or make its evidence unreliable. This theme covers responses that preserve participation continuity, representative client influence and optimisation stability.
+
+\subsection{Participation Disruption and Bias}
+
+\subsubsection{Challenge 1.10: Client Dropout Interrupts Architecture Search}
+
+Cross-device clients can become unavailable because of changing network conditions, battery constraints or competing local workloads. A search procedure that requires the same cohort in every round can then stall or lose updates for the candidates or supernet paths assigned to disconnected clients~\cite{optimize_fednas_edge_2021}.
+
+\noindent\textbf{Solution 1.10a: Design the search for partial participation.} The server can require only a random subset of clients to participate in each round and aggregate the search updates returned by that subset. The participating clients may change between rounds, allowing architecture search to continue without requiring every registered client to remain available~\cite{optimize_fednas_edge_2021}.
+
+\subsubsection{Challenge 1.11: Clients Reach Architecture Decisions at Different Times}
+
+In personalised differentiable search, clients can optimise architecture variables at different rates because their data distributions and local trajectories differ. A common stopping round can terminate some searches prematurely while allowing others to overfit, for example by increasingly favouring skip connections~\cite{collaborative_nas_for_pfl_2025}.
+
+\noindent\textbf{Solution 1.11a: Stop architecture updates independently.} After a shared warm-up period, each client can stop updating its architecture variables when a local criterion detects increasing preference for skip connections. Other clients continue searching until they meet their own stopping criteria~\cite{collaborative_nas_for_pfl_2025}.
+
+\subsubsection{Challenge 2.8: Bias from Overrepresenting Frequently Available and Well-Connected Participants}
+
+Differences in bandwidth and availability cause some clients to participate more often or meet more round deadlines than others~\cite{optimize_fednas_edge_2021,peaches_2024}. Resource-aware assignment can also make small candidates train mainly on low-capability clients and large candidates on well-connected clients~\cite{fedoras_2022}. Candidate quality then becomes entangled with the non-IID data of the clients able to train it, which can bias shared weights and architecture rankings towards frequently available participants~\cite{hapfnas_2025}.
+
+\noindent\textbf{Solution 2.8a: Balance connectivity and data coverage jointly.} Candidate-training groups can be constrained by bandwidth while also being adjusted to cover representative class distributions. The literature implements this by rebalancing bandwidth-based groups according to class distribution, or by minimising each cluster's distance from the population distribution under a completion-time limit~\cite{network_aware_fed_nas_2025,finch_2024}. This makes candidate comparisons less dependent on which client links can support them.
+
+\noindent\textbf{Solution 2.8b: Decouple client knowledge from candidate assignment.} Client predictions or feature maps on shared inputs can be aggregated into a teaching signal and distilled into different candidate architectures. Sampled supernet paths or personalised models then learn from several clients, including those unable to execute that candidate directly~\cite{hapfnas_2025,collaborative_nas_for_pfl_2025}. This transfers knowledge across architecture boundaries without requiring every client to train every candidate.
+
+\subsection{Structural Instability}
+
+\subsubsection{Challenge 3.5: Structural Decisions Can Destabilise the Search}
+
+Distributed architecture updates can favour different operations at different network depths, and an early preference for parameter-free operations can prevent the architecture from converging~\cite{remote_sensing_fednas_2025}. Progressive selection creates a related problem because fixing an operation changes the computation graph and its weight-sharing relationships. The next decision can then be evaluated before the remaining weights have adapted to the preceding structural change~\cite{spider_2021}. Unstructured subnet sampling can also create jagged aggregate updates and slow supernet convergence~\cite{divide-and-conquer_fednas_2023}.
+
+\noindent\textbf{Solution 3.5a: Regularise layer-wise architecture updates.} During local differentiable search, a gradient-alignment term can constrain the relationship between layer gradients and architecture variables. Incorporating this term into the architecture objective counteracts depth-dependent operation preferences before the client update is aggregated~\cite{remote_sensing_fednas_2025}.
+
+\noindent\textbf{Solution 3.5b: Separate structural decisions with recovery rounds.} A progressive supernet search can first warm up the shared weights and then fix one operation at a time according to its effect on local validation accuracy. Several recovery rounds update the remaining weights after each decision before the next edge is evaluated~\cite{spider_2021}. Once the relevant edges have been resolved, the architecture is fixed and ordinary training continues.
+
+\noindent\textbf{Solution 3.5c: Vary subnet coverage over the search.} A server can assign subnet masks with large pairwise distances during early rounds and progressively reduce those distances as training advances. Early rounds explore separated regions of the search space, while later rounds concentrate updates around better understood regions~\cite{divide-and-conquer_fednas_2023}. The structured masks also fit together more consistently during aggregation than independently sampled subnets.

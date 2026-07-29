@@ -1,15 +1,8 @@
-\section{Limited Client Resources}
+\section{Resource Burden of NAS in FL}
 
-% TODO: use nas-bench 101 blog post as citation for explanation on why NAS is so expensive
-NAS is inherently computationally demanding, because a search may train and compare many candidate architectures. Even in a centralised setting it is difficult to do NAS.
+NAS may train or estimate the performance of many candidates, while distributing this work across clients adds resource costs to an already expensive procedure~\cite{ying2019nasbench101reproducibleneuralarchitecture,fl_advances_and_open_problems_2021}. This theme covers challenges that make federated architecture search operationally burdensome and solutions that reduce, reuse or reorganise the required work.
 
-NAS-Bench-101 made repeated NAS experiments practical through table look-ups by precomputing more than five million trained models for 423,000 unique convolutional architectures, a dataset that required over 100 TPU-years of computation~\cite{ying2019nasbench101reproducibleneuralarchitecture}. This scale illustrates the cost that candidate evaluation can impose before FL-specific constraints are considered.
-
-FL compounds this cost because cross-device clients vary in compute performance, memory, bandwidth and availability, and these capabilities are typically lower than those of data-centre nodes~\cite{fl_advances_and_open_problems_2021,fl_in_practice_reflections_2024}. This thematic analysis identified four resource-related sub-themes: limited computation and memory, limited networking, energy consumption and client unreliability.
-
-These constraints are generally less severe in cross-silo FL because its clients are usually fewer, more powerful, more reliable and addressable. This eliminates many cross-device system challenges, although computation or communication can still be the primary bottleneck~\cite{fl_advances_and_open_problems_2021}.
-
-\subsection{Limited Computational Power} % challenges and solutions related to computation
+\subsection{Computation and Search Effort}
 
 \subsubsection{Challenge 1.1: Evaluating Candidate Architectures on Constrained Computational Resources}
 
@@ -61,7 +54,7 @@ In split-model training, different clients or device groups execute consecutive 
 
 \noindent\textbf{Solution 1.5a: Search locally during split-training idle periods.} Auxiliary input and output components can turn an assigned model segment into a locally executable supernet. During otherwise idle periods, the client samples and trains alternative branches, using the corresponding segment of the split model as a teacher for feature distillation~\cite{nasfly_2024}. This converts waiting time into architecture-search work that can proceed without the remaining model partitions.
 
-\subsection{Limited Networking} % networking related challenges and solutions
+\subsection{Communication Burden}
 
 Cross-device clients often communicate with the server over capacity-limited wide-area links. Typical wide-area bandwidths of 5--25 Mbit/s are far below the more than 10 Gbit/s available within data centres~\cite{peaches_2024}. The discussion below assumes a common bandwidth limit. Unequal connectivity is treated separately as client heterogeneity.
 
@@ -89,24 +82,10 @@ An architecture selected only for predictive performance or local computation ca
 
 \noindent\textbf{Solution 1.8a: Optimise for transmitted model size.} Communication cost can be included directly in the architecture objective. Evolutionary search can optimise global error together with the average number of weights uploaded by clients, favouring sparse architectures~\cite{multi_objective_evo_fl_2020}. Differentiable supernet-based search can similarly regularise the expected number of transmitted bytes~\cite{fedregnas_2025}. Both expose the trade-off between predictive performance and continuing communication cost before selecting an architecture.
 
-\subsection{Energy Constraints}
+\subsection{Energy Burden}
 
 \subsubsection{Challenge 1.9: Search Computation and Communication Deplete Client Energy}
 
 Message size and round duration do not fully represent the burden on battery-powered clients. Repeated local optimisation consumes computation energy, while every search-state exchange consumes transmission energy. Fixed local epoch counts can create redundant communication in some rounds and unnecessary computation in others, increasing the energy required to reach a target performance~\cite{f2nas_2024}.
 
 \noindent\textbf{Solution 1.9a: Adapt local epochs to an energy--convergence bound.} The number of local epochs can be selected in each round from an upper bound that relates loss reduction to client computation and communication costs. This balances additional local work against another cloud--client exchange instead of using one fixed value throughout the search~\cite{f2nas_2024}. The cited evaluation reports an energy reduction of nearly 50\%, although applying the mechanism requires estimates of client energy and latency.
-
-\subsection{Client Unreliability}
-
-\subsubsection{Challenge 1.10: Client Dropout Interrupts Architecture Search}
-
-Cross-device clients can become unavailable because of changing network conditions, battery constraints or competing local workloads. A search procedure that requires the same cohort in every round can then stall or lose updates for the candidates or supernet paths assigned to disconnected clients~\cite{optimize_fednas_edge_2021}.
-
-\noindent\textbf{Solution 1.10a: Design the search for partial participation.} The server can require only a random subset of clients to participate in each round and aggregate the search updates returned by that subset. The participating clients may change between rounds, allowing architecture search to continue without requiring every registered client to remain available~\cite{optimize_fednas_edge_2021}.
-
-\subsubsection{Challenge 1.11: Clients Reach Architecture Decisions at Different Times}
-
-In personalised differentiable search, clients can optimise architecture variables at different rates because their data distributions and local trajectories differ. A common stopping round can terminate some searches prematurely while allowing others to overfit, for example by increasingly favouring skip connections~\cite{collaborative_nas_for_pfl_2025}.
-
-\noindent\textbf{Solution 1.11a: Stop architecture updates independently.} After a shared warm-up period, each client can stop updating its architecture variables when a local criterion detects increasing preference for skip connections. Other clients continue searching until they meet their own stopping criteria~\cite{collaborative_nas_for_pfl_2025}.

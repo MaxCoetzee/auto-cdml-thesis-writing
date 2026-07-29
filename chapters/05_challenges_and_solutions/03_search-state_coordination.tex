@@ -1,6 +1,6 @@
-\section{Architecture Search Coordination}
+\section{Federated Search-State Coordination}
 
-Centralised NAS maintains the state and observations that guide architecture search within one optimisation process. In FL, clients update search variables using local data and the server must combine their results into a coherent trajectory. Coordination is therefore required to preserve distributed search state, manage interdependent decisions and evaluate architectures whose computation spans several parties. The resource, heterogeneity and security consequences are discussed in their respective sections.
+FL distributes the variables, model weights and evidence that guide NAS across clients and rounds. This theme covers mechanisms that combine, preserve or jointly optimise that state so the search follows a coherent trajectory.
 
 \subsection{Coordinating Distributed Search State}
 
@@ -33,18 +33,6 @@ An architecture's apparent quality depends on the configuration under which it i
 \noindent\textbf{Solution 3.4a: Coordinate architecture and hyperparameter optimisation.} An alternating procedure can select a training configuration, search an architecture under that configuration and use the result to guide the next hyperparameter decision~\cite{feathers_2023}. Evolutionary search can instead encode the architecture and its training hyperparameters in the same individual and evaluate them together through federated training~\cite{aging_fednas_2025}.
 
 \noindent\textbf{Solution 3.4b: Include FL control variables in the search space.} Black-box strategies can search the number of local epochs and the fraction of active clients alongside architecture and conventional hyperparameter choices. Evaluating each complete configuration through federated training makes candidate fitness reflect the FL procedure with which the architecture will operate~\cite{breastcancer_fednas_2024}.
-
-\subsection{Stabilising Distributed Structural Decisions}
-
-\subsubsection{Challenge 3.5: Structural Decisions Can Destabilise the Search}
-
-Distributed architecture updates can favour different operations at different network depths, and an early preference for parameter-free operations can prevent the architecture from converging~\cite{remote_sensing_fednas_2025}. Progressive selection creates a related problem because fixing an operation changes the computation graph and its weight-sharing relationships. The next decision can then be evaluated before the remaining weights have adapted to the preceding structural change~\cite{spider_2021}. Unstructured subnet sampling can also create jagged aggregate updates and slow supernet convergence~\cite{divide-and-conquer_fednas_2023}.
-
-\noindent\textbf{Solution 3.5a: Regularise layer-wise architecture updates.} During local differentiable search, a gradient-alignment term can constrain the relationship between layer gradients and architecture variables. Incorporating this term into the architecture objective counteracts depth-dependent operation preferences before the client update is aggregated~\cite{remote_sensing_fednas_2025}.
-
-\noindent\textbf{Solution 3.5b: Separate structural decisions with recovery rounds.} A progressive supernet search can first warm up the shared weights and then fix one operation at a time according to its effect on local validation accuracy. Several recovery rounds update the remaining weights after each decision before the next edge is evaluated~\cite{spider_2021}. Once the relevant edges have been resolved, the architecture is fixed and ordinary training continues.
-
-\noindent\textbf{Solution 3.5c: Vary subnet coverage over the search.} A server can assign subnet masks with large pairwise distances during early rounds and progressively reduce those distances as training advances. Early rounds explore separated regions of the search space, while later rounds concentrate updates around better understood regions~\cite{divide-and-conquer_fednas_2023}. The structured masks also fit together more consistently during aggregation than independently sampled subnets.
 
 \subsection{Coordinating Vertically Partitioned Search}
 
