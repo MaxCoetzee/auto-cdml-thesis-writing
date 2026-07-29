@@ -1,14 +1,19 @@
 % !TeX root = ../main.tex
 \chapter{Method}\label{chapter:method}
 
-We conduct a concept-centric literature review following~\cite{webster_watson_literature_review_2002}
+We conduct a literature review following~\cite{webster_watson_literature_review_2002} and analyse the literature on the basis of thematic analysis.
 
 % how can I extract individual challengs and solutions and connect cause and effect from the literature?
 
 % Data Collection
 \section{Literature Selection}
 
-In accordance with Webster and Watson, we did...
+- In accordance with Webster and Watson, we did...
+
+- scopus search of the topic
+- filtered papers according to criteria: Do they describe a NAS-in-FL method? 
+- filtered out reviews, they belong in related work
+- perform snowballing search until no more NAS-in-FL methods are found
 
 TODO: include prisma chart (applicable with webster and watson?)
 
@@ -26,27 +31,3 @@ In the second iteration, we search for themes by comparing codes across publicat
 In the third iteration, we review the candidate themes against both their coded passages and the complete literature set. We express each challenge as one central analytical claim and merge challenges when their codes describe the same claim in different contexts. We retain separate challenges when they describe independently meaningful relationships and split a challenge when its propositions can hold independently. This applies internal homogeneity within challenges and external heterogeneity between them~\cite{using_thematic_analysis_2006}. We then define and name each theme through its central concept.
 
 We map a solution to a challenge only when its mechanism acts on the cause, process or consequence expressed by the challenge. We distinguish primary responses from secondary effects and record separately whether the relationship is evaluated, claimed by the publication or inferred from the mechanism. A solution may address several challenges, although it is presented with its primary challenge and cross-referenced where necessary. This mapping connects the recurring solutions to the applicable FL system characteristics and NAS approaches without treating their co-occurrence in one publication as evidence of a relationship.
-
-
-% Leave this here, only edit above
-[TODO: overhaul to include method for identifying challenges and FL settings]
-- targeted FL setting can be stated directly, indirectly or must be inferred from experimental setup 
-
-We use various techniques from \cite{grounded_theory_2015} and lean on parts of the methodology of \cite{cdml_2024} to perform a systematic literature review.
-
-\begin{enumerate}
-    \item \textbf{Literature Selection:} We follow the guidelines and flow diagrams provided by PRISMA 2020 \cite{prisma_2020} for inclusion and exclusion of papers and perform forward and backwards citation searching. We identify 59 papers that present FedNAS methods. Each paper contains one or more FedNAS methods. 
-    \item \textbf{Unrefined Adaptation Technique Extraction:} Once the set of included papers is fixed, we perform open coding on each FedNAS method to extract unrefined adaptation techniques. Any modification to a NAS method that is explicitly motivated by the federated setting is treated coded as one unrefined adaptation technique.
-    \item \textbf{Adaptation Techniques Coneceptualization:} We iteratively refine and merge unrefined adapatation techniques in an axial coding step to obtain a coherent set of adaptation techniques that are mutually exclusive and collectively exhaustive. Unrefined adaptation techniques with conceptually highly-similar mechanisms are merged into a single representative adaptation technique.
-    \item \textbf{Categorise Adaptation Techniques:} After merging, in a second axial coding step, we cluster adaptation techniques based on a) the FedNAS challenges they address and b) the conceptual similarity of their mechanisms. As a result, we obtain a taxonomy of adaptation techniques.
-    \item \textbf{Discuss FedNAS Challenges for Adaptation Techniques:} We discuss how each adaptation technique works towards, against, or does not affect overcoming each of FedNAS challenges.
-    \item \textbf{Produce Table Overviews:} Finally, we create two tables that practicioners can use to make decisions about FedNAS methods for their use case. 
-
-    The first table contains a coded vector of effects over the FedNAS challenges for each \textit{FedNAS method}. The effects per FedNAS method are the result of the effects of its adaptation techniques in aggregate. Practicioners can use this table to decide which FedNAS method suits their use case or if their use case would benefit from a new FedNAS method.
-    
-    The second table table contains a coded vector of effects over the FedNAS challenges for each \textit{adaptation technique} based on the prior discussion. If practicioners need to create new FedNAS methods, they can use this table to choose existing adaptation techniques relevant to the set of FedNAS challenges they need to address for their use case.
-\end{enumerate}
-
-\section{Reviewed Literature}
-
-add some overview and statistics about the literature
