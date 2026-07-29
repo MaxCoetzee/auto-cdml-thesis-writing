@@ -25,6 +25,8 @@ Security completes the mapping by distinguishing integrity from confidentiality.
 
 \section{Implications for Practice and Research}
 
+- clear guidance on existing related solutions and challenges
+
 For practitioners, the findings support a diagnostic sequence. The intended system should first be characterised by FL partitioning, client compute and memory, link capacity, participation, data distributions, trust assumptions, and deployment budgets. The search representation can then be examined to locate the constrained or exposed state. Only after these conditions are explicit can the relevant solutions be combined. For example, capacity-specific subnets may require exposure-aware aggregation, representative client grouping, compact communication, and protection of architecture updates. Selecting one component without its dependencies can transfer cost, bias, or exposure to another part of the search. This makes the map useful before implementation because it reveals which assumptions must hold for a solution to remain operationally feasible.
 
 For research, this synthesis suggests that solution configurations are a more informative unit of comparison than complete NAS-in-FL methods. It provides a vocabulary for distinguishing where a federated condition affects the search process, the evidence used to guide it, or the architecture eventually deployed. It also exposes dependencies between solution components that method-level comparisons can conceal. The mapping therefore supports condition-specific comparison rather than a universal ranking of solutions. Its main implication is that the applicable context should form part of every challenge--solution claim.

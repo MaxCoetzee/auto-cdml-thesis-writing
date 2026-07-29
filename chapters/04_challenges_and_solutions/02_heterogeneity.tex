@@ -1,6 +1,6 @@
 \section{Heterogeneity}
 
-FL clients can differ substantially in hardware, data and connectivity. Resource constraints determine whether clients can perform the required search work, while heterogeneity makes the same workload, architecture or search decision unsuitable across the client population. NAS-in-FL must therefore account for variation both while distributing the search and when selecting architectures for deployment.
+FL clients can differ substantially in hardware, connectivity and data distribution. Resource constraints determine whether clients can perform the required search work, while heterogeneity makes the same workload, architecture or search decision unsuitable across the client population. NAS-in-FL must therefore account for variation both while distributing the search and when selecting architectures for deployment.
 
 \subsection{Hardware Heterogeneity}
 
@@ -40,18 +40,38 @@ Differences in class balance and feature distributions can cause clients to favo
 
 \noindent\textbf{Solution 2.3c: Apply fairness-aware aggregation after search.} Once a common architecture has been selected, clients whose local model performs better than the aggregated model can receive greater weight during final model training. This reduces cross-client risk gaps and prevents the trained weights from compounding distributional disparities~\cite{mri_generalizable_reconstruction_fednas_2025}. The mechanism changes the weights of the selected architecture rather than the preceding architecture search.
 
+\noindent\textbf{Solution 2.3d: Smooth client weights after architecture selection.} During post-search training, each client can maintain an exponential moving average of its model weights rather than relying only on the latest local update. This reduces sensitivity to variation in successive updates. The cited evaluation reports improved reconstruction performance under heterogeneous data~\cite{fed_auto_mri_2023}. Like Solution 2.3c, the mechanism changes training of the selected architecture rather than the architecture search.
+
 \subsubsection{Challenge 2.4: Imbalanced Client Data Volumes}
 
 Clients can hold substantially different numbers of examples. Candidate estimates from small local datasets are typically less reliable, while sample-weighted aggregation gives data-rich clients more influence over shared weights and architecture decisions~\cite{fednas_2021}. NAS-in-FL must therefore determine whether the searched architecture should represent the pooled examples or the participating clients.
 
 \noindent\textbf{Solution 2.4a: Choose aggregation weights to match the search objective.} Weighting architecture and model updates by local sample count makes the search represent the pooled training examples~\cite{fednas_2021}. Equal client influence can instead be approximated by uniformly averaging client predictions on shared unlabelled data and distilling the result into sampled subnets~\cite{hapfnas_2025}. The aggregation unit should follow whether performance is evaluated across examples or across clients.
 
+\subsubsection{Challenge 2.5: Clients Solve Related but Different Tasks}
+
+Client heterogeneity can extend beyond different distributions for one prediction task. Related local tasks may require different label mappings or structural choices, so a shared architecture and one set of weights can produce incompatible predictions even when every client has sufficient resources~\cite{fedpnas_2021}. Distribution-aware aggregation alone cannot reconcile objectives that require different outputs for the same input.
+
+\noindent\textbf{Solution 2.5a: Factor the architecture into shared and task-specific components.} The search space can separate a base component that captures knowledge shared across tasks from a component that clients adapt structurally. A task-conditioned sampling distribution selects the client-specific component, while local fine-tuning adapts it to the corresponding task~\cite{fedpnas_2021}. This retains collaborative learning but adds a personalisation phase after the shared search.
+
+\subsubsection{Challenge 2.6: Client Distributions Change over Time}
+
+Cross-client heterogeneity may also vary over time. A fixed architecture selected from historical data can become unsuitable when a client's latent operating regime changes, particularly in non-stationary time-series applications~\cite{fedregnas_2025}. Solutions that address only static differences between clients do not allow the active structure to change with the current regime.
+
+\noindent\textbf{Solution 2.6a: Condition architectural choices on the current regime.} A lightweight gate can infer a latent regime and activate corresponding operator adapters within a shared supernet. Clients still collaborate on common weights and architecture distributions, while the active subpath changes with the observed regime~\cite{fedregnas_2025}. The available evidence is specific to financial time series, so transfer to other forms of temporal drift remains to be established.
+
+\subsubsection{Challenge 2.7: Proxy Data Can Misrepresent Private Target Data}
+
+Conventional NAS can reduce search cost by using a small proxy dataset, but the resulting architecture may rank differently on the target data. In NAS-in-FL, non-IID client distributions can enlarge this gap and the private target data cannot be pooled to construct a representative central proxy~\cite{privacy-preserving_nas_across_fl_iot_2021}. A search space designed for one dataset may create a related transfer problem when applied to different federated data~\cite{privacy_preserving_fednas_for_edge_2025}.
+
+\noindent\textbf{Solution 2.7a: Search directly on private target data.} Clients can update sampled architectural paths on their local target data and aggregate the resulting model and architecture variables without transferring raw examples. Hardware latency can be included in the same objective so that direct search also reflects the deployment platform~\cite{privacy-preserving_nas_across_fl_iot_2021}. Server-side search-space preselection, as described in Solution 4.1b, is an alternative when representative server data are available.
+
 \subsection{Client Connectivity Heterogeneity}
 
-\subsubsection{Challenge 2.5: Bias from Overrepresenting Frequently Available and Well-Connected Participants}
+\subsubsection{Challenge 2.8: Bias from Overrepresenting Frequently Available and Well-Connected Participants}
 
 Differences in bandwidth and availability cause some clients to participate more often or meet more round deadlines than others~\cite{optimize_fednas_edge_2021,peaches_2024}. Resource-aware assignment can also make small candidates train mainly on low-capability clients and large candidates on well-connected clients~\cite{fedoras_2022}. Candidate quality then becomes entangled with the non-IID data of the clients able to train it, which can bias shared weights and architecture rankings towards frequently available participants~\cite{hapfnas_2025}.
 
-\noindent\textbf{Solution 2.5a: Balance connectivity and data coverage jointly.} Candidate-training groups can be constrained by bandwidth while also being adjusted to cover representative class distributions. The literature implements this by rebalancing bandwidth-based groups according to class distribution, or by minimising each cluster's distance from the population distribution under a completion-time limit~\cite{network_aware_fed_nas_2025,finch_2024}. This makes candidate comparisons less dependent on which client links can support them.
+\noindent\textbf{Solution 2.8a: Balance connectivity and data coverage jointly.} Candidate-training groups can be constrained by bandwidth while also being adjusted to cover representative class distributions. The literature implements this by rebalancing bandwidth-based groups according to class distribution, or by minimising each cluster's distance from the population distribution under a completion-time limit~\cite{network_aware_fed_nas_2025,finch_2024}. This makes candidate comparisons less dependent on which client links can support them.
 
-\noindent\textbf{Solution 2.5b: Decouple client knowledge from candidate assignment.} Client predictions or feature maps on shared inputs can be aggregated into a teaching signal and distilled into different candidate architectures. Sampled supernet paths or personalised models then learn from several clients, including those unable to execute that candidate directly~\cite{hapfnas_2025,collaborative_nas_for_pfl_2025}. This transfers knowledge across architecture boundaries without requiring every client to train every candidate.
+\noindent\textbf{Solution 2.8b: Decouple client knowledge from candidate assignment.} Client predictions or feature maps on shared inputs can be aggregated into a teaching signal and distilled into different candidate architectures. Sampled supernet paths or personalised models then learn from several clients, including those unable to execute that candidate directly~\cite{hapfnas_2025,collaborative_nas_for_pfl_2025}. This transfers knowledge across architecture boundaries without requiring every client to train every candidate.
