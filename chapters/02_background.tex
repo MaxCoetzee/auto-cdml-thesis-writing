@@ -7,6 +7,10 @@ Neural architecture search (NAS) automates the design of neural network architec
 ~\cite{nas_1000_papers_2023} groups NAS methods by their strategy into the following kinds: 
 Black-box strategies evaluate separate architectures, whereas supernet-based strategies train weight-sharing subnetworks within a common model. Weight sharing reduces evaluation cost but can make inherited-weight performance an unreliable proxy for independent training~\cite{nas_1000_papers_2023}. These choices determine the computation and search state required by NAS.
 
+\subsubsection{NAS Method Type}
+
+
+
 \subsection{Federated Learning}
 
 Federated learning (FL) enables clients to train a model collaboratively while keeping their raw data local. A server commonly distributes a global model to selected clients, which train it locally and return updates for aggregation~\cite{fl_seminal_2017}. Cross-device FL generally involves many resource-constrained and intermittently available devices, while cross-silo FL involves fewer, more reliable organizations. Data may also be partitioned horizontally by samples or vertically by features. These system characteristics shape the resources, coordination and trust available to the federated process~\cite{fl_advances_and_open_problems_2021}.
@@ -14,3 +18,21 @@ Federated learning (FL) enables clients to train a model collaboratively while k
 \subsection{NAS in FL}
 
 NAS in FL performs architecture search through the federated process without centralizing client data. Candidate training becomes client work, while candidate generation, evaluation, search-state updates and selection may occur at the server, the clients or both~\cite{nas_in_fl_2026}. Depending on the search strategy, clients exchange model weights and search state for separate candidates or a shared supernet. This adds resource and coordination demands to fixed-model FL. The applicability of a challenge or solution therefore depends on both the FL system characteristics and the NAS design.
+
+\subsubsection{NAS-in-FL Scenario}
+
+We introduce a \textit{NAS-in-FL scenario} as a tuple comprising a NAS method type and select characteristics of the FL system in which it operates. The NAS method type is described by its search strategy, search space and performance-estimation strategy~\cite{nas_1000_papers_2023}. The search strategy can use black-box optimization, supernet-based optimization or another strategy. The search space can be cell-based, hierarchical, chain-structured or another type. Performance can be estimated from accuracy after brief training, predicted using a surrogate model or assessed using another estimator.
+
+The FL system is described by seven characteristics derived from the conditions under which federated training operates~\cite{fl_advances_and_open_problems_2021,fl_in_practice_reflections_2024}:
+
+\begin{itemize}
+    \item \textit{Data heterogeneity}: homogeneous or heterogeneous client distributions
+    \item \textit{Data balance}: balanced or imbalanced client data quantities
+    \item \textit{Client computation resources}: homogeneous or heterogeneous capacities
+    \item \textit{Network environment}: homogeneous or heterogeneous communication conditions
+    \item \textit{Federation environment}: stable or dynamic client availability
+    \item \textit{Deployment environment}: uniform or heterogeneous deployment requirements
+    \item \textit{Trust and privacy requirements}: data locality only or additional confidentiality or integrity requirements
+\end{itemize}
+
+Together, these components distinguish, for example, a supernet-based search under dynamic participation and heterogeneous client resources from a black-box search in a stable, homogeneous federation. A characteristic is recorded as \textit{not reported} when the publication does not provide enough information to assign one of its substantive values. This extraction state does not describe an additional kind of FL system. A challenge or solution can apply to one scenario or to a range of scenarios when its mechanism does not depend on every characteristic.
