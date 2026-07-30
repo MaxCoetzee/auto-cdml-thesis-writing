@@ -1,0 +1,289 @@
+\chapter{Characteristics of Publications}
+
+\begin{landscape}
+\begingroup
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.15}
+\begin{longtable}{
+    @{}
+    >{\raggedright\arraybackslash}p{0.12\linewidth}
+    >{\raggedright\arraybackslash}p{0.25\linewidth}
+    >{\raggedright\arraybackslash}p{0.18\linewidth}
+    >{\raggedright\arraybackslash}p{0.39\linewidth}
+    @{}
+}
+    \caption{Characteristics of the 48 publications included in the challenges and solutions analysis.}
+    \label{table:publication-characteristics}\\
+    \toprule
+    \textbf{Publication} &
+    \multicolumn{3}{c}{\textbf{NAS method type}} \\
+    \cmidrule(lr){2-4}
+    &
+    \textbf{Search strategy type} &
+    \textbf{Search space type} &
+    \textbf{Performance-estimation type} \\
+    \midrule
+    \endfirsthead
+
+    \multicolumn{4}{c}{\tablename~\thetable{} continued} \\
+    \toprule
+    \textbf{Publication} &
+    \multicolumn{3}{c}{\textbf{NAS method type}} \\
+    \cmidrule(lr){2-4}
+    &
+    \textbf{Search strategy type} &
+    \textbf{Search space type} &
+    \textbf{Performance-estimation type} \\
+    \midrule
+    \endhead
+
+    \midrule
+    \multicolumn{4}{r}{Continued on next page} \\
+    \endfoot
+
+    \bottomrule
+    \endlastfoot
+
+    \cite{dfnas_2020} &
+    Differentiable supernet-based &
+    Chain-structured &
+    One-shot estimation with inherited shared weights \\
+
+    \cite{dp-fnas_2020} &
+    Differentiable supernet-based &
+    Cell-based &
+    One-shot estimation with inherited shared weights \\
+
+    \cite{multi_objective_evo_fl_2020} &
+    Evolutionary algorithm &
+    Chain-structured &
+    Observed performance after reduced-budget candidate training \\
+
+    \cite{rt_fed_evo_nas_2020} &
+    Evolutionary algorithm over a non-differentiable supernet &
+    Chain-structured &
+    One-shot estimation with inherited shared weights \\
+
+    \cite{fednas_2021} &
+    Differentiable supernet-based &
+    Cell-based &
+    One-shot estimation with inherited shared weights \\
+
+    \cite{optimize_fednas_edge_2021} &
+    Non-differentiable supernet-based &
+    Chain-structured &
+    One-shot estimation with inherited shared weights \\
+
+    \cite{privacy-preserving_nas_across_fl_iot_2021} &
+    Differentiable supernet-based &
+    Chain-structured &
+    One-shot estimation with inherited shared weights \\
+
+    \cite{rl_fednas_2021} &
+    Reinforcement learning over a non-differentiable supernet &
+    Cell-based &
+    One-shot estimation with inherited shared weights \\
+
+    \cite{spider_2021} &
+    Non-differentiable supernet-based &
+    Cell-based &
+    One-shot estimation with inherited shared weights \\
+
+    \cite{clustered_direct_fednas_2022} &
+    Differentiable supernet-based &
+    Chain-structured &
+    One-shot estimation with inherited shared weights \\
+
+    \cite{decnas_2022} &
+    Black-box optimization through greedy pruning &
+    Chain-structured &
+    Reduced-budget estimation with weights inherited from another candidate \\
+
+    \cite{fednas_over_hetero_mobile_devices_2022} &
+    Black-box optimization through greedy pruning &
+    Chain-structured &
+    Reduced-budget estimation with weights inherited from another candidate \\
+
+    \cite{fedoras_2022} &
+    Evolutionary algorithm over a non-differentiable supernet &
+    Chain-structured &
+    One-shot estimation with inherited shared weights \\
+
+    \cite{fedpnas_2021} &
+    Differentiable supernet-based &
+    Cell-based &
+    One-shot estimation with inherited shared weights \\
+
+    \cite{divide-and-conquer_fednas_2023} &
+    Differentiable supernet-based &
+    Cell-based &
+    One-shot estimation with inherited shared weights \\
+
+    \cite{electricity_load_forecasting_fl_darts_2023} &
+    Differentiable supernet-based &
+    Other (macro) &
+    One-shot estimation with inherited shared weights \\
+
+    \cite{feathers_2023} &
+    Differentiable supernet-based &
+    Cell-based &
+    One-shot estimation with inherited shared weights \\
+
+    \cite{fed_auto_mri_2023} &
+    Differentiable supernet-based &
+    Cell-based &
+    One-shot estimation with inherited shared weights \\
+
+    \cite{federated_bayesian_optimization_nas_2023} &
+    Bayesian optimization &
+    Cell-based &
+    Surrogate-predicted performance with observed performance for selected candidates \\
+
+    \cite{fednaspet_2023} &
+    Differentiable supernet-based &
+    Other (adaptation modules) &
+    One-shot estimation with inherited shared weights \\
+
+    \cite{fl-agnns_2023} &
+    Evolutionary algorithm over a non-differentiable supernet &
+    Other (macro) &
+    One-shot estimation with inherited shared weights \\
+
+    \cite{hetefed_2023} &
+    Differentiable supernet-based &
+    Cell-based &
+    One-shot estimation with inherited shared weights \\
+
+    \cite{multi-granular_fednas_2023} &
+    Reinforcement learning over a non-differentiable supernet &
+    Hierarchical &
+    One-shot estimation with inherited shared weights \\
+
+    \cite{self-supervised_vertical_fednas_2023} &
+    Differentiable supernet-based &
+    Cell-based &
+    One-shot estimation with inherited shared weights \\
+
+    \cite{breastcancer_fednas_2024} &
+    Black-box optimization through ant colony optimization &
+    Chain-structured &
+    Observed performance after independent candidate training \\
+
+    \cite{efnas_2024} &
+    Differentiable supernet-based &
+    Chain-structured &
+    One-shot estimation with inherited shared weights \\
+
+    \cite{enasfl_2024} &
+    Reinforcement learning over a non-differentiable supernet &
+    Chain-structured &
+    One-shot estimation with inherited shared weights \\
+
+    \cite{f2nas_2024} &
+    Other (performance-based cloud selection) &
+    Other (macro) &
+    Observed performance after independent candidate training \\
+
+    \cite{fgfl_2024} &
+    Evolutionary algorithm over a non-differentiable supernet &
+    Chain-structured &
+    One-shot estimation with inherited shared weights \\
+
+    \cite{finch_2024} &
+    Differentiable supernet-based &
+    Cell-based &
+    One-shot estimation with inherited shared weights \\
+
+    \cite{gpt4-boosted_pso_fednas_2024} &
+    Evolutionary algorithm through particle swarm optimization &
+    Chain-structured &
+    Observed performance after reduced-budget candidate training \\
+
+    \cite{intrusion_detection_fednas_2024} &
+    Evolutionary algorithm &
+    Chain-structured &
+    Observed performance after reduced-budget candidate training \\
+
+    \cite{medical_image_segmentation_fednas_2024} &
+    Evolutionary algorithm over a non-differentiable supernet &
+    Other (macro) &
+    One-shot estimation, reduced-budget training, and surrogate-predicted performance \\
+
+    \cite{nasfly_2024} &
+    Non-differentiable supernet-based &
+    Chain-structured &
+    One-shot estimation with inherited shared weights \\
+
+    \cite{peaches_2024} &
+    Differentiable supernet-based &
+    Cell-based &
+    One-shot estimation with inherited shared weights \\
+
+    \cite{perfedrlnas_2024} &
+    Reinforcement learning over a non-differentiable supernet &
+    Other (multiple supported spaces) &
+    One-shot estimation with inherited shared weights \\
+
+    \cite{superfednas_2024} &
+    Evolutionary algorithm over a non-differentiable supernet &
+    Chain-structured &
+    One-shot estimation with inherited shared weights and surrogate-predicted performance \\
+
+    \cite{aging_fednas_2025} &
+    Evolutionary algorithm &
+    Cell-based &
+    Observed performance after independent candidate training \\
+
+    \cite{collaborative_nas_for_pfl_2025} &
+    Differentiable supernet-based &
+    Cell-based &
+    One-shot estimation with inherited shared weights \\
+
+    \cite{energy_fednas_2025} &
+    Reinforcement learning &
+    Chain-structured &
+    Surrogate-predicted performance with observed performance for selected candidates \\
+
+    \cite{fed_meta_nas_2025} &
+    Differentiable supernet-based &
+    Cell-based &
+    One-shot estimation with inherited shared weights \\
+
+    \cite{fedregnas_2025} &
+    Differentiable supernet-based &
+    Chain-structured &
+    One-shot estimation with inherited shared weights \\
+
+    \cite{hapfnas_2025} &
+    Evolutionary algorithm over a non-differentiable supernet &
+    Chain-structured &
+    One-shot estimation with inherited shared weights and surrogate-predicted performance \\
+
+    \cite{load_monitoring_fednas_2025} &
+    Differentiable supernet-based &
+    Cell-based &
+    One-shot estimation with inherited shared weights and measured latency \\
+
+    \cite{network_aware_fed_nas_2025} &
+    Black-box optimization through greedy pruning &
+    Chain-structured &
+    Estimation with weights inherited from another candidate \\
+
+    \cite{privacy_preserving_fednas_for_edge_2025} &
+    Differentiable supernet-based &
+    Cell-based &
+    One-shot estimation with inherited shared weights \\
+
+    \cite{remote_sensing_fednas_2025} &
+    Differentiable supernet-based &
+    Cell-based &
+    One-shot estimation with inherited shared weights \\
+
+    \cite{supernet_trade-off_fednas_2025} &
+    Differentiable supernet-based &
+    Other (macro) &
+    One-shot estimation with inherited shared weights \\
+\end{longtable}
+\endgroup
+\end{landscape}

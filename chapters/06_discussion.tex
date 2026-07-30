@@ -1,4 +1,3 @@
-
 % !TeX root = ../main.tex
 \chapter{Discussion}\label{chapter:discussion}
 
@@ -6,7 +5,7 @@ This chapter interprets the relationships between challenges and solutions and q
 
 \section{Principal Findings}
 
-The analysis identified ten challenges across five themes and 34 solution mechanisms. Table~\ref{table:challenges-and-solutions-overview} maps the relationships between these mechanisms and challenges as reported by the source publications. The mapping does not establish the applicability of either a challenge or a solution mechanism to a target configuration.
+The analysis identified ten challenges across five themes and 34 solutions. Table~\ref{table:challenges-and-solutions-overview} maps the relationships between these solutions and challenges as reported by the source publications. The mapping does not establish the applicability of either a challenge or a solution to a target configuration.
 
 The challenge themes distinguish several consequences associated in the literature with distributing different search functions. The reviewed publications connect client-side search workloads to resource constraints, distributed candidate evaluation to dependence on local data, and decentralized search-state updates to coordination requirements. These synthesized relationships describe the reviewed evidence; they do not predict whether a challenge will occur in a system not examined by those publications.
 
@@ -18,21 +17,21 @@ Brief training is the predominant performance-estimation strategy in the reviewe
 
 \section{Implications for Practice and Research}
 
-The synthesis provides an index of solution mechanisms that publications present in response to particular challenges. Practitioners can use the map to locate relevant mechanisms and their source evaluations, but the map is not a procedure for selecting a mechanism for a target system. Such a choice requires direct evidence for that system's operating conditions and cannot be inferred from a matching description alone.
+The synthesis provides an index of solution that publications present in response to particular challenges. Practitioners can use the map to locate relevant solutions and their source evaluations, but the map is not a procedure for selecting a soluton for a target system. Such a choice requires direct evidence for that system's operating conditions and cannot be inferred from a matching description alone.
 
-For research, the synthesis complements method-level taxonomies by treating challenges and solution mechanisms as separate units. This exposes relationships that remain hidden when several mechanisms are presented as one NAS-in-FL method. It also provides a common vocabulary for comparing reported mechanisms and their evidence contexts. Future publications can support such comparisons by reporting the FL system characteristics, client workloads, exchanged search state, search space, and performance-estimation strategy used in their evaluations.
+For research, the synthesis complements method-level taxonomies by treating challenges and solution as separate units. This exposes relationships that remain hidden when several solutions are presented as one NAS-in-FL method. It also provides a common vocabulary for comparing reported solutions and their evidence contexts. Future publications can support such comparisons by reporting the FL system characteristics, client workloads, exchanged search state, search space, and performance-estimation strategy used in their evaluations.
 
 \section{Limitations}
 
-The review depends on what the selected publications report. It can include only challenges, solution mechanisms, relationships, prerequisites, and trade-offs described with enough detail to meet the inclusion criteria. Operational problems that have not been published or that receive only general descriptions may therefore be absent. The Scopus search and citation searching reduce this risk but do not establish that the corpus covers every relevant publication.
+The review depends on what the selected publications report. It can include only challenges, solution, relationships, prerequisites, and trade-offs described with enough detail to meet the inclusion criteria. Operational problems that have not been published or that receive only general descriptions may therefore be absent. The Scopus search and citation searching reduce this risk but do not establish that the corpus covers every relevant publication.
 
-The thematic analysis also requires judgment when concepts are named, separated, merged, and mapped~\cite{using_thematic_analysis_2006}. Explicit definitions and an audit trail make these decisions transparent, but do not eliminate interpretive subjectivity. Moreover, few publications isolate the effect of one FL characteristic or solution mechanism. The resulting mappings organize reported relationships; they are not independent estimates of causal effects, applicability, or comparative effectiveness.
+The thematic analysis also requires judgment when concepts are named, separated, merged, and mapped~\cite{using_thematic_analysis_2006}. Explicit definitions and an audit trail make these decisions transparent, but do not eliminate interpretive subjectivity. Moreover, few publications isolate the effect of one FL characteristic or solution. The resulting mappings organize reported relationships; they are not independent estimates of causal effects, applicability, or comparative effectiveness.
 
-Evaluations differ in their datasets, search spaces, client populations, participation, resource models, and training budgets. These differences prevent a quantitative ranking of the mechanisms. Incomplete descriptions of FL systems further prevent comparison across settings because an unreported condition cannot be distinguished from one that was absent. Publication frequency therefore indicates attention within the corpus, not practical prevalence, severity, or solution quality.
+Evaluations differ in their datasets, search spaces, client populations, participation, resource models, and training budgets. These differences prevent a quantitative ranking of the solutions. Incomplete descriptions of FL systems further prevent comparison across settings because an unreported condition cannot be distinguished from one that was absent. Publication frequency therefore indicates attention within the corpus, not practical prevalence, severity, or solution quality.
 
 \section{Future Research}
 
-Future evaluations should test individual mechanisms and selected combinations under shared configurations. Varying one FL condition or NAS property at a time would provide stronger evidence for the relationships identified in this review. Such evaluations should separate search computation, final-model training, communication, wall-clock time, candidate-ranking fidelity, and final architecture quality.
+Future evaluations should test individual mechanisms and selected combinations under shared configurations. Varying one FL system characteristic or NAS method property at a time would provide stronger evidence for the relationships identified in this review. Such evaluations should separate search computation, final-model training, communication, wall-clock time, candidate-ranking fidelity, and final architecture quality.
 
 Scale and participation require particular attention. Experiments should vary the number of clients together with partial participation, dropout, latency, and capability-dependent selection, since a larger simulated population alone does not reproduce cross-device dynamics. Publications should also distinguish costs measured on client hardware from those simulated on centralized infrastructure.
 
