@@ -1,39 +1,51 @@
 % !TeX root = ../main.tex
 \chapter{Method}\label{chapter:method}
 
-We conduct a literature review following~\cite{webster_watson_literature_review_2002} and analyse the literature on the basis of thematic analysis to extract challenges and solutions for using NAS in FL.
+We conduct a literature review following~\cite{webster_watson_literature_review_2002} and analyse the literature on the basis of thematic analysis to extract challenges and solutions for using NAS in FL from the NAS-in-FL literature.
 
-% how can I extract individual challengs and solutions and connect cause and effect from the literature?
 
 % Data Collection
 \section{Literature Selection}
 
-We start our literature selection with a search across titles, abstracts and keywords of English-language publications indexed by Scopus using the query \texttt{"federated learning" AND "neural architecture search"}~\cite{scopus}. A publication is eligible when it describes a method in which NAS is performed in FL. We excluded publications that address only NAS or FL independently and publications in which centrally completed NAS merely preceeds FL without NAS. Literature review are excluded from the analysis, but are discussed in related work.
+We start our literature selection with a search across titles, abstracts and keywords of English-language publications indexed by Scopus using the query \texttt{"federated learning" AND "neural architecture search"}~\cite{scopus}. A publication is eligible when it describes a method in which NAS is performed in FL. We excluded publications that address only NAS or FL independently and publications in which centrally completed NAS merely preceeds FL without NAS. Literature reviews are excluded from the analysis and discussed in related work.
 
-For inclusion in the thematic analysis, a publication had to provide evidence from which at least one relevant challenge or solution could be coded. A challenge met this threshold when the publication connected a condition of FL to a consequence for architecture search. A solution met it when the described procedure contained a deliberate intervention whose effect on the NAS-in-FL process could be identified. General claims that an approach addressed concerns such as heterogeneity, efficiency or privacy without explaining the relevant consequence or intervention did not meet this threshold.
+For inclusion in our thematic analysis, a publication must provide evidence for at least one challenge or solution. A challenge meets this threshold when the publication connects a condition of FL to a consequence for architecture search. A solution meets the threshold when the described procedure contains a deliberate intervention whose effect on the NAS-in-FL process can be identified. General claims that an approach addresses concerns such as heterogeneity, efficiency or privacy without a suffienctly detailed explanation do not meet this threshold.
 
-We extended the initial set through backward and forward citation searching of the eligible publications, as recommended by~\cite{webster_watson_literature_review_2002}. Newly identified publications were screened using the same criteria, and citation searching ended when an iteration yielded no additional eligible publications.
-
-TODO: include prisma chart to reduce prose significantly (applicable with webster and watson?)
+We extend this initial set of literature through backward and forward citation searching of the eligible publications. Newly identified publications are screened using the same criteria, and citation searching ends when an iteration adds no additional eligible publications.
 
 % Data Analysis
 \section{Literature Analysis}
 
+We analyzed the literature in two stages. First, we used thematic analysis to develop challenge and solution themes. Second, we assessed the conditions under which each solution mechanism could be reused in another NAS-in-FL scenario.
+
 \subsection{Extracting Challenges and Solutions}
 
-- analyzed literature using inductive thematic analysis as described in ~\cite{using_thematic_analysis_2006}
-- for familiarisation we read papers
-- for initial codes we used the concept matrix proposed by~\cite{webster_watson_literature_review_2002} and create a row for each NAS-in-FL method where we code all passages that a) indicate FL system characteristics, b) indicate the NAS method type, c) show challenges that are due to using NAS in FL and d) solutions for these challenges 
+We read every eligible publication for familiarization and coded relevant passages inductively following~\cite{using_thematic_analysis_2006} and used a concept matrix for an initial coding~\cite{webster_watson_literature_review_2002}. For each publication, we recorded extracts that code challenges, solutions, the NAS method type, and the targeted FL system characteristics. We recorded the source and page for each extract. A challenge code expressed a condition-consequence relationship specific to performing NAS in FL. A solution code expressed a mechanism for extending the NAS-in-FL method.
 
-TODO: read what we did in the split and merge rounds of markdown files to flesh this method description out and map it onto thematic analysis
-- then we iteratively refined challenges and solutions until internal homogeneity and external heterogeneity as described in ...:
-    - we do multiple iterations of merging, splitting up and clarifying boundaries between challenges and solutions as well discarding challenges/solution which make weak claims or are not relevant to our research problem as recommended in ... 
-    - remove challenges which look like a challenge related to NAS-in-FL at first, but are actually general challenges
-    - challenges are int. hom. and ext. het. when they make just one analytical claim relavant to our narrative
-    - solutions are int. hom. and ext. het. when they consist of just a single mechanism that ...
-- we then attach solutions to challenges based on (how do we decide if a solution belongs to a challenge? TODO: come up with approach)
+We grouped challenge codes when they described the same consequence for architecture search and grouped solution codes when their mechanisms were conceptually similar. Similar terminology alone did not justify grouping. We retained a challenge when it made one coherent analytical claim and a solution when it contained one independently deployable mechanism. General NAS or FL concerns without a distinct consequence for NAS-in-FL were discarded.
 
-- TODO: how did we determine that a challenge is addressed by a solution? similar to smart contracts paper?
+After familiarization and initial coding, we iterated over stages three to five of thematic analysis to develop and refine the challenge and solution themes, as summarized in Table~\ref{table:thematic-analysis-stages}~\cite{using_thematic_analysis_2006}. While reviewing themes for internal homogeneity and external heterogeneity, we returned to the coded extracts and the corpus as needed. We merged contextual duplicates, split independent claims or mechanisms, and clarified boundaries between related themes. Refinement ended when another review identified no justified structural merger, split, or discard.
 
-- next we derive relevant FL system characteristics and NAS method types
-- TODO: How did we decide which characteristics to include and how to classify NAS method types?
+\begin{table}[htbp]
+    \centering
+    \footnotesize
+    \caption{Thematic-analysis stages iterated over to refine the challenge and solution themes.}
+    \label{table:thematic-analysis-stages}
+    \begin{tabularx}{\textwidth}{@{}
+        >{\raggedright\arraybackslash}p{.20\textwidth}
+        X
+        >{\raggedright\arraybackslash}p{.26\textwidth}
+    @{}}
+        \toprule
+        \textbf{Stage} & \textbf{Main activity} & \textbf{Output} \\
+        \midrule
+        3. Generating themes & Group related codes and extracts into candidate patterns of shared meaning. & Candidate themes and an initial theme map. \\
+        4. Reviewing themes & Assess the coherence of each theme and the distinctions between themes against the extracts and the complete corpus. & A revised set of themes and theme structure. \\
+        5. Defining and naming themes & Clarify the scope, central idea, and boundaries of each theme. & Concise theme definitions and names. \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+Finally, we linked a solution to a challenge when a publication explicitly presented the intervention as a response or when its documented mechanism supplied a traceable effect chain. Co-occurrence within one publication was insufficient. We also recorded applicable conditions, secondary benefits, counterexamples, and trade-offs for the subsequent reuse analysis.
+
+\section{Determining Solution Mechanism Re-usability}

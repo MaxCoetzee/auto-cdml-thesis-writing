@@ -28,3 +28,41 @@
 \section{Future Research}
 
 - large share  
+
+% new section goes here
+
+This chapter interprets the challenge--solution relationships, explains their implications for reusing solution mechanisms, and qualifies the conclusions supported by the reviewed literature.
+
+\section{Principal Findings}
+
+The analysis identified ten challenges across five themes and 34 solution mechanisms. Tables~\ref{table:challenges-and-solutions-overview} and~\ref{table:broadest-solution-scenarios} show that these mechanisms can be reused when the target NAS-in-FL scenario satisfies their prerequisites. Their reuse requires matching the mechanism to the FL system characteristics, the NAS design, and the other mechanisms in the configuration.
+
+Challenge relevance depends on which search functions rely on clients. Client-side search workloads expose the process to resource constraints, distributed candidate evaluation makes evidence dependent on local data, and decentralized search-state updates require coordination across participants. Retaining a function at the server can avoid the corresponding client-side constraint, but may require representative server data or greater trust in the server. The challenges consequently arise from specific distributed dependencies rather than from decentralization as one uniform property.
+
+Solution mechanisms also interact. Assigning capacity-compatible subnets reduces client workloads, but causes operations available only to capable clients to receive fewer updates. Exposure-aware aggregation is then needed to prevent unequal training from distorting the shared state~\cite{fedoras_2022,fgfl_2024,supernet_trade-off_fednas_2025}. Similarly, specialized architectures can accommodate different deployment requirements while removing the parameter alignment required for ordinary aggregation. Structural aggregation or distillation can restore collaboration under this condition~\cite{multi-granular_fednas_2023,f2nas_2024,hapfnas_2025}. A solution should therefore be assessed as part of a configuration rather than as an independent remedy.
+
+The search space creates a recurring trade-off between architectural coverage and coordination. Restricting it to inexpensive, structurally aligned components lowers client workloads and enables direct aggregation, but may exclude architectures that better fit particular data or devices. Elastic or personalized spaces cover more deployment conditions, but increase search effort and can produce unequal parameter exposure or incompatible local states. The search space thus serves both as the set of possible architectures and as a coordination contract between clients.
+
+Brief training is the predominant performance-estimation strategy in the reviewed literature. This common choice means that challenge applicability is often determined more directly by the workload assigned to clients, the relationship between their search states, and whether the search produces a shared or specialized architecture. Broad search-strategy categories alone can conceal these differences. Reasoning about reuse therefore requires the more specific scenario properties retained in Chapter~\ref{chapter:reusable-solution-mechanisms}.
+
+\section{Implications for Practice and Research}
+
+The synthesis provides a diagnostic process for selecting solution mechanisms. Practitioners can first characterize the intended FL system and NAS design, identify the challenges activated by this combination, and then select mechanisms whose prerequisites are satisfied. They must subsequently check whether the chosen mechanisms introduce additional costs or incompatible representations. The tables support this process, but they neither rank mechanisms nor guarantee that combinations not evaluated together will be effective.
+
+For research, the synthesis complements method-level taxonomies by treating challenges and solution mechanisms as separate units. This exposes relationships that remain hidden when several mechanisms are presented as one NAS-in-FL method. It also provides a common vocabulary for comparing mechanisms under stated conditions. Future publications can support such comparisons by reporting the FL system characteristics, client workloads, exchanged search state, search space, and performance-estimation strategy used in their evaluations.
+
+\section{Limitations}
+
+The review depends on what the selected publications report. It can include only challenges, solution mechanisms, and applicability conditions described with enough detail to meet the inclusion criteria. Operational problems that have not been published or that receive only general descriptions may therefore be absent. The Scopus search and citation searching reduce this risk but do not establish that the corpus covers every relevant publication.
+
+The thematic analysis also requires judgment when concepts are named, separated, merged, and mapped~\cite{using_thematic_analysis_2006}. Explicit definitions and an audit trail make these decisions transparent, but do not eliminate interpretive subjectivity. Moreover, few publications isolate the effect of one FL characteristic or solution mechanism. The resulting mappings represent reported relationships and mechanism-based applicability judgments, not independent estimates of causal effects or comparative effectiveness.
+
+Evaluations differ in their datasets, search spaces, client populations, participation, resource models, and training budgets. These differences prevent a quantitative ranking of the mechanisms. Incomplete descriptions of FL systems further limit transfer judgments because an unreported condition cannot be distinguished from one that was absent. Publication frequency therefore indicates attention within the corpus, not practical prevalence, severity, or solution quality.
+
+\section{Future Research}
+
+Future evaluations should test individual mechanisms and selected combinations under shared configurations. Varying one FL condition or NAS property at a time would provide stronger evidence for the relationships identified in this review. Such evaluations should separate search computation, final-model training, communication, wall-clock time, candidate-ranking fidelity, and final architecture quality.
+
+Scale and participation require particular attention. Experiments should vary the number of clients together with partial participation, dropout, latency, and capability-dependent selection, since a larger simulated population alone does not reproduce cross-device dynamics. Publications should also distinguish costs measured on client hardware from those simulated on centralized infrastructure.
+
+A shared reporting scheme would make results easier to compare. At minimum, publications should describe client resources, network conditions, data distribution, participation, federation size, trust assumptions, client search workloads, exchanged search state, search space, and final-model development. Research should also examine sparsely studied areas of the challenge--solution map and test whether low-cost performance estimators from centralized NAS remain reliable when candidate evidence is distributed across heterogeneous client data~\cite{nas_in_fl_2026}.
