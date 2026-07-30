@@ -13,7 +13,7 @@ Neural architecture search (NAS) automates the design of neural network architec
 
 \subsection{NAS Method Type}
 
-A NAS method type consists of a search-strategy type, search-space type, and performance-estimation type~\cite{nas_survey_2019,nas_1000_papers_2023} and helps us qualify for what kind of NAS methods challenges are applicable. This should not be confused with a concrete NAS method.
+A NAS method type consists of a search-strategy type, search-space type, and performance-estimation type~\cite{nas_survey_2019,nas_1000_papers_2023}. These categories describe the NAS context in which a publication reports a challenge or solution and should not be confused with a concrete NAS method.
 
 \textit{Search strategies} in this review are primarily categorized as black-box optimization or supernet-based methods. Black-box optimization strategies include reinforcement learning, evolutionary algorithms (including genetic algorithms), and Bayesian optimization. Black-box optimization strategies evaluate distinct candidate architectures. 
 
@@ -27,7 +27,7 @@ Supernet-based methods instead train candidates within a shared network. They ar
 
 Federated learning (FL) enables clients to train a model collaboratively while keeping their raw data local. A server distributes a global model to selected clients, which train it locally and return updates for aggregation~\cite{fl_seminal_2017}. 
 
-While the FL literature distinguishe between broad categories, we require more fine-grained FL system characteristics that can vary independently to qualify the applicability of challenges~\cite{fl_advances_and_open_problems_2021,fl_in_practice_reflections_2024}:
+While the FL literature distinguishes between broad categories, we record more fine-grained FL system characteristics that can vary independently to describe the context of the reviewed evidence~\cite{fl_advances_and_open_problems_2021,fl_in_practice_reflections_2024}:
 
 \begin{description}
     \item[Data heterogeneity] distinguishes homogeneous client distributions from heterogeneous distributions, including differences in labels, features, domains, tasks, or time.
