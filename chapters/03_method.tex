@@ -1,7 +1,7 @@
 % !TeX root = ../main.tex
 \chapter{Method}\label{chapter:method}
 
-We conduct a literature review following~\cite{webster_watson_literature_review_2002} and analyse the literature on the basis of thematic analysis to extract challenges and solutions for using NAS in FL from the NAS-in-FL literature.
+We conducted a concept-centric literature review following~\cite{webster_watson_literature_review_2002} and used thematic analysis following~\cite{using_thematic_analysis_2006} to examine how NAS design choices and FL system characteristics give rise to challenges and how solution address those challenges under stated conditions.
 
 % Data Collection
 \section{Literature Selection}
@@ -12,14 +12,32 @@ For inclusion in our thematic analysis, a publication must provide evidence for 
 
 We extend this initial set of literature through backward and forward citation searching of the eligible publications. Newly identified publications are screened using the same criteria, and citation searching ends when an iteration adds no additional eligible publications.
 
+\begin{table}[htbp]
+    \centering
+    \caption{Literature selection process and the number of publications retained after each decision. The final set contains the publications used as evidence for the challenges and solutions in Chapter~\ref{chapter:nas_in_fl_ch_and_sol}.}
+    \label{table:literature-selection}
+    \begin{tabular}{@{}clc@{}}
+        \toprule
+        \textbf{Step} & \textbf{Selection decision} & \textbf{Publications} \\
+        \midrule
+        1 & Scopus query & 206 \\
+        2 & NAS performed in FL & 66 \\
+        3 & Reviews excluded & 63 \\
+        4 & Citation searching & 69 \\
+        5 & Duplicates removed & 66 \\
+        6 & Challenge or solution evidence & 48 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
 % Data Analysis
 \section{Literature Analysis}
 
-We analyzed the literature in two stages. First, we used thematic analysis to develop challenge and solution themes. Second, we assessed the conditions under which each solution mechanism could be reused in another NAS-in-FL scenario.
+We analyzed the literature in two stages. First, we extracted scenario properties and developed challenge and solution themes. Second, we mapped the relationships among scenarios, challenges, and solutions and assessed the conditions that bound the applicability of each solution.
 
-\subsection{Extracting Challenges and Solutions}
+\subsection{Extracting Scenarios, Challenges and Solutions}
 
-We read every eligible publication for familiarization and coded relevant passages inductively following~\cite{using_thematic_analysis_2006} and used a concept matrix for an initial coding~\cite{webster_watson_literature_review_2002}. For each publication, we recorded extracts that code challenges, solutions, the NAS method type, and the targeted FL system characteristics. We recorded the source and page for each extract. A challenge code expressed a condition-consequence relationship specific to performing NAS in FL. A solution code expressed a mechanism for extending the NAS-in-FL method.
+We read every eligible publication for familiarization, coded relevant passages inductively following~\cite{using_thematic_analysis_2006}, and used a concept matrix for initial coding~\cite{webster_watson_literature_review_2002}. For each extract, we recorded the source and page as well as the NAS method type and FL system characteristics that described the scenario. A challenge code expressed a relationship between a scenario condition and its consequence for NAS in FL. A solution code recorded an intervention, how it changed the NAS-in-FL process, and its intended effect on a challenge. We also recorded prerequisites and trade-offs when the publication reported them.
 
 We grouped challenge codes when they described the same consequence for architecture search and grouped solution codes when their mechanisms were conceptually similar. Similar terminology alone did not justify grouping. We retained a challenge when it made one coherent analytical claim and a solution when it contained one independently deployable mechanism. General NAS or FL concerns without a distinct consequence for NAS-in-FL were discarded.
 
@@ -28,7 +46,7 @@ After familiarization and initial coding, we iterated over stages three to five 
 \begin{table}[htbp]
     \centering
     \footnotesize
-    \caption{Thematic-analysis stages iterated over to refine the challenge and solution themes.}
+    \caption{Thematic analysis stages used to iteratively conceptualize challenges and solutions from the codes.}
     \label{table:thematic-analysis-stages}
     \begin{tabularx}{\textwidth}{@{}
         >{\raggedright\arraybackslash}p{.20\textwidth}
@@ -38,11 +56,23 @@ After familiarization and initial coding, we iterated over stages three to five 
         \toprule
         \textbf{Stage} & \textbf{Main activity} & \textbf{Output} \\
         \midrule
-        3. Generating themes & Group related codes and extracts into candidate patterns of shared meaning. & Candidate themes and an initial theme map. \\
-        4. Reviewing themes & Assess the coherence of each theme and the distinctions between themes against the extracts and the complete corpus. & A revised set of themes and theme structure. \\
-        5. Defining and naming themes & Clarify the scope, central idea, and boundaries of each theme. & Concise theme definitions and names. \\
+        3. Generating themes & Group challenge codes that describe related consequences and solution codes that describe related mechanisms. & Candidate challenge and solution concepts with their supporting codes. \\
+        4. Reviewing themes & Compare each candidate concept with its codes and extracts, then assess its coherence and distinction from other concepts against the complete corpus. & Revised concepts and code assignments. \\
+        5. Defining and naming themes & Define each challenge through its scenario condition and consequence and each solution through its intervention and intended effect. & Final concepts with clear names, definitions, and boundaries. \\
         \bottomrule
     \end{tabularx}
 \end{table}
 
-Finally, we linked a solution to a challenge when a publication explicitly presented the solution mechanism as a response to the challenge. We also recorded the NAS-in-FL scenarios of publications and trade-offs for the challenge and solution descriptions as well as the subsequent reuse analysis.
+\subsection{Analyzing How Challenges Arise Across Scenarios}
+
+We examined how challenges arise by comparing NAS-in-FL scenarios. For each relationship, we traced how NAS design choices and FL conditions create a distributed dependency that leads to a challenge. We retained relationships reported in a publication or supported by evidence across publications.
+
+We compared similar scenarios that differed in one property. This comparison showed which conditions were required for a challenge and which amplified or changed it. It also showed how changes in client assignment, feedback, search-state alignment, participation, or final-model scope affected a challenge. We then distinguished challenges arising from the defining properties of a recurring profile from those requiring an additional condition.
+
+Finally, we classified each relationship as directly reported, supported by a synthesis of mechanisms, or unresolved because evidence was missing. We did not treat unreported conditions as absent. The relationships indicate when a challenge is relevant, but do not estimate its independent causal effect or severity. Chapter~\ref{chapter:scenarios-and-challenges} reports the resulting scenario-to-challenge map.
+
+\subsection{Mapping Relationships and Assessing Applicability}
+
+We linked a solution to a challenge only when a publication presented the solution mechanism as a response to that challenge. The presence of both in the same publication did not establish a relationship.
+
+Next, we examined whether each solution mechanism could be applied in other scenarios. We identified the operations, representations, and system properties required by the mechanism and compared them with the NAS design choices and FL system characteristics of the target scenario. We considered the mechanism conceptually compatible when the target scenario preserved these prerequisites. We also recorded tradeoffs and conditions that the literature left unresolved. The resulting applicability judgments form a conceptual synthesis because the publications did not evaluate every compatible pairing. Empirical evaluation remains necessary to establish effectiveness in a target scenario.

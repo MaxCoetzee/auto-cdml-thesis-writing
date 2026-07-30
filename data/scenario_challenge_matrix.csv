@@ -1,0 +1,7 @@
+scenario,C1,C2,C3,C4,C5,C6,C7,C8,C9,C10
+S1,D,D,D,D,D,D,C,C,C,C
+S2,C,D,D,N,D,N,D,C,C,C
+S3,C,D,D,C,D,N,D,C,D,C
+S4,C,D,D,C,C,N,N,D,N,C
+S5,C,D,D,C,D,C,N,D,C,C
+S6,C,D,D,C,D,C,N,D,D,C

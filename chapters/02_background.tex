@@ -2,26 +2,45 @@
 
 \section{Neural Architecture Search}
 
-Neural architecture search (NAS) automates the design of neural network architectures. A NAS method consists of a search space, a search strategy and a performance-estimation strategy~\cite{nas_survey_2019}. The search space determines the potential candidate architectures, and the search strategy decides which candidates to evaluate next based on the performance-estimation strategy.
+Neural architecture search (NAS) automates the design of neural network architectures. A NAS method combines a search space, a search strategy, and a performance-estimation strategy~\cite{nas_survey_2019}. The search space defines the candidate architectures. The search strategy selects candidates, and the performance-estimation strategy supplies the evidence used to compare them.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{figures/nas_overview.png}
+    \caption{Overview of the three components of NAS from~\cite{nas_survey_2019}.}
+    \label{fig:nas-overview}
+\end{figure}
 
 \subsection{NAS Method Type}
 
-We define a NAS method type as a triple comprising a search-strategy type, a search-space type and a performance-estimation type~\cite{nas_survey_2019,nas_1000_papers_2023}. 
+A NAS method type consists of a search-strategy type, search-space type, and performance-estimation type~\cite{nas_survey_2019,nas_1000_papers_2023}. This should not be confused with a concrete NAS method.
 
-We slightly modify the categorisation of and group \textit{search strategies} into black-box optimization, supernet-based methods and other strategies. Black-box optimization includes reinforcement learning, evolutionary and genetic algorithms, Bayesian optimization and Monte Carlo tree search. Supernet-based methods are differentiable when gradients optimize continuous architecture parameters and non-differentiable when discrete subnetworks are selected without such parameters.
+\textit{Search strategies} are grouped into black-box optimization, supernet-based methods, and other strategies. Black-box optimization includes reinforcement learning, evolutionary and genetic algorithms, Bayesian optimization, and Monte Carlo tree search. Supernet-based methods train candidates within a shared network. They are differentiable when gradients optimize continuous architecture parameters and non-differentiable when the search selects discrete subnetworks without continuous architecture parameters.
 
-\textit{Search spaces} can be cell-based, hierarchical, chain-structured or other. Cell-based search spaces search reusable computational blocks, hierarchical spaces compose structures across multiple levels and chain-structured spaces vary a sequential series of layers.
+\textit{Search spaces} are categorized as cell-based, hierarchical, chain-structured, or other. Cell-based spaces search reusable computational blocks, hierarchical spaces compose structures across multiple levels, and chain-structured spaces vary a sequence of layers. A search space also has capabilities that a solution may require, such as being supernet-encodable, elastic, progressively prunable, modular, discretely encodable, or divisible into trainable segments. These capabilities are separate from search-space type because spaces of the same type may support different operations.
 
-\textit{Performance estimation} is classified as observed validation performance after brief training, surrogate-predicted performance or another estimator. Brief training is the predominant approach in the reviewed NAS-in-FL literature.
+\textit{Performance estimation} is categorized as observed performance after independent candidate training, one-shot estimation with inherited shared weights, estimation with weights inherited from another candidate, surrogate-predicted performance, or another estimator~\cite{nas_survey_2019,nas_1000_papers_2023}. Independent training may use a full or reduced budget. Multi-fidelity evaluation compares estimates obtained at several budgets and may use observed or predicted performance. It therefore describes how evaluation resources are allocated rather than a separate source of performance evidence.
 
 \section{Federated Learning}
 
-Federated learning (FL) enables clients to train a model collaboratively while keeping their raw data local. A server distributes a global model to selected clients, which train it locally and return updates for aggregation~\cite{fl_seminal_2017}. Cross-device FL generally involves many resource-constrained and intermittently available devices, while cross-silo FL involves fewer, more reliable organizations. Data may also be partitioned horizontally by samples or vertically by features. These system characteristics shape the resources, coordination and trust available to the federated process~\cite{fl_advances_and_open_problems_2021}.
+Federated learning (FL) enables clients to train a model collaboratively while keeping their raw data local. A server distributes a global model to selected clients, which train it locally and return updates for aggregation~\cite{fl_seminal_2017}. Cross-device FL generally involves many resource-constrained and intermittently available devices, while cross-silo FL involves fewer, more reliable organizations. These are representative configurations rather than exhaustive system types. We therefore describe an FL system through characteristics that can vary independently~\cite{fl_advances_and_open_problems_2021,fl_in_practice_reflections_2024}:
+
+\begin{description}
+    \item[Data heterogeneity] distinguishes homogeneous client distributions from heterogeneous distributions, including differences in labels, features, domains, tasks, or time.
+    \item[Data balance] distinguishes balanced from imbalanced quantities of client data.
+    \item[Client computation resources] record whether compute and memory capacities are homogeneous or heterogeneous. Resource homogeneity does not imply sufficient capacity, so absolute limits form an additional condition.
+    \item[Network environment] records whether client bandwidth and latency are homogeneous or heterogeneous and whether they impose a binding communication constraint.
+    \item[Federation environment] distinguishes stable participation from dynamic participation caused by selection, changing availability, dropout, or delayed updates.
+    \item[Deployment environment] distinguishes a uniform deployment requirement from heterogeneous client- or group-specific requirements.
+    \item[Trust and privacy requirements] distinguish reliance on data locality from additional confidentiality or integrity requirements.
+\end{description}
 
 \section{NAS in FL}
 
-NAS in FL performs an architecture search through the federated process without centralizing client data. Candidate evaluation is performed on the client, while candidate generation, evaluation, search-state updates and selection may occur at the server, the clients or both~\cite{nas_in_fl_2026}. Depending on the search strategy, clients exchange model weights and search state for separate candidates or a shared supernet. This adds resource and coordination demands to fixed-model FL. The applicability of a challenge or solution therefore depends on both the FL system characteristics and the NAS design.
+NAS in FL performs an architecture search through the federated process without centralizing client data. Candidate generation, client assignment, candidate evaluation, search-state updates, weight sharing, and architecture selection may be divided between the server and clients in different ways~\cite{nas_in_fl_2026}. Clients can consequently exchange model weights, architecture variables, candidate encodings, or performance evidence. The NAS design determines which search operations and state are distributed, while the FL system determines the data, resources, participation, deployment requirements, and trust conditions under which they operate.
 
 \subsection{NAS-in-FL Scenario}
 
-We introduce the term \textit{NAS-in-FL scenario} to describe different circumstances under which challenges can arise. A NAS-in-FL scenario is a tuple comprising a NAS method type and a set of FL system characteristics based on \cite{fl_advances_and_open_problems_2021,fl_in_practice_reflections_2024}: \textit{Data heterogeneity} distinguishes homogeneous from heterogeneous client distributions, while \textit{data balance} captures whether clients hold balanced or imbalanced quantities of data. \textit{Client computation resources} may have homogeneous or heterogeneous capacities, and the \textit{network environment} may provide homogeneous or heterogeneous communication conditions. The \textit{federation environment} describes whether client availability is stable or dynamic, and the \textit{deployment environment} may impose uniform or heterogeneous requirements. Finally, \textit{trust and privacy requirements} may demand only data locality or additional guarantees for confidentiality and integrity.
+We use \textit{NAS-in-FL scenario} for the combination of a NAS method type and the FL system characteristics under which it operates. Neither part alone specifies the relevant operating conditions. The NAS method type determines the how the search is performed while the FL characteristics determines under what conditions the search performed. Together they form the 
+
+Within this framework, a \textit{challenge} is a recurring condition in which properties of a NAS-in-FL scenario impede the architecture search or its outcome. A \textit{solution} is a conceptually separable intervention that changes the NAS-in-FL process to mitigate such a consequence. A complete NAS-in-FL method may contain several solution mechanisms.

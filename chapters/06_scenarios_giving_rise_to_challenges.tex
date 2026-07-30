@@ -1,0 +1,121 @@
+% !TeX root = ../main.tex
+\chapter{Scenarios Giving Rise to Challenges}\label{chapter:scenarios-and-challenges}
+
+The preceding chapter identifies recurring challenges and the solutions proposed in response. This chapter reverses that perspective by starting with recurring NAS-in-FL scenarios and identifying the challenges to which their defining properties give rise. A broad label such as cross-device or cross-silo FL is insufficient for this purpose. The relevant scenario description must also state how clients participate in architecture evaluation, which search state they exchange, how that state is combined, and whether the search produces a shared or specialized architecture.
+
+Table~\ref{table:scenario-challenge-map} groups configurations that share these activation-relevant properties. The profiles describe recurring combinations rather than an exhaustive taxonomy. The middle column contains challenges that follow from the defining properties of a profile. The final column identifies challenges that arise only when an additional condition is present. A challenge that is not listed for a profile is not necessarily absent. The profile alone does not establish its activation.
+
+\section{Challenges Across Recurring Scenarios}
+
+\begingroup
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.08}
+\setlength{\LTpre}{4pt}
+\setlength{\LTpost}{4pt}
+
+\begin{longtable}{@{}
+    >{\raggedright\arraybackslash}p{.34\textwidth}
+    >{\raggedright\arraybackslash}p{.28\textwidth}
+    >{\raggedright\arraybackslash}p{.34\textwidth}
+@{}}
+    \caption{Recurring NAS-in-FL scenario profiles and the challenges to which they give rise.}
+    \label{table:scenario-challenge-map}\\
+    \toprule
+    \textbf{Scenario profile} &
+    \textbf{Challenges arising from defining properties} &
+    \textbf{Challenges requiring an additional condition} \\
+    \midrule
+    \endfirsthead
+
+    \multicolumn{3}{@{}l}{\tablename~\thetable\ continued}\\
+    \toprule
+    \textbf{Scenario profile} &
+    \textbf{Challenges arising from defining properties} &
+    \textbf{Challenges requiring an additional condition} \\
+    \midrule
+    \endhead
+
+    \bottomrule
+    \endfoot
+
+    \textbf{Capacity-constrained specialized supernet search.}
+    Clients with heterogeneous resources and data train capacity-compatible subnets from shared search state. Candidate assignment depends on client capacity, and the search produces client- or group-specific architectures~\cite{fedoras_2022,hapfnas_2025,superfednas_2024}. &
+    \challengeref{client-capacity},
+    \challengeref{search-computation},
+    \challengeref{search-communication},
+    \challengeref{deployment-requirements},
+    \challengeref{conflicting-architecture-updates}, and
+    \challengeref{capability-assignment-bias}. &
+    \challengeref{incompatible-search-states} when specialized structures no longer share matching parameter coordinates.
+    \challengeref{fl-configuration-dependence} when structural decisions change later estimates.
+    \challengeref{participation-disruption} under variable participation.
+    \challengeref{search-security} under an additional confidentiality or integrity threat. \\
+    \midrule
+
+    \textbf{Shared gradient-based supernet search under data heterogeneity.}
+    Clients use local data to update model weights and continuous architecture state in a common supernet. The server combines both forms of state and selects one shared architecture~\cite{fednas_2021,dfnas_2020,feathers_2023}. &
+    \challengeref{search-computation},
+    \challengeref{search-communication},
+    \challengeref{conflicting-architecture-updates}, and
+    \challengeref{incompatible-search-states}. &
+    \challengeref{client-capacity} when the client-side supernet exceeds an absolute resource limit.
+    \challengeref{fl-configuration-dependence} when search and use employ different FL settings or structural changes alter subsequent evidence.
+    \challengeref{participation-disruption} under variable participation.
+    \challengeref{search-security} when architecture updates are observable or client-controlled under the threat model. \\
+    \midrule
+
+    \textbf{Personalized gradient-based supernet search under data heterogeneity.}
+    Clients retain local or group-specific architecture state while sharing model weights or parts of a supernet. Architecture selection produces client- or group-specific structures~\cite{collaborative_nas_for_pfl_2025,fedpnas_2021,finch_2024}. &
+    \challengeref{search-computation},
+    \challengeref{search-communication},
+    \challengeref{conflicting-architecture-updates},
+    \challengeref{incompatible-search-states}, and
+    \challengeref{participation-disruption}. &
+    \challengeref{client-capacity} when the assigned supernet or local search exceeds a client budget.
+    \challengeref{deployment-requirements} when clients also have different inference limits.
+    \challengeref{fl-configuration-dependence} when changing local structures alter shared-weight evidence.
+    \challengeref{search-security} when personalized search artifacts are sensitive or exposed. \\
+    \midrule
+
+    \textbf{Population-based candidate search with stable participation.}
+    The server maintains a population of candidates. Clients train candidates through separate, limited federated evaluations and return metrics for selection of one shared architecture~\cite{aging_fednas_2025,multi_objective_evo_fl_2020,cit2fr-fl-nas_2022}. &
+    \challengeref{search-computation},
+    \challengeref{search-communication}, and
+    \challengeref{fl-configuration-dependence}. &
+    \challengeref{client-capacity} when a candidate exceeds a client budget.
+    \challengeref{deployment-requirements} under heterogeneous inference requirements.
+    \challengeref{conflicting-architecture-updates} when heterogeneous client evidence is combined to select one architecture.
+    \challengeref{search-security} when candidate metrics or updates are observable or client-controlled under the threat model. \\
+    \midrule
+
+    \textbf{Shared metric-based supernet search under data heterogeneity.}
+    Clients train sampled or pruned subnets from shared weights. The server uses inherited-weight estimates or aggregated metrics to update the search and select one architecture~\cite{fl-agnns_2023,medical_image_segmentation_fednas_2024,optimize_fednas_edge_2021}. &
+    \challengeref{search-computation},
+    \challengeref{search-communication},
+    \challengeref{conflicting-architecture-updates}, and
+    \challengeref{fl-configuration-dependence}. &
+    \challengeref{client-capacity} when the local supernet or sampled subnet exceeds a client budget.
+    \challengeref{deployment-requirements} under heterogeneous inference requirements.
+    \challengeref{capability-assignment-bias} when subnet assignment depends on capacity.
+    \challengeref{participation-disruption} under variable participation.
+    \challengeref{search-security} under an additional confidentiality or integrity threat. \\
+    \midrule
+
+    \textbf{Dynamic metric-based candidate evaluation under data heterogeneity.}
+    Clients or client groups with heterogeneous data train different candidates and return metrics while their availability or completion time varies. The server updates a population, controller, or pruning decision and selects one shared architecture~\cite{decnas_2022,network_aware_fed_nas_2025,rl_fednas_2021}. &
+    \challengeref{search-computation},
+    \challengeref{search-communication},
+    \challengeref{conflicting-architecture-updates},
+    \challengeref{fl-configuration-dependence}, and
+    \challengeref{participation-disruption}. &
+    \challengeref{client-capacity} when an assigned candidate exceeds a client budget.
+    \challengeref{deployment-requirements} under heterogeneous inference requirements.
+    \challengeref{capability-assignment-bias} when capacity determines candidate assignment.
+    \challengeref{search-security} when candidate metrics or updates are observable or client-controlled under the threat model. \\
+\end{longtable}
+\endgroup
+
+The comparison shows that distributed evaluation creates computation and communication challenges across all six profiles. The profiles differ more strongly in how they combine client evidence and search state. Shared searches under data heterogeneity create conflicting architecture evidence, while specialization can additionally remove the common parameter coordinates required for direct aggregation. Capacity-based assignment introduces a separate dependency because client resources determine which data and updates become available to each candidate.
+
+Participation and security operate as cross-cutting modifiers. Dynamic participation gives rise to a challenge when candidate evaluation or shared-state updates depend on particular clients responding. Security becomes relevant when the exchanged architecture information is sensitive or client-controlled under the assumed threat model. These conditions cannot be inferred from the search strategy alone.
