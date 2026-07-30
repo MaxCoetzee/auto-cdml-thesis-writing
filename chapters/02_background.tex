@@ -2,28 +2,31 @@
 
 \subsection{Neural Architecture Search}
 
-Neural architecture search (NAS) automates the design of neural network architectures. A NAS method consists of a search space, a search strategy and a performance-estimation strategy~\cite{nas_survey_2019}. The search space determines the potential candidate architectures, and the search strategy decides which candidate to evaluate next based on the performance-estimation strategy. 
-
-~\cite{nas_1000_papers_2023} groups NAS methods by their strategy into the following kinds: 
-Black-box strategies evaluate separate architectures, whereas supernet-based strategies train weight-sharing subnetworks within a common model. Weight sharing reduces evaluation cost but can make inherited-weight performance an unreliable proxy for independent training~\cite{nas_1000_papers_2023}. These choices determine the computation and search state required by NAS.
+Neural architecture search (NAS) automates the design of neural network architectures. A NAS method consists of a search space, a search strategy and a performance-estimation strategy~\cite{nas_survey_2019}. The search space determines the potential candidate architectures, and the search strategy decides which candidates to evaluate next based on the performance-estimation strategy.
 
 \subsubsection{NAS Method Type}
 
+We define a NAS method type as a triple comprising a search-strategy type, a search-space type and a performance-estimation type.
 
+We group \textit{search strategies} into black-box optimization, supernet-based methods and other strategies. Black-box optimization includes reinforcement learning, evolutionary and genetic algorithms, Bayesian optimization and Monte Carlo tree search. Supernet-based methods are differentiable when gradients optimize continuous architecture parameters and non-differentiable when discrete subnetworks are selected without such parameters~\cite{nas_1000_papers_2023}.
+
+\textit{Search spaces} are classified as cell-based, hierarchical, chain-structured or other. Cell-based spaces search reusable computational blocks, hierarchical spaces compose structures across multiple levels and chain-structured spaces vary a sequential series of layers.
+
+\textit{Performance estimation} is classified as observed validation performance after brief training, surrogate-predicted performance or another estimator. Brief training is the predominant approach in the reviewed NAS-in-FL literature.
 
 \subsection{Federated Learning}
 
-Federated learning (FL) enables clients to train a model collaboratively while keeping their raw data local. A server commonly distributes a global model to selected clients, which train it locally and return updates for aggregation~\cite{fl_seminal_2017}. Cross-device FL generally involves many resource-constrained and intermittently available devices, while cross-silo FL involves fewer, more reliable organizations. Data may also be partitioned horizontally by samples or vertically by features. These system characteristics shape the resources, coordination and trust available to the federated process~\cite{fl_advances_and_open_problems_2021}.
+Federated learning (FL) enables clients to train a model collaboratively while keeping their raw data local. A server distributes a global model to selected clients, which train it locally and return updates for aggregation~\cite{fl_seminal_2017}. Cross-device FL generally involves many resource-constrained and intermittently available devices, while cross-silo FL involves fewer, more reliable organizations. Data may also be partitioned horizontally by samples or vertically by features. These system characteristics shape the resources, coordination and trust available to the federated process~\cite{fl_advances_and_open_problems_2021}.
 
 \subsection{NAS in FL}
 
-NAS in FL performs architecture search through the federated process without centralizing client data. Candidate training becomes client work, while candidate generation, evaluation, search-state updates and selection may occur at the server, the clients or both~\cite{nas_in_fl_2026}. Depending on the search strategy, clients exchange model weights and search state for separate candidates or a shared supernet. This adds resource and coordination demands to fixed-model FL. The applicability of a challenge or solution therefore depends on both the FL system characteristics and the NAS design.
+We call a method for using NAS in FL a NAS-in-FL method.
+
+NAS in FL performs an architecture search through the federated process without centralizing client data. Candidate evaluation is performed on the client, while candidate generation, evaluation, search-state updates and selection may occur at the server, the clients or both~\cite{nas_in_fl_2026}. Depending on the search strategy, clients exchange model weights and search state for separate candidates or a shared supernet. This adds resource and coordination demands to fixed-model FL. The applicability of a challenge or solution therefore depends on both the FL system characteristics and the NAS design.
 
 \subsubsection{NAS-in-FL Scenario}
 
-We introduce a \textit{NAS-in-FL scenario} as a tuple comprising a NAS method type and select characteristics of the FL system in which it operates. The NAS method type is described by its search strategy, search space and performance-estimation strategy~\cite{nas_1000_papers_2023}. The search strategy can use black-box optimization, supernet-based optimization or another strategy. The search space can be cell-based, hierarchical, chain-structured or another type. Performance can be estimated from accuracy after brief training, predicted using a surrogate model or assessed using another estimator.
-
-The FL system is described by seven characteristics derived from the conditions under which federated training operates~\cite{fl_advances_and_open_problems_2021,fl_in_practice_reflections_2024}:
+We introduce the term \textit{NAS-in-FL scenario} for a tuple comprising a NAS method type and a set of FL system characteristics based on \cite{fl_advances_and_open_problems_2021,fl_in_practice_reflections_2024}.
 
 \begin{itemize}
     \item \textit{Data heterogeneity}: homogeneous or heterogeneous client distributions
