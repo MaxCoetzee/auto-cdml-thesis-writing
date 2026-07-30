@@ -1,10 +1,13 @@
 \section{Background}
 
-\subsection{Neural Architecture Search (NAS)}
+\subsection{Neural Architecture Search}
 
-Neural architecture search (NAS) automates the design of neural network architectures. A NAS method combines a search space, a search strategy and a performance-estimation strategy~\cite{nas_survey_2019,nas_1000_papers_2023}. The search space defines the candidate architectures, while the other two components determine which candidates are evaluated and how their quality is estimated. Black-box strategies evaluate separate architectures, whereas supernet-based strategies train weight-sharing subnetworks within a common model. Weight sharing reduces evaluation cost but can make inherited-weight performance an unreliable proxy for independent training~\cite{nas_1000_papers_2023}. These choices determine the computation and search state required by NAS.
+Neural architecture search (NAS) automates the design of neural network architectures. A NAS method consists of a search space, a search strategy and a performance-estimation strategy~\cite{nas_survey_2019}. The search space determines the potential candidate architectures, and the search strategy decides which candidate to evaluate next based on the performance-estimation strategy. 
 
-\subsection{Federated Learning (FL)}
+~\cite{nas_1000_papers_2023} groups NAS methods by their strategy into the following kinds: 
+Black-box strategies evaluate separate architectures, whereas supernet-based strategies train weight-sharing subnetworks within a common model. Weight sharing reduces evaluation cost but can make inherited-weight performance an unreliable proxy for independent training~\cite{nas_1000_papers_2023}. These choices determine the computation and search state required by NAS.
+
+\subsection{Federated Learning}
 
 Federated learning (FL) enables clients to train a model collaboratively while keeping their raw data local. A server commonly distributes a global model to selected clients, which train it locally and return updates for aggregation~\cite{fl_seminal_2017}. Cross-device FL generally involves many resource-constrained and intermittently available devices, while cross-silo FL involves fewer, more reliable organizations. Data may also be partitioned horizontally by samples or vertically by features. These system characteristics shape the resources, coordination and trust available to the federated process~\cite{fl_advances_and_open_problems_2021}.
 

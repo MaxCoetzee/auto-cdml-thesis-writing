@@ -8,7 +8,7 @@ We conduct a literature review following~\cite{webster_watson_literature_review_
 % Data Collection
 \section{Literature Selection}
 
-We start our literature selection with a search across titles, abstracts and keywords of English-language publications indexed by Scopus using the query \texttt{"federated learning" AND "neural architecture search"}~\cite{scopus}. A publication is eligible when it describes a method in which federated client work or information contributed to candidate training or evaluation, search-state updates or architecture selection. We excluded publications that addressed only NAS or FL independently and publications in which centrally completed NAS merely preceded FL without performing NAS within FL. Review publications were excluded from the analysis corpus and considered as related work.
+We start our literature selection with a search across titles, abstracts and keywords of English-language publications indexed by Scopus using the query \texttt{"federated learning" AND "neural architecture search"}~\cite{scopus}. A publication is eligible when it describes a method in which NAS happens during FL. We excluded publications that addressed only NAS or FL independently and publications in which centrally completed NAS merely preceded FL without performing NAS within FL. Review publications were excluded from the analysis corpus and considered as related work.
 
 For inclusion in the thematic analysis, a publication had to provide evidence from which at least one relevant challenge or solution could be coded. A challenge met this threshold when the publication connected a condition of FL to a consequence for architecture search. A solution met it when the described procedure contained a deliberate intervention whose effect on the NAS-in-FL process could be identified. General claims that an approach addressed concerns such as heterogeneity, efficiency or privacy without explaining the relevant consequence or intervention did not meet this threshold.
 
@@ -26,6 +26,7 @@ TODO: include prisma chart to reduce prose significantly (applicable with webste
 TODO: read what we did in the split and merge rounds of markdown files to flesh this method description out and map it onto thematic analysis
 - then we iteratively refined challenges and solutions until internal homogeneity and external heterogeneity as described in ...:
     - we do multiple iterations of merging, splitting up and clarifying boundaries between challenges and solutions as well discarding challenges/solution which make weak claims or are not relevant to our research problem as recommended in ... 
+    - remove challenges which look like a challenge related to NAS-in-FL at first, but are actually general challenges
     - challenges are int. hom. and ext. het. when they make just one analytical claim relavant to our narrative
     - solutions are int. hom. and ext. het. when they consist of just a single mechanism that ...
 - we then attach solutions to challenges based on (how do we decide if a solution belongs to a challenge? TODO: come up with approach)

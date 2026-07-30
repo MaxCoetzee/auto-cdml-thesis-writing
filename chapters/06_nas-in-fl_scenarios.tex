@@ -1,8 +1,13 @@
 \chapter{NAS-in-FL Scenarios}\label{chapter:nas_in_fl_scenarios}
 
-We introduce the concept of a \textit{NAS-in-FL scenario} to describe the conditions under which a challenge or solution is applicable. A NAS-in-FL scenario combines a set of FL system characteristics with a configuration of a concrete NAS-in-FL method, described using the design dimensions and elements of~\cite{nas_in_fl_2026}. The FL system characteristics describe the conditions under which architecture search operates, while the method configuration describes how the search is performed. Both parts are needed because challenge applicability can depend on their interaction. For example, a scenario can combine an FL system with heterogeneous client resources and dynamic client availability with a NAS-in-FL method configuration in which the server samples capacity-matched subnets from a shared supernet and aggregates their overlapping weights.
+TODO: Needs quick motivation intro as to why it's necessary
 
-For convenience, we allow NAS-in-FL scenarios to have different levels of specificity. An unspecified characteristic or design dimension remains unrestricted. For example, a broad scenario can specify only that clients repeatedly train and evaluate candidate architectures. It covers homogeneous and heterogeneous data, homogeneous and heterogeneous resources, and both full and partial participation. This is sufficient to make the cost of repeated federated candidate evaluation relevant. A narrower scenario additionally specifies heterogeneous client resources, non-I.I.D. data, and capacity-dependent subnet assignment from a shared supernet. These added conditions make it relevant that candidate capacity can become confounded with the data held by clients capable of training that candidate. Characteristics not stated in either scenario remain free to vary.
+We introduce the concept of a \textit{NAS-in-FL scenario} to describe the conditions under which a challenge or solution is applicable. A NAS-in-FL scenario consists of a set of FL system characteristics and a configuration of a concrete NAS-in-FL method~\cite{nas_in_fl_2026}. The FL system characteristics describe the conditions under which architecture search operates, while the method configuration describes how the search is performed. Both parts are needed because challenge applicability can depend on their interaction. For example, a scenario can combine an FL system with heterogeneous client resources and dynamic client availability with a NAS-in-FL method configuration in which the server samples capacity-matched subnets from a shared supernet and aggregates their overlapping weights.
+
+\section{Range of Scenarios}
+
+Challenges can be applicable to a range of scenarios. TODO: how are these described?
+
 
 \section{FL System Characteristics for Scenarios}
 
