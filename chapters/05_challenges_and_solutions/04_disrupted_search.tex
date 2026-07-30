@@ -18,7 +18,7 @@ Clients that remain available can nevertheless take different amounts of time to
 
 \noindent\textbf{Solution 4.2b: Proceed after a client-response threshold.} A soft-synchronous search can advance after most selected clients respond instead of waiting for the entire cohort~\cite{rl_fednas_2021}. The threshold determines when a round progresses after selection, whereas Solution 4.1a determines which clients enter the cohort before the round.
 
-\noindent\textbf{Solution 4.2c: Compensate or down-weight stale search updates.} Late updates can be incorporated using delay compensation after the global search state has advanced~\cite{rl_fednas_2021}. Differentiable search can instead reduce an update's aggregation weight as its staleness increases~\cite{fedregnas_2025}. These mechanisms transform the influence of a returned update according to its age rather than the evaluation unit in Solution 2.3a or parameter exposure in Solution 3.2a.
+\noindent\textbf{Solution 4.2c: Compensate or down-weight stale search updates.} Late updates can be incorporated using delay compensation after the global search state has advanced~\cite{rl_fednas_2021}. Differentiable search can instead reduce an update's aggregation weight as its staleness increases~\cite{fedregnas_2025}. These mechanisms transform the influence of a returned update according to its age rather than parameter exposure in Solution 3.2a.
 
 \subsubsection{Challenge 4.3: Personalised Architecture Searches Converge at Different Times}
 

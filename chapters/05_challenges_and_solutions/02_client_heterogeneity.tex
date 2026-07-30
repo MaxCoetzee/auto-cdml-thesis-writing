@@ -1,6 +1,6 @@
 \section{Client Heterogeneity}
 
-Clients within an FL system can differ in the distributions and prediction tasks that give architecture evidence its meaning. This theme covers how these differences affect architecture suitability, supernet optimisation and whose objective guides a shared search. Hardware differences that constrain search or deployment are treated as resource burdens, while their effects on timeliness and search-state coverage are treated in the corresponding themes.
+Clients within an FL system can have substantially different data distributions, which affects the meaning of architecture evidence. This theme covers how these differences affect architecture suitability and supernet optimization. Hardware differences that constrain search or deployment are treated as resource burdens, while their effects on timeliness and search-state coverage are treated in the corresponding themes.
 
 \subsection{Client Data Heterogeneity}
 
@@ -21,17 +21,3 @@ Architecture evidence is distribution-dependent. Differences in class balance an
 When client distributions produce conflicting gradients, their updates can interfere within a shared supernet. Weight-sharing then couples the candidate evaluations through contested operation weights, which can destabilise optimisation and make inherited-weight rankings unreliable~\cite{hapfnas_2025,superfednas_2024}. This optimisation problem can occur even when all clients would ultimately prefer the same discrete architecture.
 
 \noindent\textbf{Solution 2.2a: Optimise the worst-performing subnets across client partitions.} A robust supernet objective can target the candidate with the highest loss on each client partition instead of minimising only average candidate loss. Sampling the smallest, largest and random subnets provides a tractable approximation~\cite{superfednas_2024}. By preventing high-loss client--subnet combinations from being dominated by easier combinations, the objective reduces the effect of distribution-dependent interference on shared-weight evaluation.
-
-\subsubsection{Challenge 2.3: Aggregation Weights Determine Whose Objective Guides Architecture Search}
-
-Clients can hold substantially different numbers of examples. Sample-weighted aggregation gives data-rich clients greater influence over shared weights and architecture decisions, while equal weighting gives each participating client the same influence~\cite{fednas_2021}. NAS-in-FL must therefore determine whether the searched architecture should represent pooled examples or participating clients. This choice concerns the unit represented by aggregation rather than whether a candidate estimate is statistically reliable.
-
-\noindent\textbf{Solution 2.3a: Weight search updates to match the evaluation unit.} Weighting complete aligned architecture and model updates by local sample count makes the search represent pooled training examples~\cite{fednas_2021}. Equal client weighting instead makes each participating client the aggregation unit. The coefficients should follow whether performance is evaluated across examples or across clients. Parameter exposure and update age provide the different weighting criteria used in Solutions 3.2a and 4.2c.
-
-\noindent\textbf{Applicable cross-cutting solution.} Architecture-agnostic distillation in Solution 3.3c can approximate equal client influence by uniformly averaging predictions on shared unlabelled data before training sampled subnets~\cite{hapfnas_2025}.
-
-\subsubsection{Challenge 2.4: Clients Solve Related but Different Tasks}
-
-Client heterogeneity can extend beyond different distributions for one prediction task. Related local tasks may require different label mappings or structural choices, so a shared architecture and one set of weights can produce incompatible predictions even when every client has sufficient resources~\cite{fedpnas_2021}. Distribution-aware aggregation alone cannot reconcile objectives that require different outputs for the same input.
-
-\noindent\textbf{Solution 2.4a: Factor the architecture into shared and task-specific components.} The search space can separate a base component that captures knowledge shared across tasks from a component that clients adapt structurally. A task-conditioned sampling distribution selects the client-specific component. This factorisation is the architectural personalisation mechanism. Subsequent local fine-tuning adapts the selected component to its task~\cite{fedpnas_2021}.
