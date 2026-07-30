@@ -1,4 +1,4 @@
-\chapter{Background}
+\chapter{Background}\label{chapter:background}
 
 \section{Neural Architecture Search}
 
@@ -13,9 +13,11 @@ Neural architecture search (NAS) automates the design of neural network architec
 
 \subsection{NAS Method Type}
 
-A NAS method type consists of a search-strategy type, search-space type, and performance-estimation type~\cite{nas_survey_2019,nas_1000_papers_2023}. This should not be confused with a concrete NAS method.
+A NAS method type consists of a search-strategy type, search-space type, and performance-estimation type~\cite{nas_survey_2019,nas_1000_papers_2023} and helps us qualify for what kind of NAS methods challenges are applicable. This should not be confused with a concrete NAS method.
 
-\textit{Search strategies} are grouped into black-box optimization, supernet-based methods, and other strategies. Black-box optimization includes reinforcement learning, evolutionary and genetic algorithms, Bayesian optimization, and Monte Carlo tree search. Supernet-based methods train candidates within a shared network. They are differentiable when gradients optimize continuous architecture parameters and non-differentiable when the search selects discrete subnetworks without continuous architecture parameters.
+\textit{Search strategies} in this review are primarily categorized as black-box optimization or supernet-based methods. Black-box optimization strategies include reinforcement learning, evolutionary algorithms (including genetic algorithms), and Bayesian optimization. Black-box optimization strategies evaluate distinct candidate architectures. 
+
+Supernet-based methods instead train candidates within a shared network. They are differentiable when gradients optimize continuous architecture parameters and non-differentiable when the search selects discrete subnetworks without continuous architecture parameters.
 
 \textit{Search spaces} are categorized as cell-based, hierarchical, chain-structured, or other. Cell-based spaces search reusable computational blocks, hierarchical spaces compose structures across multiple levels, and chain-structured spaces vary a sequence of layers. A search space also has capabilities that a solution may require, such as being supernet-encodable, elastic, progressively prunable, modular, discretely encodable, or divisible into trainable segments. These capabilities are separate from search-space type because spaces of the same type may support different operations.
 
@@ -23,7 +25,9 @@ A NAS method type consists of a search-strategy type, search-space type, and per
 
 \section{Federated Learning}
 
-Federated learning (FL) enables clients to train a model collaboratively while keeping their raw data local. A server distributes a global model to selected clients, which train it locally and return updates for aggregation~\cite{fl_seminal_2017}. Cross-device FL generally involves many resource-constrained and intermittently available devices, while cross-silo FL involves fewer, more reliable organizations. These are representative configurations rather than exhaustive system types. We therefore describe an FL system through characteristics that can vary independently~\cite{fl_advances_and_open_problems_2021,fl_in_practice_reflections_2024}:
+Federated learning (FL) enables clients to train a model collaboratively while keeping their raw data local. A server distributes a global model to selected clients, which train it locally and return updates for aggregation~\cite{fl_seminal_2017}. 
+
+While the FL literature distinguishe between broad categories, we require more fine-grained FL system characteristics that can vary independently to qualify the applicability of challenges~\cite{fl_advances_and_open_problems_2021,fl_in_practice_reflections_2024}:
 
 \begin{description}
     \item[Data heterogeneity] distinguishes homogeneous client distributions from heterogeneous distributions, including differences in labels, features, domains, tasks, or time.
@@ -37,10 +41,6 @@ Federated learning (FL) enables clients to train a model collaboratively while k
 
 \section{NAS in FL}
 
-NAS in FL performs an architecture search through the federated process without centralizing client data. Candidate generation, client assignment, candidate evaluation, search-state updates, weight sharing, and architecture selection may be divided between the server and clients in different ways~\cite{nas_in_fl_2026}. Clients can consequently exchange model weights, architecture variables, candidate encodings, or performance evidence. The NAS design determines which search operations and state are distributed, while the FL system determines the data, resources, participation, deployment requirements, and trust conditions under which they operate.
+In comparison to centralized NAS, the architecture search process is performed in a federated manner in NAS in FL. This usually means that candidate architectures get evaluated on clients. Candidate generation, client assignment, candidate evaluation, search-state updates, weight sharing, and architecture selection may be divided between the server and clients in different ways~\cite{nas_in_fl_2026}. 
 
-\subsection{NAS-in-FL Scenario}
-
-We use \textit{NAS-in-FL scenario} for the combination of a NAS method type and the FL system characteristics under which it operates. Neither part alone specifies the relevant operating conditions. The NAS method type determines the how the search is performed while the FL characteristics determines under what conditions the search performed. Together they form the 
-
-Within this framework, a \textit{challenge} is a recurring condition in which properties of a NAS-in-FL scenario impede the architecture search or its outcome. A \textit{solution} is a conceptually separable intervention that changes the NAS-in-FL process to mitigate such a consequence. A complete NAS-in-FL method may contain several solution mechanisms.
+Clients can consequently exchange model weights, architecture variables, candidate encodings, or performance evidence. The chosen NAS method determines which search operations and state are distributed, while the FL system determines the data, resources, participation, deployment requirements, and trust conditions under which they operate.

@@ -6,25 +6,17 @@ There has been significant interest in using NAS in FL over the last couple of y
 
 The NAS-in-FL literature proposes many solutions to address these challenges, but their mechanisms are often obscured because they are bundled as a part of a NAS-in-FL method. Earlier reviews classify NAS-in-FL methods by properties such as when search occurs and which objectives it optimizes~\cite{fl_to_nas_survey_2021}, summarize selected methods within broader reviews~\cite{nas_hpo_fl_survey_2023}, or discuss NAS as part of multi-objective FL~\cite{,,multi-objective_methods_in_fl_2025}. More recent work supports a more fine-grained comparison through a generic NAS-in-FL pipeline, design elements, and method archetypes~\cite{nas_in_fl_2026}. These contributions organize whole NAS-in-FL methods and their configurations, but solution and the challenges they address remain scattered across the literature.
 
-NAS-in-FL methods operate under different combinations of NAS design choices and FL system characteristics, which we term NAS-in-FL scenarios. These scenarios shape both the challenges that arise and how they can be addressed. Understanding these relationships enables practitioners to anticipate challenges in a target scenario, identify solution mechanisms used across existing methods, and focus further evaluation on mechanisms whose prerequisites match their setting. This leads us to our research question:
+Developing NAS-in-FL methods that work as intended requires a coherent understanding of the challenges introduced by federated search and the available solutions for addressing them. Without this understanding, researchers cannot readily compare proposed solutions, determine which challenges a solution leaves unresolved, or build systematically on earlier work. Practitioners may consequently select a method whose search procedure is infeasible or whose architecture selection becomes unreliable under the conditions of their FL system. The fragmented knowledge about solutions and the challenges they address limits both cumulative research and informed use of NAS in FL. A consolidated account is needed to support the assessment and development of NAS-in-FL methods. We therefore ask:
 
-\newline
-\textit{How do solutions address recurring challenges that arise from different scenarios?}
-\newline
+\begin{center}
+\textit{How do solutions address recurring challenges in the NAS-in-FL literature?}
+\end{center}
 
-To answer our research question, we first extract a coherent set of challenges and their related solutions and arrange them around central challenge themes.
+To answer this question, we conduct a concept-centric literature review and thematic analysis of 48 publications. We identify relevant work through a Scopus~\cite{scopus} search and backward and forward citation searching, then inductively extract NAS-in-FL scenarios, recurring challenges, and independently reusable solution mechanisms. We map each mechanism to the challenges it addresses and assess its conceptual applicability by comparing its prerequisites with the NAS design choices and FL system characteristics of a target scenario.
 
-We propose grouping challenges and solution around central themes (or should it be around which parts of the NAS-in-FL scenario activates it?)
-recurring combinations of FL system characteristics and NAS method types which we call NAS-in-FL scenarios. NAS-in-FL scenario is part of my contribution.
+The analysis identifies ten challenges across five themes: client resource constraints, client heterogeneity, decentralized search state, participation dynamics, and search security. Across these challenges, we synthesize 34 solution mechanisms. A mechanism may address multiple challenges, interact with other mechanisms, and introduce additional prerequisites or trade-offs.
 
-% # "Study: How investigate? Process, context & why?"
-% ## "Indicate that this study addresses that problem or issue and state how."
-% ## "Describe the study, sample, and method for addressing that problem or issue."
-To tackle our research question, we conduct an extensive systematic literature review. We collect an initial set of relevant literature with a Scopus~\cite{scopus} search and extend it with a snowball search. We first use open coding to identify, from the literature, assumption discrepancies and resulting challenges, when using NAS in FL. Next, we extract FL system characteristics and use axial coding to code the influence of characteristics on the relevance of challenges. Then, we extract techniques through open coding and iteratively refine them to synthesise a coherent set of mutually exclusive and collectively exhaustive techniques. Finally, we use axial coding to map techniques onto challenges they overcome.
-
-% # "Conclusion"
-% ## "Describe what you found. State explicitly how these findings extend and contribute to existing knowledge."
-Our review aims to synthesise techniques for using NAS in FL from the literature to make finding suitable techniques easy in practice. We make the following three contributions. First, by providing a consolidated overview of the challenges of using NAS in FL, practitioners can grasp which issues they can expect to encounter at a glance. Second, by describing how FL system characteristics influence the relevance of challenges, we enable practitioners to focus on the challenges relevant to them. Third, by extracting techniques for using NAS in FL and highlighting the challenges they address, we enable practitioners to compare existing techniques for using NAS in FL for their specific set of challenges.
+Our central finding is that solution mechanisms are reusable only when the targeted FL system characteristics satisfy their prerequisites. Separating these mechanisms from the complete NAS-in-FL methods in which they appear provides a structured way to characterize targeted FL system characteristics, identify the challenges created by its distributed dependencies, and select compatible mechanisms. Because the published evaluations cover heterogeneous and often incompletely described configurations, this synthesis supports conceptual comparison rather than a ranking of effectiveness; controlled empirical evaluations under explicit operating conditions remain necessary.
 
 % The outline paragraph (at `./03_outline.tex`) isn't included here, as it is not required by the exposé (it would be redundant due to the "Structure" section in the exposé). 
 % It is included in the thesis document via `../../main.tex`.
