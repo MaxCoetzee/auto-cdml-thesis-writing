@@ -37,6 +37,37 @@
 
 \hypersetup{hidelinks} % removes colored boxes around references and links
 
+% Automatically numbered and linked challenges and solutions
+\newcounter{challenge}[chapter]
+\newcounter{solution}[challenge]
+\renewcommand{\thesolution}{\thechallenge\alph{solution}}
+
+\newcommand{\challengeheading}[2]{%
+  \par%
+  \refstepcounter{challenge}%
+  \label{challenge:#1}%
+  \subsubsection{Challenge \thechallenge: #2}%
+}
+
+\newcommand{\solutionheading}[2]{%
+  \par%
+  \refstepcounter{solution}%
+  \label{solution:#1}%
+  \noindent\textbf{Solution \thesolution: #2.}%
+}
+
+\newcommand{\challengeref}[1]{%
+  \hyperref[challenge:#1]{Challenge~\ref*{challenge:#1}}%
+}
+
+\newcommand{\solutionref}[1]{%
+  \hyperref[solution:#1]{Solution~\ref*{solution:#1}}%
+}
+
+\newcommand{\crosscuttingsolutionref}[1]{%
+  \hyperref[solution:#1]{Cross-cutting solution~\ref*{solution:#1}}%
+}
+
 % for fachschaft_print.pdf
 \makeatletter
 \if@twoside

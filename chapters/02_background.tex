@@ -1,4 +1,4 @@
-\section{Background}
+\chapter{Background}
 
 \subsection{Neural Architecture Search}
 
@@ -10,7 +10,7 @@ We define a NAS method type as a triple comprising a search-strategy type, a sea
 
 We group \textit{search strategies} into black-box optimization, supernet-based methods and other strategies. Black-box optimization includes reinforcement learning, evolutionary and genetic algorithms, Bayesian optimization and Monte Carlo tree search. Supernet-based methods are differentiable when gradients optimize continuous architecture parameters and non-differentiable when discrete subnetworks are selected without such parameters~\cite{nas_1000_papers_2023}.
 
-\textit{Search spaces} are classified as cell-based, hierarchical, chain-structured or other. Cell-based spaces search reusable computational blocks, hierarchical spaces compose structures across multiple levels and chain-structured spaces vary a sequential series of layers.
+\textit{Search spaces} can be cell-based, hierarchical, chain-structured or other. Cell-based search spaces search reusable computational blocks, hierarchical spaces compose structures across multiple levels and chain-structured spaces vary a sequential series of layers.
 
 \textit{Performance estimation} is classified as observed validation performance after brief training, surrogate-predicted performance or another estimator. Brief training is the predominant approach in the reviewed NAS-in-FL literature.
 
@@ -20,13 +20,11 @@ Federated learning (FL) enables clients to train a model collaboratively while k
 
 \subsection{NAS in FL}
 
-We call a method for using NAS in FL a NAS-in-FL method.
-
 NAS in FL performs an architecture search through the federated process without centralizing client data. Candidate evaluation is performed on the client, while candidate generation, evaluation, search-state updates and selection may occur at the server, the clients or both~\cite{nas_in_fl_2026}. Depending on the search strategy, clients exchange model weights and search state for separate candidates or a shared supernet. This adds resource and coordination demands to fixed-model FL. The applicability of a challenge or solution therefore depends on both the FL system characteristics and the NAS design.
 
 \subsubsection{NAS-in-FL Scenario}
 
-We introduce the term \textit{NAS-in-FL scenario} for a tuple comprising a NAS method type and a set of FL system characteristics based on \cite{fl_advances_and_open_problems_2021,fl_in_practice_reflections_2024}.
+We introduce the term \textit{NAS-in-FL scenario} for a tuple comprising a NAS method type and a set of FL system characteristics based on \cite{fl_advances_and_open_problems_2021,fl_in_practice_reflections_2024}:
 
 \begin{itemize}
     \item \textit{Data heterogeneity}: homogeneous or heterogeneous client distributions
@@ -38,4 +36,4 @@ We introduce the term \textit{NAS-in-FL scenario} for a tuple comprising a NAS m
     \item \textit{Trust and privacy requirements}: data locality only or additional confidentiality or integrity requirements
 \end{itemize}
 
-Together, these components distinguish, for example, a supernet-based search under dynamic participation and heterogeneous client resources from a black-box search in a stable, homogeneous federation. A characteristic is recorded as \textit{not reported} when the publication does not provide enough information to assign one of its substantive values. This extraction state does not describe an additional kind of FL system. A challenge or solution can apply to one scenario or to a range of scenarios when its mechanism does not depend on every characteristic.
+The term provides a common unit for specifying where a challenge arises and where a solution is applicable. Broad labels such as cross-device and cross-silo describe representative combinations of FL system characteristics rather than exhaustive system types~\cite{fl_advances_and_open_problems_2021}. NAS-in-FL methods also differ in how they distribute candidate generation, evaluation, search-state updates and selection between the server and clients~\cite{nas_in_fl_2026}. Describing a scenario through both the NAS method type and individual FL system characteristics therefore avoids assuming that a challenge or solution applies to every method in the same broad FL setting. It also allows an applicability claim to constrain only the characteristics on which its mechanism depends while leaving the others unrestricted.

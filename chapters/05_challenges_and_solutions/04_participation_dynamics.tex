@@ -2,20 +2,20 @@
 
 The participating clients and the timing of their updates can change throughout architecture search. Clients may disconnect, respond at different speeds, converge at different times or participate with different frequencies.
 
-\subsubsection{Challenge 9: Variable Client Participation Disrupts Search}
+\challengeheading{participation-disruption}{Variable Client Participation Disrupts Search}
 
 Clients can become unavailable because of changing network conditions, battery limits or competing local work. A search that requires the same clients in every round may stall or lose updates for candidates or supernet paths assigned to disconnected clients~\cite{optimize_fednas_edge_2021}.
 
 Available clients may still complete search work at different speeds. A round may wait for the slowest client, while an update that arrives after the global search has advanced may already be outdated~\cite{nasfly_2024,rl_fednas_2021,fedregnas_2025}. This differs from resource infeasibility, where a client cannot run the workload, and dropout, where it returns no update.
 
-\noindent\textbf{Solution 9a: Group split-model segments by training time.} Split-model strategies can measure client computation and communication times and group segments that finish at similar times. Unlike Solution 6b, this groups clients only by observed timing so that supernet training waits less for the slowest segment~\cite{nasfly_2024}.
+\solutionheading{timing-based-groups}{Group split-model segments by training time} Split-model strategies can measure client computation and communication times and group segments that finish at similar times. Unlike \solutionref{resource-data-groups}, this groups clients only by observed timing so that supernet training waits less for the slowest segment~\cite{nasfly_2024}.
 
-\noindent\textbf{Solution 9b: Adjust the influence of outdated search updates.} The server can account for delay when adding a late update after the global search has advanced~\cite{rl_fednas_2021}. Differentiable search can instead give older updates less weight~\cite{fedregnas_2025}. Unlike Solution 6a, these approaches adjust an update according to its age rather than how much each parameter was trained.
+\solutionheading{staleness-weighting}{Adjust the influence of outdated search updates} The server can account for delay when adding a late update after the global search has advanced~\cite{rl_fednas_2021}. Differentiable search can instead give older updates less weight~\cite{fedregnas_2025}. Unlike \solutionref{exposure-aware-aggregation}, these approaches adjust an update according to its age rather than how much each parameter was trained.
 
 In personalized differentiable search, clients can learn architecture parameters at different rates because their data and local training differ. One shared stopping round can end some searches too early while allowing others to overfit, for example by increasingly favoring skip connections~\cite{collaborative_nas_for_pfl_2025}. Clients can therefore need different stopping times even when their updates arrive promptly.
 
-\noindent\textbf{Solution 9c: Stop architecture updates independently.} After a shared warm-up period, each client can stop updating its architecture when a local test detects growing preference for skip connections. Other clients continue until they meet their own stopping condition~\cite{collaborative_nas_for_pfl_2025}.
+\solutionheading{independent-stopping}{Stop architecture updates independently} After a shared warm-up period, each client can stop updating its architecture when a local test detects growing preference for skip connections. Other clients continue until they meet their own stopping condition~\cite{collaborative_nas_for_pfl_2025}.
 
-Bandwidth and availability allow some clients to participate more often or meet more deadlines than others~\cite{optimize_fednas_edge_2021,peaches_2024}. Even if the search continues, frequently available clients influence shared weights and architecture rankings more often. The result may therefore poorly represent clients that participate less often.
+Partial participation and random client selection can cause some clients to contribute more often than others~\cite{optimize_fednas_edge_2021,peaches_2024}. Even if the search continues, frequently available clients influence shared weights and architecture rankings more often. The result may therefore poorly represent clients that participate less often.
 
-\noindent\textbf{Cross-cutting solution 6b.} Solution 6b can select participants by both resources and data coverage so that availability alone does not determine whose data enter the search~\cite{network_aware_fed_nas_2025,finch_2024}.
+\noindent\textbf{\crosscuttingsolutionref{resource-data-groups}.} This solution can select participants by both resources and data coverage so that availability alone does not determine whose data enter the search~\cite{network_aware_fed_nas_2025,finch_2024}.
