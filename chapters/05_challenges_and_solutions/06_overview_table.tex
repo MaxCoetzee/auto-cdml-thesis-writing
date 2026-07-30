@@ -1,6 +1,6 @@
 \section{Overview}
 
-Table~\ref{table:challenges-and-solutions-overview} summarizes the final set of synthesized challenges and solutions. Cross-cutting entries indicate where a solution primarily discussed under another challenge also applies.
+Table~\ref{table:challenges-and-solutions-overview} summarizes the final set of synthesized challenges and solutions. Cross-cutting entries indicate where a solution primarily discussed under another challenge also applies. The publication column lists all publications in which the relationship between the corresponding solution and challenge occurs.
 
 \begingroup
 \footnotesize
@@ -39,13 +39,13 @@ Table~\ref{table:challenges-and-solutions-overview} summarizes the final set of 
     \caption{Overview of the identified challenges, their primary solutions, and cross-cutting applications.}
     \label{table:challenges-and-solutions-overview}\\
     \toprule
-    \textbf{Theme} & \textbf{Challenge} & \textbf{Solution} & \textbf{Example publication} \\
+    \textbf{Theme} & \textbf{Challenge} & \textbf{Solution} & \textbf{Publication} \\
     \midrule
     \endfirsthead
 
     \multicolumn{4}{@{}l}{\tablename~\thetable\ continued}\\
     \toprule
-    \textbf{Theme} & \textbf{Challenge} & \textbf{Solution} & \textbf{Example publication} \\
+    \textbf{Theme} & \textbf{Challenge} & \textbf{Solution} & \textbf{Publication} \\
     \midrule
     \endhead
 
@@ -55,9 +55,9 @@ Table~\ref{table:challenges-and-solutions-overview} summarizes the final set of 
     \textit{Client resource constraints}
         & \tablechallengeref{client-capacity}{Client Capacity Limits the Search Work Assigned Per Round}
         & \tablesolutionref{resource-efficient-components}{Use resource-efficient search components}
-        & \cite{fed_auto_mri_2023} \\*
+        & \cite{fed_auto_mri_2023,intrusion_detection_fednas_2024} \\*
     & & \tablesolutionref{capacity-matched-subnets}{Use capacity-compatible subnets or paths}
-        & \cite{fedoras_2022} \\*
+        & \cite{fedoras_2022,divide-and-conquer_fednas_2023,peaches_2024,fgfl_2024,supernet_trade-off_fednas_2025,perfedrlnas_2024,dfnas_2020,efnas_2024,load_monitoring_fednas_2025} \\*
     & & \tablesolutionref{frozen-backbone-modules}{Search trainable adaptation modules over a frozen backbone}
         & \cite{fednaspet_2023} \\*
     & & \tablecrosscuttingsolutionref{cross-architecture-distillation}{Transfer knowledge between architectures through distillation}
@@ -65,37 +65,37 @@ Table~\ref{table:challenges-and-solutions-overview} summarizes the final set of 
     \cmidrule(lr){2-4}
     & \tablechallengeref{search-computation}{Architecture Search Adds Computational Cost}
         & \tablesolutionref{multi-fidelity-evaluation}{Use multi-fidelity evaluation for candidate architectures}
-        & \cite{decnas_2022} \\*
+        & \cite{decnas_2022,fednas_over_hetero_mobile_devices_2022,multi_objective_evo_fl_2020,gpt4-boosted_pso_fednas_2024} \\*
     & & \tablesolutionref{progressive-supernet-pruning}{Prune a supernet progressively}
-        & \cite{dfnas_2020} \\*
+        & \cite{dfnas_2020,peaches_2024} \\*
     & & \tablesolutionref{performance-prediction}{Predict candidate performance}
-        & \cite{hapfnas_2025} \\*
+        & \cite{hapfnas_2025,energy_fednas_2025,federated_bayesian_optimization_nas_2023} \\*
     & & \tablesolutionref{parallel-evaluation}{Evaluate independent candidates or subnets in parallel}
-        & \cite{decnas_2022} \\*
+        & \cite{decnas_2022,rt_fed_evo_nas_2020,energy_fednas_2025,finch_2024} \\*
     & & \tablesolutionref{reuse-search-weights}{Reuse search-trained weights for candidate evaluation and deployment}
-        & \cite{medical_image_segmentation_fednas_2024} \\*
+        & \cite{fl-agnns_2023,optimize_fednas_edge_2021,medical_image_segmentation_fednas_2024} \\*
     & & \tablesolutionref{idle-period-search}{Use split-training idle periods for local search}
         & \cite{nasfly_2024} \\*
     & & \tablesolutionref{joint-architecture-weights}{Jointly derive an architecture and its deployable weights}
-        & \cite{dfnas_2020} \\
+        & \cite{dfnas_2020,fed_meta_nas_2025,perfedrlnas_2024} \\
     \cmidrule(lr){2-4}
     & \tablechallengeref{search-communication}{Architecture Search Increases Communication Costs}
         & \tablesolutionref{compact-candidate-codes}{Use compact codes to identify known candidates}
-        & \cite{rt_fed_evo_nas_2020} \\*
+        & \cite{rt_fed_evo_nas_2020,medical_image_segmentation_fednas_2024,intrusion_detection_fednas_2024} \\*
     & & \tablesolutionref{infrequent-architecture-sync}{Synchronize architecture parameters less frequently}
         & \cite{fedregnas_2025} \\*
     & & \tablesolutionref{hierarchical-aggregation}{Aggregate search updates hierarchically}
         & \cite{finch_2024} \\*
     & & \tablecrosscuttingsolutionref{resource-aware-objective}{Include resource costs in the architecture search objective}
-        & \cite{multi_objective_evo_fl_2020} \\
+        & \cite{multi_objective_evo_fl_2020,fedregnas_2025} \\
     \midrule
 
     \textit{Client heterogeneity}
         & \tablechallengeref{deployment-requirements}{No Single Architecture Meets All Deployment Requirements}
         & \tablesolutionref{constraint-specific-supernet}{Train one supernet for different deployment constraints}
-        & \cite{superfednas_2024} \\*
+        & \cite{fedoras_2022,clustered_direct_fednas_2022,superfednas_2024,hapfnas_2025,enasfl_2024} \\*
     & & \tablesolutionref{resource-aware-objective}{Include resource costs in the architecture search objective}
-        & \cite{clustered_direct_fednas_2022} \\
+        & \cite{clustered_direct_fednas_2022,load_monitoring_fednas_2025,fgfl_2024,privacy-preserving_nas_across_fl_iot_2021} \\
     \cmidrule(lr){2-4}
     & \tablechallengeref{conflicting-architecture-updates}{Data Heterogeneity Creates Conflicting Architecture Updates}
         & \tablesolutionref{architecture-preference-clustering}{Cluster clients by learned architecture preference}
@@ -109,27 +109,27 @@ Table~\ref{table:challenges-and-solutions-overview} summarizes the final set of 
     \cmidrule(lr){2-4}
     & \tablechallengeref{capability-assignment-bias}{Capability-Based Assignment Biases Candidate Evaluation}
         & \tablesolutionref{exposure-aware-aggregation}{Aggregate each parameter only from clients that trained it}
-        & \cite{fedoras_2022} \\*
+        & \cite{fedoras_2022,fgfl_2024,supernet_trade-off_fednas_2025} \\*
     & & \tablesolutionref{resource-data-groups}{Form groups based on resources and representative data}
-        & \cite{finch_2024} \\*
+        & \cite{network_aware_fed_nas_2025,finch_2024} \\*
     & & \tablecrosscuttingsolutionref{cross-architecture-distillation}{Transfer knowledge between architectures through distillation}
-        & \cite{hapfnas_2025} \\
+        & \cite{hapfnas_2025,collaborative_nas_for_pfl_2025} \\
     \midrule
 
     \textit{Decentralized search state}
         & \tablechallengeref{incompatible-search-states}{Distributed Search States Cannot Always Be Averaged}
         & \tablesolutionref{joint-state-aggregation}{Aggregate matching architecture parameters and model weights together}
-        & \cite{fednas_2021} \\*
+        & \cite{fednas_2021,dfnas_2020,feathers_2023} \\*
     & & \tablesolutionref{separate-architecture-aggregation}{Aggregate architecture encodings separately from model parameters}
-        & \cite{multi-granular_fednas_2023} \\*
+        & \cite{multi-granular_fednas_2023,efnas_2024} \\*
     & & \tablesolutionref{similarity-block-aggregation}{Combine matching blocks based on distribution similarity}
         & \cite{f2nas_2024} \\*
     & & \tablesolutionref{cross-architecture-distillation}{Transfer knowledge between architectures through distillation}
-        & \cite{f2nas_2024} \\
+        & \cite{f2nas_2024,hapfnas_2025,collaborative_nas_for_pfl_2025,hetefed_2023} \\
     \cmidrule(lr){2-4}
     & \tablechallengeref{fl-configuration-dependence}{Architecture Evaluation Depends on the FL Configuration}
         & \tablesolutionref{joint-architecture-fl-search}{Search architectures and FL settings together}
-        & \cite{feathers_2023} \\*
+        & \cite{feathers_2023,aging_fednas_2025,breastcancer_fednas_2024} \\*
     & & \tablesolutionref{layer-wise-regularization}{Regularize layer-wise architecture updates}
         & \cite{remote_sensing_fednas_2025} \\*
     & & \tablesolutionref{recovery-rounds}{Insert recovery rounds between architecture decisions}
@@ -147,7 +147,7 @@ Table~\ref{table:challenges-and-solutions-overview} summarizes the final set of 
     & & \tablesolutionref{independent-stopping}{Stop architecture updates independently}
         & \cite{collaborative_nas_for_pfl_2025} \\*
     & & \tablecrosscuttingsolutionref{resource-data-groups}{Form groups based on resources and representative data}
-        & \cite{network_aware_fed_nas_2025} \\
+        & \cite{network_aware_fed_nas_2025,finch_2024} \\
     \midrule
 
     \textit{Search security}
@@ -155,7 +155,7 @@ Table~\ref{table:challenges-and-solutions-overview} summarizes the final set of 
         & \tablesolutionref{server-module-screening}{Pre-screen search-space modules on server data}
         & \cite{privacy_preserving_fednas_for_edge_2025} \\*
     & & \tablesolutionref{differential-privacy}{Apply differential privacy to search signals}
-        & \cite{dp-fnas_2020} \\*
+        & \cite{dp-fnas_2020,feathers_2023,self-supervised_vertical_fednas_2023,privacy_preserving_fednas_for_edge_2025} \\*
     & & \tablesolutionref{secure-aggregation}{Apply secure aggregation to matching search variables}
         & \cite{privacy_preserving_fednas_for_edge_2025} \\*
     & & \tablecrosscuttingsolutionref{separate-architecture-aggregation}{Aggregate architecture encodings separately from model parameters}
