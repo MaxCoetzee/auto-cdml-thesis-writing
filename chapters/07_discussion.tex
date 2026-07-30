@@ -2,35 +2,6 @@
 % !TeX root = ../main.tex
 \chapter{Discussion}\label{chapter:discussion}
 
-- the further the FL system deviates from centralised NAS, the more challenging it is 
-    => conversely, when NAS-in-FL degenerates to centralised NAS in some aspects it becomes simpler
-- show how some solutions limit compatibility with others and how they are 
-- the search space trade-off
-- suprisingly many NAS-in-FL methods do X
-- we expected federation scale to play a more prominent role, but this was barely ever considered by NAS-in-FL methods and the largest federation scale currently in the literature is ..., signifcantly smaller than  regular FL setups
-- similar to NAS research, supernet-based methods have become more popular over time
-- performance evaluation is basically universally just training a candidate architecture for a couple of epochs, making the main differentiating factors for challenge applicability the NAS search strategy type and secondarily the search space 
-- The FL system characteristics which NAS-in-FL methods apply to tend to be underspecified
-
-\section{Principal Findings}
-
-
-\section{Implications for Practice and Research}
-
-- clear guidance on existing related solutions and challenges and the context/circumstances under which challenges arise
-- potentil for re-usable solutions to challenges
-
-\section{Limitations}
-
-- rely on literature for facts, i.e. described only challenges and solutions from the literature
-- few NAS-in-FL methods establish an explicit causal link between FL system characteristics and challenges, therefore this needs to be treated as corrolation evidence, not causal
-
-\section{Future Research}
-
-- large share  
-
-% new section goes here
-
 This chapter interprets the challenge--solution relationships, explains their implications for reusing solution mechanisms, and qualifies the conclusions supported by the reviewed literature.
 
 \section{Principal Findings}
@@ -47,7 +18,7 @@ Brief training is the predominant performance-estimation strategy in the reviewe
 
 \section{Implications for Practice and Research}
 
-The synthesis provides a diagnostic process for selecting solution mechanisms. Practitioners can first characterize the intended FL system and NAS design, identify the challenges activated by this combination, and then select mechanisms whose prerequisites are satisfied. They must subsequently check whether the chosen mechanisms introduce additional costs or incompatible representations. The tables support this process, but they neither rank mechanisms nor guarantee that combinations not evaluated together will be effective.
+The synthesis provides a diagnostic process for selecting solution mechanisms. Practitioners can first characterize the intended FL system and NAS method type, identify the challenges activated by this combination, and then select mechanisms whose prerequisites are satisfied. They must subsequently check whether the chosen mechanisms introduce additional costs or incompatible representations. The tables support this process, but they neither rank mechanisms nor guarantee that combinations not evaluated together will be effective.
 
 For research, the synthesis complements method-level taxonomies by treating challenges and solution mechanisms as separate units. This exposes relationships that remain hidden when several mechanisms are presented as one NAS-in-FL method. It also provides a common vocabulary for comparing mechanisms under stated conditions. Future publications can support such comparisons by reporting the FL system characteristics, client workloads, exchanged search state, search space, and performance-estimation strategy used in their evaluations.
 

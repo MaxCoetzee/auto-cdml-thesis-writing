@@ -1,6 +1,10 @@
 % !TeX root = ../main.tex
 \chapter{Conclusion}\label{chapter:conclusion}
 
-- the amount of possible knobs to turn in NAS-in-FL is astronmical and the literature has only investigated a small subset of them
-- NAS in FL trails behind NAS and FL
-- provide some clear direction for future research
+Solution mechanisms identified in the NAS-in-FL literature can be reused at a conceptual level when the target NAS-in-FL scenario satisfies their prerequisites. Through a concept-centric literature review and thematic analysis, this thesis identified ten challenges across five themes and 34 solution mechanisms. Tables~\ref{table:challenges-and-solutions-overview} and~\ref{table:broadest-solution-scenarios} connect these mechanisms to the challenges they address and delimit the NAS method types and FL system characteristics with which they are compatible. Empirical evaluation remains necessary to establish the effectiveness of a mechanism in a compatible scenario.
+
+Separating solution mechanisms from the complete NAS-in-FL methods in which they appear makes recurring design components visible across different terminology and implementations. Researchers and practitioners can characterize a target scenario, identify the challenges created by its distributed dependencies, and examine mechanisms whose required structures and operations remain available. This synthesis provides a structured basis for comparing and designing NAS-in-FL methods, while comparative evaluations are required to rank candidate mechanisms.
+
+The central conclusion is that reuse is context-dependent. NAS design choices and FL system characteristics jointly determine which challenges arise, and solution mechanisms can introduce prerequisites, costs, or interactions with other mechanisms. The reviewed evaluations cover uneven configurations and often describe their FL systems incompletely, which restricts judgments about transfer to other scenarios. Progress therefore depends on studying mechanisms as parts of explicitly specified configurations.
+
+Future research should evaluate individual mechanisms and selected combinations under shared NAS-in-FL scenarios. These evaluations should represent operational conditions such as scale and participation and should report end-to-end costs alongside architecture quality. Accumulating evidence at the mechanism level will enable NAS-in-FL research to establish which reusable design components work under which conditions.
