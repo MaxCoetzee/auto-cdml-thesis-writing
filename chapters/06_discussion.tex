@@ -6,7 +6,7 @@ This chapter interprets the relationship between challenges and solutions, expla
 
 \section{Principal Findings}
 
-The analysis identified ten challenges across five themes and 34 solution mechanisms. Tables~\ref{table:challenges-and-solutions-overview} and~\ref{table:broadest-solution-scenarios} show that these mechanisms can be reused when the target NAS-in-FL scenario satisfies their prerequisites. Their reuse requires matching the mechanism to the FL system characteristics, the NAS design, and the other mechanisms in the configuration.
+The analysis identified ten challenges across five themes and 34 solution mechanisms. Table~\ref{table:challenges-and-solutions-overview} maps the relationships between these mechanisms and challenges. The analysis further indicates that a mechanism is conceptually reusable when the target NAS design choices and FL system characteristics satisfy its prerequisites and it remains compatible with other mechanisms in the configuration.
 
 Challenge relevance depends on which search functions rely on clients. Client-side search workloads expose the process to resource constraints, distributed candidate evaluation makes evidence dependent on local data, and decentralized search-state updates require coordination across participants. Retaining a function at the server can avoid the corresponding client-side constraint, but may require representative server data or greater trust in the server. The challenges consequently arise from specific distributed dependencies rather than from decentralization as one uniform property.
 
@@ -14,7 +14,7 @@ Solution mechanisms also interact. Assigning capacity-compatible subnets reduces
 
 The search space creates a recurring trade-off between architectural coverage and coordination. Restricting it to inexpensive, structurally aligned components lowers client workloads and enables direct aggregation, but may exclude architectures that better fit particular data or devices. Elastic or personalized spaces cover more deployment conditions, but increase search effort and can produce unequal parameter exposure or incompatible local states. The search space thus serves both as the set of possible architectures and as a coordination contract between clients.
 
-Brief training is the predominant performance-estimation strategy in the reviewed literature. This common choice means that challenge applicability is often determined more directly by the workload assigned to clients, the relationship between their search states, and whether the search produces a shared or specialized architecture. Broad search-strategy categories alone can conceal these differences. Reasoning about reuse therefore requires the more specific scenario properties retained in Chapter~\ref{chapter:reusable-solution-mechanisms}.
+Brief training is the predominant performance-estimation strategy in the reviewed literature. This common choice means that challenge applicability is often determined more directly by the workload assigned to clients, the relationship between their search states, and whether the search produces a shared or specialized architecture. Broad search-strategy categories alone can conceal these differences. Reasoning about reuse therefore requires the more specific NAS design choices and FL system characteristics retained in Chapter~\ref{chapter:nas_in_fl_ch_and_sol}.
 
 \section{Implications for Practice and Research}
 

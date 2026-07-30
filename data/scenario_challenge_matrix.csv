@@ -1,7 +1,7 @@
-scenario,C1,C2,C3,C4,C5,C6,C7,C8,C9,C10
-S1,D,D,D,D,D,D,C,C,C,C
-S2,C,D,D,N,D,N,D,C,C,C
-S3,C,D,D,C,D,N,D,C,D,C
-S4,C,D,D,C,C,N,N,D,N,C
-S5,C,D,D,C,D,C,N,D,C,C
-S6,C,D,D,C,D,C,N,D,D,C
+profile,label,n_configurations,n_publications,C1,C2,C3,C4,C5,C6,C7,C8,C9,C10
+P1,Capacity-assigned specialized supernet,6,6,R,R,R,R,I,R,-,?,R,?
+P2,Stable aligned gradient supernet,2,2,?,R,R,?,I,-,-,-,-,?
+P3,Stable personalized aligned search,2,2,?,R,R,?,R,-,-,?,-,?
+P4,Full-participation population evaluation,2,2,?,R,R,?,?,-,-,-,-,?
+P5,Shared metric-based search,3,3,?,R,R,?,R,-,-,I,?,?
+P6,Dynamic metric-based evaluation,3,3,?,R,R,?,I,?,-,I,R,?

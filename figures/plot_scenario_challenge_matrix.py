@@ -14,16 +14,20 @@ DATA_PATH = ROOT / "data" / "scenario_challenge_matrix.csv"
 OUTPUT_PDF = ROOT / "figures" / "scenario_challenge_matrix.pdf"
 OUTPUT_PNG = ROOT / "figures" / "scenario_challenge_matrix.png"
 
-STATE_VALUE = {"N": 0, "C": 1, "D": 2}
-STATE_LABEL = {"N": "–", "C": "C", "D": "D"}
+METADATA_FIELDS = {"profile", "label", "n_configurations", "n_publications"}
+STATE_VALUE = {"-": 0, "?": 1, "I": 2, "R": 3}
+STATE_LABEL = {"-": "–", "?": "?", "I": "I", "R": "R"}
 
 
 def read_matrix() -> tuple[list[str], list[str], list[list[str]]]:
     with DATA_PATH.open(newline="", encoding="utf-8") as source:
         rows = list(csv.DictReader(source))
 
-    challenges = [name for name in rows[0] if name != "scenario"]
-    scenarios = [row["scenario"] for row in rows]
+    challenges = [name for name in rows[0] if name not in METADATA_FIELDS]
+    scenarios = [
+        f'{row["profile"]}  {row["label"]} (n={row["n_configurations"]})'
+        for row in rows
+    ]
     states = [[row[challenge] for challenge in challenges] for row in rows]
     return scenarios, challenges, states
 
@@ -35,14 +39,14 @@ def render() -> None:
         dtype=int,
     )
 
-    colors = ListedColormap(["#F1F3F5", "#98C6EA", "#0065BD"])
-    figure, axis = plt.subplots(figsize=(7.2, 3.55), constrained_layout=True)
-    axis.imshow(values, cmap=colors, vmin=-0.5, vmax=2.5, aspect="equal")
+    colors = ListedColormap(["#E9ECEF", "#FFF3CD", "#98C6EA", "#0065BD"])
+    figure, axis = plt.subplots(figsize=(9.4, 4.25), constrained_layout=True)
+    axis.imshow(values, cmap=colors, vmin=-0.5, vmax=3.5, aspect="equal")
 
     axis.set_xticks(np.arange(len(challenges)), labels=challenges)
     axis.set_yticks(np.arange(len(scenarios)), labels=scenarios)
     axis.set_xlabel("Challenges")
-    axis.set_ylabel("Recurring scenarios")
+    axis.set_ylabel("Recurring profiles")
     axis.tick_params(top=True, labeltop=True, bottom=False, labelbottom=False)
 
     axis.set_xticks(np.arange(-0.5, len(challenges), 1), minor=True)
@@ -52,7 +56,7 @@ def render() -> None:
 
     for row_index, row in enumerate(states):
         for column_index, state in enumerate(row):
-            text_color = "white" if state == "D" else "#1F2933"
+            text_color = "white" if state == "R" else "#1F2933"
             axis.text(
                 column_index,
                 row_index,
@@ -68,15 +72,16 @@ def render() -> None:
         spine.set_visible(False)
 
     legend = [
-        Patch(facecolor="#0065BD", label="D  Defining properties"),
-        Patch(facecolor="#98C6EA", label="C  Additional condition"),
-        Patch(facecolor="#F1F3F5", edgecolor="#CED4DA", label="–  Not established"),
+        Patch(facecolor="#0065BD", label="R  Reported"),
+        Patch(facecolor="#98C6EA", label="I  Inferred"),
+        Patch(facecolor="#E9ECEF", edgecolor="#CED4DA", label="–  Trigger absent"),
+        Patch(facecolor="#FFF3CD", edgecolor="#E5D59A", label="?  Insufficient"),
     ]
     axis.legend(
         handles=legend,
         loc="upper center",
         bbox_to_anchor=(0.5, -0.17),
-        ncol=3,
+        ncol=4,
         frameon=False,
         handlelength=1.2,
         columnspacing=1.5,

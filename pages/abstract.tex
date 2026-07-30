@@ -1,47 +1,7 @@
 \chapter{\abstractname}
 
-Both \textit{Neural Architecture Search} (NAS) and \textit{Federated Learning} (FL) have made significant progress independently in the past decade. To benefit from the advantages of NAS methods in FL, researchers have started combining them by using NAS in FL~\cite{fednas_2021}~\cite{fedoras_2022}~\cite{finch_2024}. 
+Neural architecture search (NAS) automates the design of neural network architectures, while federated learning (FL) enables clients to train models collaboratively without centralizing their data. Combining them can tailor architectures to federated tasks and devices, but distributing architecture search introduces constraints that centralized NAS does not face. Existing research proposes many solutions, yet their mechanisms are commonly embedded within complete NAS-in-FL methods. This makes it difficult to determine which mechanism addresses which challenge and under which conditions it can be reused.
 
-[TODO: overhaul]
+To consolidate this knowledge, this thesis examined how solutions address recurring challenges in the NAS-in-FL literature. We conducted a concept-centric literature review and thematic analysis of 48 publications identified through a Scopus search and backward and forward citation searching. For each publication, we extracted NAS design choices, FL system characteristics, challenges, and independently deployable solution mechanisms. We then mapped the mechanisms to the challenges they address and assessed their conceptual applicability by comparing their prerequisites with the properties of target NAS-in-FL scenarios.
 
-Applying techniques from Neural Architecture Search (NAS) to Federated Learning (FL) has been fruitful (remove) in recent years. The combination was identified as a promising research (remove) direction by ~\cite{fl_advances_and_open_problems_2021}. It has yielded methods for finding architectures that deal with the challenges imposed by the FL setting.
-
-% start with a problem that the user can identify them with: write to Nick and Niclas
-% explain why its interesting, what are great things you could do
-
-% transfer progress from nas to fl
-% motivation for nas applied to fl -> show conflict
-% nas methods for fl a lot, different -> for certain settings work well, but others not
-% design of nas for fl implicated design
-% research problem: core components of nas methods of fl not described yet
-% surveys for exist, but literatue is very spread out and not holistic
-% suitability for NAS methods not clear
-% practical problem: specialized NAS methods for FL methods, how to decide which one to use?
-
-% Wissen das fehlt, wie entscheidet man was man anwendet
-% Was für Wissen brauchen wir
-
-% Don't write: No paper exists, nobody knows, rather frame positively and motivate
-% Don't: use unfounded claims from other papers, just because someone else has said it, doesn't make it true  
-
-% Introduction Structure:
-% Context: NAS is cool, we want to use it in FL, but isn't transferrable
-% Practical Problem: Can't decide NAS methods for FL -> we want to be able to do that
-% Research Problem: Explain why current state of research 
-% What needs to be done
-
-Research into NAS has grown rapidly \cite{nas_1000_papers_2023} since it was popularized by \cite{nas_with_rl_2017}; consequently, literature on its application to FL has grown. The last survey on NAS applied to FL compared approaches of four papers \cite{fl_to_nas_survey_2021}. Since then, we have identified approximately 50 new papers. This motivates a new systematic survey of the landscape to identify progress and gaps in the literature. 
-
-In this thesis, we propose a map of the literature landscape based on the FL challenges they address. We achieve this by systematically evaluating the literature and identifying which challenge it solves. 
-
-We refer to the FL challenges described in \cite{nas_with_rl_2017}, i.e., non-IID data, limited communication, client heterogeneity, privacy of client data, and break them down into smaller subchallenges — each subchallenge being associated with a pattern in the literature. We include personalized FL \cite{personalized_fl_2023} as an additional subchallenge that was not originally posited, but has since drawn the community's attention. 
-
-We then analyze how the subchallenges are addressed and focus on the contribution of the used NAS method towards overcoming the subchallenge. For each subchallenge, we keep track of the NAS types used (following \cite{nas_1000_papers_2023}, \cite{systematic_nas_survey_2024}) and assess whether the underexplored methods are candidates for future research.
-
-
-%%%% new
-
-%%% comparability could be a core selling point
-
-
-Neural Architecture Search  
+The analysis identified ten challenges across five themes: client resource constraints, client heterogeneity, decentralized search state, participation dynamics, and search security. Across these challenges, we synthesized 34 solution mechanisms. The findings show that challenge relevance depends on which search functions rely on clients and that solution mechanisms can address several challenges, introduce further prerequisites or costs, and interact with other mechanisms. Their reuse is therefore context-dependent and requires matching the mechanism to the NAS design, FL system characteristics, and other mechanisms in the configuration. Separating mechanisms from complete methods provides a structured basis for comparing and designing NAS-in-FL methods. Because the reviewed evaluations cover heterogeneous and often incompletely described configurations, the synthesis supports conceptual comparison rather than a ranking of effectiveness. Controlled empirical evaluations under explicit operating conditions remain necessary.

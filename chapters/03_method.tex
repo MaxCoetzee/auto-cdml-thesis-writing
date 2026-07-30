@@ -33,11 +33,11 @@ We extend this initial set of literature through backward and forward citation s
 % Data Analysis
 \section{Literature Analysis}
 
-We analyzed the literature in two stages. First, we extracted scenario properties and developed challenge and solution themes. Second, we mapped the relationships among scenarios, challenges, and solutions and assessed the conditions that bound the applicability of each solution.
+We analyzed the literature in two stages. First, we extracted NAS method types and FL system characteristics and developed challenge and solution themes. Second, we mapped the relationships among these properties, challenges, and solutions and assessed the conditions that bound the applicability of each solution.
 
-\subsection{Extracting Scenarios, Challenges and Solutions}
+\subsection{Extracting NAS Method Types, FL System Characteristics, Challenges, and Solutions}
 
-We read every eligible publication for familiarization, coded relevant passages inductively following~\cite{using_thematic_analysis_2006}, and used a concept matrix for initial coding~\cite{webster_watson_literature_review_2002}. For each extract, we recorded the source and page as well as the NAS method type and FL system characteristics that described the scenario. A challenge code expressed a relationship between a scenario condition and its consequence for NAS in FL. A solution code recorded an intervention, how it changed the NAS-in-FL process, and its intended effect on a challenge. We also recorded prerequisites and trade-offs when the publication reported them.
+We read every eligible publication for familiarization, coded relevant passages inductively following~\cite{using_thematic_analysis_2006}, and used a concept matrix for initial coding~\cite{webster_watson_literature_review_2002}. For each extract, we recorded the source and page as well as the NAS method type and FL system characteristics. A challenge code expressed a relationship between a NAS design choice or FL system characteristic and its consequence for NAS in FL. A solution code recorded an intervention, how it changed the NAS-in-FL process, and its intended effect on a challenge. We also recorded prerequisites and trade-offs when the publication reported them.
 
 We grouped challenge codes when they described the same consequence for architecture search and grouped solution codes when their mechanisms were conceptually similar. Similar terminology alone did not justify grouping. We retained a challenge when it made one coherent analytical claim and a solution when it contained one independently deployable mechanism. General NAS or FL concerns without a distinct consequence for NAS-in-FL were discarded.
 
@@ -58,7 +58,7 @@ After familiarization and initial coding, we iterated over stages three to five 
         \midrule
         3. Generating themes & Group challenge codes that describe related consequences and solution codes that describe related mechanisms. & Candidate challenge and solution concepts with their supporting codes. \\
         4. Reviewing themes & Compare each candidate concept with its codes and extracts, then assess its coherence and distinction from other concepts against the complete corpus. & Revised concepts and code assignments. \\
-        5. Defining and naming themes & Define each challenge through its scenario condition and consequence and each solution through its intervention and intended effect. & Final concepts with clear names, definitions, and boundaries. \\
+        5. Defining and naming themes & Define each challenge through its activating condition and consequence and each solution through its intervention and intended effect. & Final concepts with clear names, definitions, and boundaries. \\
         \bottomrule
     \end{tabularx}
 \end{table}
@@ -67,4 +67,4 @@ After familiarization and initial coding, we iterated over stages three to five 
 
 We linked a solution to a challenge only when a publication presented the solution mechanism as a response to that challenge. The presence of both in the same publication did not establish a relationship.
 
-Next, we examined whether each solution mechanism could be applied in other scenarios. We identified the operations, representations, and system properties required by the mechanism and compared them with the NAS design choices and FL system characteristics of the target scenario. We considered the mechanism conceptually compatible when the target scenario preserved these prerequisites. We also recorded tradeoffs and conditions that the literature left unresolved. The resulting applicability judgments form a conceptual synthesis because the publications did not evaluate every compatible pairing. Empirical evaluation remains necessary to establish effectiveness in a target scenario.
+Next, we examined whether each solution mechanism could be applied under other combinations of NAS design choices and FL system characteristics. We identified the operations, representations, and system properties required by the mechanism and compared them with those available in the target configuration. We considered the mechanism conceptually compatible when the target configuration provided these prerequisites. We also recorded tradeoffs and conditions that the literature left unresolved. The resulting applicability judgments form a conceptual synthesis because the publications did not evaluate every compatible pairing. Empirical evaluation remains necessary to establish effectiveness in a target configuration.
